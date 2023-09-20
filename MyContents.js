@@ -41,6 +41,18 @@ class MyContents  {
         this.boxMesh = new THREE.Mesh( box, boxMaterial );
         this.boxMesh.rotation.x = -Math.PI / 2;
         this.boxMesh.position.y = this.boxDisplacement.y;
+
+        
+        // Geometric transformations
+        
+        // Rotate in X axis + Translate in Z axis
+        // this.boxMesh.rotation.x = Math.PI / 9;
+        // this.boxDisplacement.z = 3;
+
+        // Scaling then Translate
+        // this.boxMesh.scale.set(1,1,2);
+        // this.boxDisplacement.x = 3;
+        
     }
 
     /**
