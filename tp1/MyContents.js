@@ -78,7 +78,6 @@ class MyContents  {
         this.planeMesh.rotation.x = -Math.PI / 2;
         this.planeMesh.position.y = -0;
         this.app.scene.add( this.planeMesh );
-
     }
     
     /**
