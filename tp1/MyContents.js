@@ -123,7 +123,7 @@ class MyContents  {
         
         this.planeMesh.add(this.tableMesh)
         
-        this.planeMesh.rotation.x = -Math.PI;
+        // this.planeMesh.rotation.x = -Math.PI;
         
         this.tableMesh.rotation.x = -Math.PI / 2;
         this.tableMesh.position.y = 1.5
