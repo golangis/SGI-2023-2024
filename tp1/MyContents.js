@@ -80,8 +80,7 @@ class MyContents  {
         // add an ambient light
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
-
-        this.buildBox()
+        
         
         // Create a Plane Mesh with basic material
         
@@ -91,8 +90,50 @@ class MyContents  {
         this.planeMesh.position.y = -0;
         this.app.scene.add( this.planeMesh );
 
+        
+        
+        // Create walls
+        
+        let leftWall = new THREE.PlaneGeometry( 10, 5 );
+        this.leftWallMesh = new THREE.Mesh( leftWall, this.planeMaterial );
+        this.leftWallMesh.rotation.x = Math.PI;
+        this.leftWallMesh.position.set(0, 2.5, 5);
+        this.app.scene.add( this.leftWallMesh );
+        
+        let rightWall = new THREE.PlaneGeometry( 10, 5 );
+        this.rightWallMesh = new THREE.Mesh( rightWall, this.planeMaterial );
+        this.rightWallMesh.rotation.x = 2*Math.PI;
+        this.rightWallMesh.position.set(0, 2.5, -5);
+        this.app.scene.add( this.rightWallMesh );
+        
+        let backWall = new THREE.PlaneGeometry( 10,5 );
+        this.backWallMesh = new THREE.Mesh( backWall, this.planeMaterial );
+        this.backWallMesh.rotation.y = Math.PI/2;
+        this.backWallMesh.position.set(-5, 2.5, 0);
+        this.app.scene.add( this.backWallMesh );
+        
+        // Create table top
 
+        let tableMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
+        specular: "#000000", emissive: "#000000", shininess: 90 })
+        
+        // Create a Cube Mesh with basic material
+        let tableTop = new THREE.BoxGeometry(3,2,0.2);
+        this.tableMesh = new THREE.Mesh( tableTop, tableMaterial );
+        
+        this.planeMesh.add(this.tableMesh)
+        
+        this.planeMesh.rotation.x = -Math.PI;
+        
+        this.tableMesh.rotation.x = -Math.PI / 2;
+        this.tableMesh.position.y = 1.5
+        this.app.scene.add(this.tableMesh);
 
+        
+        
+        /*
+        this.buildBox()
+        
         // Create Circle
         let circle = new THREE.CircleGeometry(0.5);
         let circleMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", specular: "#000000", emissive: "#000000", shininess: 90 })
@@ -165,6 +206,8 @@ class MyContents  {
         this.polyhedronMesh = new THREE.Mesh(polyhedron, polyhedronMaterial)
         this.polyhedronMesh.position.set(2, 0.5,-3)
         this.app.scene.add(this.polyhedronMesh);
+
+        */
     }
     
     /**
@@ -228,13 +271,13 @@ class MyContents  {
      * 
      */
     update() {
-        // check if box mesh needs to be updated
+        /*// check if box mesh needs to be updated
         this.updateBoxIfRequired()
 
         // sets the box mesh position based on the displacement vector
         this.boxMesh.position.x = this.boxDisplacement.x
         this.boxMesh.position.y = this.boxDisplacement.y
-        this.boxMesh.position.z = this.boxDisplacement.z
+        this.boxMesh.position.z = this.boxDisplacement.z*/
         
     }
 
