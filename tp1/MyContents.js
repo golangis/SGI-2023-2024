@@ -86,6 +86,8 @@ class MyContents  {
         this.buildTable();
 
         this.buildCakeStand();
+
+        this.buildCake();
         
         /*
         this.buildBox()
@@ -266,7 +268,36 @@ class MyContents  {
         this.cakeStandMesh.rotateX(Math.PI/2)
         this.tableMesh.add(this.cakeStandMesh)
         this.cakeStandMesh.add(this.cakeStandPlateMesh);
-	}
+    }
+    
+    buildCake() {
+
+        let cakeExteriorMaterial = new THREE.MeshPhongMaterial({ color: "#eb8f9b", 
+            specular: "#000000", emissive: "#000000", shininess: 90
+        })
+
+        let cakeInteriorMaterial = new THREE.MeshBasicMaterial({ color: "#d6b383"})
+
+        // Create cake
+		let cake = new THREE.CylinderGeometry(0.27, 0.27, 0.35, 32, 32, false, 0, Math.PI*1.5);
+		this.cakeMesh = new THREE.Mesh(cake, cakeExteriorMaterial);
+        this.cakeMesh.position.set(0, 0.2, 0);
+
+        // Create cake interior
+
+        let cakeInterior = new THREE.PlaneGeometry(0.27, 0.35 );
+        this.cakeInteriorMesh = new THREE.Mesh(cakeInterior, cakeInteriorMaterial);
+        this.cakeInteriorMesh.rotateY(-Math.PI / 2)
+        this.cakeInteriorMesh.position.set(0, 0, 0.135)
+
+        const instance = this.cakeInteriorMesh.clone();
+        instance.rotateY((Math.PI / 2))
+        instance.position.set(-0.135, 0, 0)
+
+        this.cakeMesh.add(this.cakeInteriorMesh)
+        this.cakeMesh.add(instance)
+        this.cakeStandPlateMesh.add(this.cakeMesh);
+    }
     
     /**
      * updates the diffuse plane color and the material
