@@ -82,6 +82,8 @@ class MyContents  {
         this.app.scene.add( ambientLight );
         
         this.buildRoom();
+
+        this.buildTable();
         
         /*
         this.buildBox()
@@ -175,7 +177,6 @@ class MyContents  {
         this.floorMesh = new THREE.Mesh( floor, this.planeMaterial );
         this.floorMesh.rotation.x = -Math.PI / 2;
         this.floorMesh.position.y = -0;
-        this.app.scene.add( this.floorMesh );
 
         
         // Create walls
@@ -184,30 +185,61 @@ class MyContents  {
         this.leftWallMesh = new THREE.Mesh( leftWall, this.planeMaterial );
         this.leftWallMesh.rotation.x = Math.PI;
         this.leftWallMesh.position.set(0, 2.5, 5);
-        this.app.scene.add( this.leftWallMesh );
         
         let rightWall = new THREE.PlaneGeometry( 10, 5 );
         this.rightWallMesh = new THREE.Mesh( rightWall, this.planeMaterial );
         this.rightWallMesh.rotation.x = 2*Math.PI;
         this.rightWallMesh.position.set(0, 2.5, -5);
-        this.app.scene.add( this.rightWallMesh );
         
         let backWall = new THREE.PlaneGeometry( 10,5 );
         this.backWallMesh = new THREE.Mesh( backWall, this.planeMaterial );
         this.backWallMesh.rotation.y = Math.PI/2;
         this.backWallMesh.position.set(-5, 2.5, 0);
-        this.app.scene.add( this.backWallMesh );
+
+        this.roomGroup = new THREE.Group();
+
+        this.roomGroup.add(this.floorMesh, this.leftWallMesh, this.rightWallMesh, this.backWallMesh)
+
+        this.app.scene.add(this.roomGroup)
+        
+    }
+    
+
+    /**
+     * Create table
+     */
+    buildTable(){
         
         // Create table top
         
-        let tableMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
+        this.tableGroup = new THREE.Group();
+
+        let tableMaterial = new THREE.MeshPhongMaterial({ color: "#995e17", 
         specular: "#000000", emissive: "#000000", shininess: 90 })
         let tableTop = new THREE.BoxGeometry(3,2,0.2);
         this.tableMesh = new THREE.Mesh( tableTop, tableMaterial );
         
-        this.tableMesh.position.z = 2
+        this.tableGroup.position.y = 2
+
         
-        this.floorMesh.add(this.tableMesh)
+        // Create table legs
+        
+        let tableLeg = new THREE.CylinderGeometry(0.1, 0.1, 2)
+        this.tableLegMesh = new THREE.Mesh(tableLeg, tableMaterial)
+        
+        for (let j = -1; j < 2; j+=2) {
+            for(let i = -1; i < 2; i+=2){
+                let instance = this.tableLegMesh.clone();
+                instance.position.set((i)*1.3, (j)*0.8, -1);
+                instance.rotateX(-Math.PI/2)
+                this.tableMesh.add(instance);
+            }
+        }
+        
+        this.tableGroup.rotateX(-Math.PI/2)
+        
+        this.tableGroup.add(this.tableMesh)
+        this.app.scene.add(this.tableGroup)
 
     }
     
