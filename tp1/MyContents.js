@@ -84,6 +84,8 @@ class MyContents  {
         this.buildRoom();
 
         this.buildTable();
+
+        this.buildCakeStand();
         
         /*
         this.buildBox()
@@ -242,6 +244,29 @@ class MyContents  {
         this.app.scene.add(this.tableGroup)
 
     }
+    
+
+    buildCakeStand() {
+        
+        let plateMaterial = new THREE.MeshPhongMaterial({ color: "#e8faf2", 
+            specular: "#000000", emissive: "#000000", shininess: 90
+        })
+        
+		// Create cake stand base
+		let cakeStand = new THREE.CylinderGeometry(0.1, 0.22, 0.2);
+		this.cakeStandMesh = new THREE.Mesh(cakeStand, plateMaterial);
+        this.cakeStandMesh.position.set(0, 0, 0.2);
+        
+        // Create cake stand plate
+		let cakeStandPlate = new THREE.CylinderGeometry(0.35, 0.32, 0.02);
+		this.cakeStandPlateMesh = new THREE.Mesh(cakeStandPlate, plateMaterial);
+		this.cakeStandPlateMesh.position.set(0, 0.1, 0);
+        
+
+        this.cakeStandMesh.rotateX(Math.PI/2)
+        this.tableMesh.add(this.cakeStandMesh)
+        this.cakeStandMesh.add(this.cakeStandPlateMesh);
+	}
     
     /**
      * updates the diffuse plane color and the material
