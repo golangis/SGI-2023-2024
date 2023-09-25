@@ -281,7 +281,7 @@ class MyContents  {
         // Create cake
 		let cake = new THREE.CylinderGeometry(0.27, 0.27, 0.35, 32, 32, false, 0, Math.PI*1.5);
 		this.cakeMesh = new THREE.Mesh(cake, cakeExteriorMaterial);
-        this.cakeMesh.position.set(0, 0.2, 0);
+        this.cakeMesh.position.set(0, 0.18, 0);
 
         // Create cake interior
 
