@@ -81,55 +81,7 @@ class MyContents  {
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
         
-        
-        // Create a Plane Mesh with basic material
-        
-        let plane = new THREE.PlaneGeometry( 10, 10 );
-        this.planeMesh = new THREE.Mesh( plane, this.planeMaterial );
-        this.planeMesh.rotation.x = -Math.PI / 2;
-        this.planeMesh.position.y = -0;
-        this.app.scene.add( this.planeMesh );
-
-        
-        
-        // Create walls
-        
-        let leftWall = new THREE.PlaneGeometry( 10, 5 );
-        this.leftWallMesh = new THREE.Mesh( leftWall, this.planeMaterial );
-        this.leftWallMesh.rotation.x = Math.PI;
-        this.leftWallMesh.position.set(0, 2.5, 5);
-        this.app.scene.add( this.leftWallMesh );
-        
-        let rightWall = new THREE.PlaneGeometry( 10, 5 );
-        this.rightWallMesh = new THREE.Mesh( rightWall, this.planeMaterial );
-        this.rightWallMesh.rotation.x = 2*Math.PI;
-        this.rightWallMesh.position.set(0, 2.5, -5);
-        this.app.scene.add( this.rightWallMesh );
-        
-        let backWall = new THREE.PlaneGeometry( 10,5 );
-        this.backWallMesh = new THREE.Mesh( backWall, this.planeMaterial );
-        this.backWallMesh.rotation.y = Math.PI/2;
-        this.backWallMesh.position.set(-5, 2.5, 0);
-        this.app.scene.add( this.backWallMesh );
-        
-        // Create table top
-
-        let tableMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
-        specular: "#000000", emissive: "#000000", shininess: 90 })
-        
-        // Create a Cube Mesh with basic material
-        let tableTop = new THREE.BoxGeometry(3,2,0.2);
-        this.tableMesh = new THREE.Mesh( tableTop, tableMaterial );
-        
-        this.planeMesh.add(this.tableMesh)
-        
-        // this.planeMesh.rotation.x = -Math.PI;
-        
-        this.tableMesh.rotation.x = -Math.PI / 2;
-        this.tableMesh.position.y = 1.5
-        this.app.scene.add(this.tableMesh);
-
-        
+        this.buildRoom();
         
         /*
         this.buildBox()
@@ -208,6 +160,55 @@ class MyContents  {
         this.app.scene.add(this.polyhedronMesh);
 
         */
+    }
+
+
+    /**
+     * Creates the walls and floor of the room
+     */
+
+    buildRoom(){
+                
+        // Create floor Mesh with basic material
+        
+        let floor = new THREE.PlaneGeometry( 10, 10 );
+        this.floorMesh = new THREE.Mesh( floor, this.planeMaterial );
+        this.floorMesh.rotation.x = -Math.PI / 2;
+        this.floorMesh.position.y = -0;
+        this.app.scene.add( this.floorMesh );
+
+        
+        // Create walls
+        
+        let leftWall = new THREE.PlaneGeometry( 10, 5 );
+        this.leftWallMesh = new THREE.Mesh( leftWall, this.planeMaterial );
+        this.leftWallMesh.rotation.x = Math.PI;
+        this.leftWallMesh.position.set(0, 2.5, 5);
+        this.app.scene.add( this.leftWallMesh );
+        
+        let rightWall = new THREE.PlaneGeometry( 10, 5 );
+        this.rightWallMesh = new THREE.Mesh( rightWall, this.planeMaterial );
+        this.rightWallMesh.rotation.x = 2*Math.PI;
+        this.rightWallMesh.position.set(0, 2.5, -5);
+        this.app.scene.add( this.rightWallMesh );
+        
+        let backWall = new THREE.PlaneGeometry( 10,5 );
+        this.backWallMesh = new THREE.Mesh( backWall, this.planeMaterial );
+        this.backWallMesh.rotation.y = Math.PI/2;
+        this.backWallMesh.position.set(-5, 2.5, 0);
+        this.app.scene.add( this.backWallMesh );
+        
+        // Create table top
+        
+        let tableMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
+        specular: "#000000", emissive: "#000000", shininess: 90 })
+        let tableTop = new THREE.BoxGeometry(3,2,0.2);
+        this.tableMesh = new THREE.Mesh( tableTop, tableMaterial );
+        
+        this.tableMesh.position.z = 2
+        
+        this.floorMesh.add(this.tableMesh)
+
     }
     
     /**
