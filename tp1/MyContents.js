@@ -88,6 +88,8 @@ class MyContents  {
         this.buildCakeStand();
 
         this.buildCake();
+
+        this.buildCandle();
         
         /*
         this.buildBox()
@@ -125,7 +127,7 @@ class MyContents  {
         this.app.scene.add(this.halfCylinderMesh);
 
 
-         // Create cone
+        // Create cone
         let cone = new THREE.ConeGeometry(0.5, 1)
         this.coneMesh = new THREE.Mesh(cone, circleMaterial)
         this.coneMesh.position.set(-4, 0.5, -3);
@@ -297,6 +299,28 @@ class MyContents  {
         this.cakeMesh.add(this.cakeInteriorMesh)
         this.cakeMesh.add(instance)
         this.cakeStandPlateMesh.add(this.cakeMesh);
+    }
+
+    buildCandle() {
+        
+        let candleMaterial = new THREE.MeshBasicMaterial({ color: "#f5d20c" })
+        let flameMaterial = new THREE.MeshBasicMaterial({ color: "#de7009" })
+        
+        // Create candle
+		let candle = new THREE.CylinderGeometry(0.01, 0.01, 0.1);
+		this.candleMesh = new THREE.Mesh(candle, candleMaterial);
+        this.candleMesh.position.set(0, 0.225, 0);
+
+        // Create Flame
+
+        let flame = new THREE.ConeGeometry(0.01, 0.015)
+        this.flameMesh = new THREE.Mesh(flame, flameMaterial)
+        this.flameMesh.position.set(0, 0.063, 0);
+        
+        
+        
+        this.candleMesh.add(this.flameMesh);
+        this.cakeMesh.add(this.candleMesh)
     }
     
     /**
