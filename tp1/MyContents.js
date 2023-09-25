@@ -245,7 +245,7 @@ class MyContents  {
         this.tableGroup.rotateX(-Math.PI/2)
         
         this.tableGroup.add(this.tableMesh)
-        this.app.scene.add(this.tableGroup)
+        this.roomGroup.add(this.tableGroup)
 
     }
     
