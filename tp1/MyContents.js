@@ -210,13 +210,19 @@ class MyContents {
         this.backWallMesh.rotation.y = Math.PI / 2;
         this.backWallMesh.position.set(-5, 2.5, 0);
 
+        let frontWall = new THREE.PlaneGeometry(10, 5);
+        this.frontWallMesh = new THREE.Mesh(frontWall, this.planeMaterial);
+        this.frontWallMesh.rotation.y = Math.PI / 2;
+        this.frontWallMesh.position.set(5, 2.5, 0);
+
         this.roomGroup = new THREE.Group();
 
         this.roomGroup.add(
             this.floorMesh,
             this.leftWallMesh,
             this.rightWallMesh,
-            this.backWallMesh
+            this.backWallMesh,
+            this.frontWallMesh
         );
 
         this.app.scene.add(this.roomGroup);
