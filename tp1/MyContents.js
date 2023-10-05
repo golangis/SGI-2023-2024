@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyTable } from "./MyTable.js";
+import { MyCakeStand } from "./MyCakeStand.js";
 
 /**
  *  This class contains the contents of out application
@@ -95,13 +96,13 @@ class MyContents {
 
         this.buildRoom();
 
-        const table = new MyTable();
-        this.tableGroup = table.buildTableGroup();
+        this.tableGroup = new MyTable().buildTableGroup();
+        this.cakeStand = new MyCakeStand().buildCakeStand();
 
         this.roomGroup.add(this.tableGroup);
+        this.tableGroup.add(this.cakeStand);
 
-
-        this.buildCakeStand();
+        //this.buildCakeStand();
 
         this.buildCake();
 
@@ -235,29 +236,6 @@ class MyContents {
 
   
 
-    buildCakeStand() {
-        let plateMaterial = new THREE.MeshPhongMaterial({
-            color: "#e8faf2",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        });
-
-        // Create cake stand base
-        let cakeStand = new THREE.CylinderGeometry(0.1, 0.22, 0.2);
-        this.cakeStandMesh = new THREE.Mesh(cakeStand, plateMaterial);
-        this.cakeStandMesh.position.set(0, 0, 0.2);
-
-        // Create cake stand plate
-        let cakeStandPlate = new THREE.CylinderGeometry(0.35, 0.32, 0.02);
-        this.cakeStandPlateMesh = new THREE.Mesh(cakeStandPlate, plateMaterial);
-        this.cakeStandPlateMesh.position.set(0, 0.1, 0);
-
-        this.cakeStandMesh.rotateX(Math.PI / 2);
-        this.tableGroup.add(this.cakeStandMesh);
-        this.cakeStandMesh.add(this.cakeStandPlateMesh);
-    }
-
     buildCake() {
         let cakeExteriorMaterial = new THREE.MeshPhongMaterial({
             color: "#eb8f9b",
@@ -300,7 +278,7 @@ class MyContents {
 
         this.cakeMesh.add(this.cakeInteriorMesh);
         this.cakeMesh.add(instance);
-        this.cakeStandPlateMesh.add(this.cakeMesh);
+        this.cakeStand.add(this.cakeMesh);
     }
 
     buildCandle() {
