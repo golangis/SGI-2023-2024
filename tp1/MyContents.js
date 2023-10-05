@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
+import { MyTable } from "./MyTable.js";
 
 /**
  *  This class contains the contents of out application
@@ -94,7 +95,11 @@ class MyContents {
 
         this.buildRoom();
 
-        this.buildTable();
+        const table = new MyTable();
+        this.tableGroup = table.buildTableGroup();
+
+        this.roomGroup.add(this.tableGroup);
+
 
         this.buildCakeStand();
 
@@ -228,44 +233,7 @@ class MyContents {
         this.app.scene.add(this.roomGroup);
     }
 
-    /**
-     * Create table
-     */
-    buildTable() {
-        // Create table top
-
-        this.tableGroup = new THREE.Group();
-
-        let tableMaterial = new THREE.MeshPhongMaterial({
-            color: "#995e17",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        });
-        let tableTop = new THREE.BoxGeometry(3, 2, 0.2);
-        this.tableMesh = new THREE.Mesh(tableTop, tableMaterial);
-
-        this.tableGroup.position.y = 2;
-
-        // Create table legs
-
-        let tableLeg = new THREE.CylinderGeometry(0.1, 0.1, 2);
-        this.tableLegMesh = new THREE.Mesh(tableLeg, tableMaterial);
-
-        for (let j = -1; j < 2; j += 2) {
-            for (let i = -1; i < 2; i += 2) {
-                let instance = this.tableLegMesh.clone();
-                instance.position.set(i * 1.3, j * 0.8, -1);
-                instance.rotateX(-Math.PI / 2);
-                this.tableMesh.add(instance);
-            }
-        }
-
-        this.tableGroup.rotateX(-Math.PI / 2);
-
-        this.tableGroup.add(this.tableMesh);
-        this.roomGroup.add(this.tableGroup);
-    }
+  
 
     buildCakeStand() {
         let plateMaterial = new THREE.MeshPhongMaterial({
@@ -286,7 +254,7 @@ class MyContents {
         this.cakeStandPlateMesh.position.set(0, 0.1, 0);
 
         this.cakeStandMesh.rotateX(Math.PI / 2);
-        this.tableMesh.add(this.cakeStandMesh);
+        this.tableGroup.add(this.cakeStandMesh);
         this.cakeStandMesh.add(this.cakeStandPlateMesh);
     }
 
