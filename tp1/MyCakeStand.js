@@ -5,7 +5,6 @@ import * as THREE from "three";
 */
 class MyCakeStand {
     constructor(
-        app,
         plateTopRadius,
         plateBottomRadius,
         standTopRadius,
@@ -13,7 +12,6 @@ class MyCakeStand {
         standHeight,
         material
     ) {
-        this.app = app;
         this.plateTopRadius = plateTopRadius || 0.35;
         this.plateBottomRadius = plateBottomRadius || 0.32;
         this.standTopRadius = standTopRadius || 0.1;

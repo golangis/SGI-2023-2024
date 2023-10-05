@@ -4,8 +4,7 @@ import * as THREE from "three";
     This class customizes the gui interface for the app
 */
 class MyTable {
-    constructor(app, length, width, height, material) {
-        this.app = app;
+    constructor(length, width, height, material) {
         this.length = length || 3;
         this.width = width || 2;
         this.height = height || 1.5;
