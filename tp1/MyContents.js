@@ -3,6 +3,7 @@ import { MyAxis } from "./MyAxis.js";
 import { MyTable } from "./MyTable.js";
 import { MyCakeStand } from "./MyCakeStand.js";
 import { MyCake } from "./MyCake.js";
+import { MyRoom } from "./MyRoom.js";
 
 /**
  *  This class contains the contents of out application
@@ -95,12 +96,13 @@ class MyContents {
         const ambientLight = new THREE.AmbientLight(0x555555);
         this.app.scene.add(ambientLight);
 
-        this.buildRoom();
 
+        this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
         this.cakeStand = new MyCakeStand().buildCakeStand();
         this.cake = new MyCake().buildCake();
 
+        this.app.scene.add(this.roomGroup)
         this.roomGroup.add(this.tableGroup);
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
@@ -191,45 +193,7 @@ class MyContents {
      * Creates the walls and floor of the room
      */
 
-    buildRoom() {
-        // Create floor Mesh with basic material
-
-        let floor = new THREE.PlaneGeometry(10, 10);
-        this.floorMesh = new THREE.Mesh(floor, this.planeMaterial);
-        this.floorMesh.rotation.x = -Math.PI / 2;
-        this.floorMesh.position.y = -0;
-
-        // Create walls
-
-        let wallGeom = new THREE.PlaneGeometry(10, 5);
-        this.leftWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
-        this.leftWallMesh.rotation.x = Math.PI;
-        this.leftWallMesh.position.set(0, 2.5, 5);
-
-        this.rightWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
-        this.rightWallMesh.rotation.x = 2 * Math.PI;
-        this.rightWallMesh.position.set(0, 2.5, -5);
-
-        this.backWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
-        this.backWallMesh.rotation.y = Math.PI / 2;
-        this.backWallMesh.position.set(-5, 2.5, 0);
-
-        this.frontWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
-        this.frontWallMesh.rotation.y = Math.PI / 2;
-        this.frontWallMesh.position.set(5, 2.5, 0);
-
-        this.roomGroup = new THREE.Group();
-
-        this.roomGroup.add(
-            this.floorMesh,
-            this.leftWallMesh,
-            this.rightWallMesh,
-            this.backWallMesh,
-            this.frontWallMesh
-        );
-
-        this.app.scene.add(this.roomGroup);
-    }
+    
 
 
     buildCandle() {
