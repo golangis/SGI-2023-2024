@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyTable } from "./MyTable.js";
 import { MyCakeStand } from "./MyCakeStand.js";
+import { MyCake } from "./MyCake.js";
 
 /**
  *  This class contains the contents of out application
@@ -98,13 +99,12 @@ class MyContents {
 
         this.tableGroup = new MyTable().buildTableGroup();
         this.cakeStand = new MyCakeStand().buildCakeStand();
+        this.cake = new MyCake().buildCake();
 
         this.roomGroup.add(this.tableGroup);
         this.tableGroup.add(this.cakeStand);
-
-        //this.buildCakeStand();
-
-        this.buildCake();
+        this.cakeStand.add(this.cake);
+        
 
         this.buildCandle();
 
@@ -201,23 +201,20 @@ class MyContents {
 
         // Create walls
 
-        let leftWall = new THREE.PlaneGeometry(10, 5);
-        this.leftWallMesh = new THREE.Mesh(leftWall, this.planeMaterial);
+        let wallGeom = new THREE.PlaneGeometry(10, 5);
+        this.leftWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
         this.leftWallMesh.rotation.x = Math.PI;
         this.leftWallMesh.position.set(0, 2.5, 5);
 
-        let rightWall = new THREE.PlaneGeometry(10, 5);
-        this.rightWallMesh = new THREE.Mesh(rightWall, this.planeMaterial);
+        this.rightWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
         this.rightWallMesh.rotation.x = 2 * Math.PI;
         this.rightWallMesh.position.set(0, 2.5, -5);
 
-        let backWall = new THREE.PlaneGeometry(10, 5);
-        this.backWallMesh = new THREE.Mesh(backWall, this.planeMaterial);
+        this.backWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
         this.backWallMesh.rotation.y = Math.PI / 2;
         this.backWallMesh.position.set(-5, 2.5, 0);
 
-        let frontWall = new THREE.PlaneGeometry(10, 5);
-        this.frontWallMesh = new THREE.Mesh(frontWall, this.planeMaterial);
+        this.frontWallMesh = new THREE.Mesh(wallGeom, this.planeMaterial);
         this.frontWallMesh.rotation.y = Math.PI / 2;
         this.frontWallMesh.position.set(5, 2.5, 0);
 
@@ -234,52 +231,6 @@ class MyContents {
         this.app.scene.add(this.roomGroup);
     }
 
-  
-
-    buildCake() {
-        let cakeExteriorMaterial = new THREE.MeshPhongMaterial({
-            color: "#eb8f9b",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        });
-
-        let cakeInteriorMaterial = new THREE.MeshBasicMaterial({
-            color: "#d6b383",
-        });
-
-        // Create cake
-        let cake = new THREE.CylinderGeometry(
-            0.27,
-            0.27,
-            0.35,
-            32,
-            32,
-            false,
-            0,
-            Math.PI * 1.5
-        );
-        this.cakeMesh = new THREE.Mesh(cake, cakeExteriorMaterial);
-        this.cakeMesh.position.set(0, 0.18, 0);
-
-        // Create cake interior
-
-        let cakeInterior = new THREE.PlaneGeometry(0.27, 0.35);
-        this.cakeInteriorMesh = new THREE.Mesh(
-            cakeInterior,
-            cakeInteriorMaterial
-        );
-        this.cakeInteriorMesh.rotateY(-Math.PI / 2);
-        this.cakeInteriorMesh.position.set(0, 0, 0.135);
-
-        const instance = this.cakeInteriorMesh.clone();
-        instance.rotateY(Math.PI / 2);
-        instance.position.set(-0.135, 0, 0);
-
-        this.cakeMesh.add(this.cakeInteriorMesh);
-        this.cakeMesh.add(instance);
-        this.cakeStand.add(this.cakeMesh);
-    }
 
     buildCandle() {
         let candleMaterial = new THREE.MeshBasicMaterial({ color: "#f5d20c" });
@@ -297,7 +248,7 @@ class MyContents {
         this.flameMesh.position.set(0, 0.063, 0);
 
         this.candleMesh.add(this.flameMesh);
-        this.cakeMesh.add(this.candleMesh);
+        this.cake.add(this.candleMesh);
     }
 
     /**
