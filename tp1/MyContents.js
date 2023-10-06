@@ -4,6 +4,7 @@ import { MyTable } from "./MyTable.js";
 import { MyCakeStand } from "./MyCakeStand.js";
 import { MyCake } from "./MyCake.js";
 import { MyRoom } from "./MyRoom.js";
+import { MyCandle } from "./MyCandle.js";
 
 /**
  *  This class contains the contents of out application
@@ -96,123 +97,17 @@ class MyContents {
         const ambientLight = new THREE.AmbientLight(0x555555);
         this.app.scene.add(ambientLight);
 
-
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
         this.cakeStand = new MyCakeStand().buildCakeStand();
         this.cake = new MyCake().buildCake();
+        this.candle = new MyCandle().buildCandle();
 
-        this.app.scene.add(this.roomGroup)
+        this.app.scene.add(this.roomGroup);
         this.roomGroup.add(this.tableGroup);
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
-        
-
-        this.buildCandle();
-
-        /*
-        this.buildBox()
-        
-        // Create Circle
-        let circle = new THREE.CircleGeometry(0.5);
-        let circleMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", specular: "#000000", emissive: "#000000", shininess: 90 })
-        this.circleMesh = new THREE.Mesh(circle, circleMaterial);
-        this.circleMesh.position.set(0, 0.5, 2);
-        this.app.scene.add(this.circleMesh);
-
-
-        // Create sphere
-        let sphere = new THREE.SphereGeometry(0.5);
-        this.sphereMesh = new THREE.Mesh(sphere, circleMaterial);
-        this.sphereMesh.position.set(3, 0.5, 0);
-        this.app.scene.add(this.sphereMesh);
-
-        // Create half sphere
-        let halfSphere = new THREE.SphereGeometry(0.5, 32, 32, -Math.PI/2, Math.PI);
-        this.halfSphereMesh = new THREE.Mesh(halfSphere, circleMaterial);
-        this.halfSphereMesh.position.set(3, 0.5, 3);
-        this.app.scene.add(this.halfSphereMesh);
-
-        // Create cylinder
-        let cylinder = new THREE.CylinderGeometry(0.5, 0.5, 1)
-        this.cylinderMesh = new THREE.Mesh(cylinder, circleMaterial)
-        this.cylinderMesh.position.set(-4, 0.5, 3);
-        this.app.scene.add(this.cylinderMesh);
-
-        // Create halfCylinder
-        let halfCylinder = new THREE.CylinderGeometry(0.5, 0.5, 1, 32, 32, false, -Math.PI, Math.PI);
-        this.halfCylinderMesh = new THREE.Mesh(halfCylinder, circleMaterial)
-        this.halfCylinderMesh.position.set(-2, 0.5, 3);
-        this.app.scene.add(this.halfCylinderMesh);
-
-
-        // Create cone
-        let cone = new THREE.ConeGeometry(0.5, 1)
-        this.coneMesh = new THREE.Mesh(cone, circleMaterial)
-        this.coneMesh.position.set(-4, 0.5, -3);
-        this.app.scene.add(this.coneMesh);
-
-        // Create halfcone
-        let halfcone = new THREE.ConeGeometry(0.5, 1, 32, 32, false, -Math.PI, Math.PI);
-        this.halfconeMesh = new THREE.Mesh(halfcone, circleMaterial)
-        this.halfconeMesh.position.set(-2, 0.5,-3);
-        this.app.scene.add(this.halfconeMesh);
-
-        
-        
-        // Create Polyhedron
-
-        const verticesOfCube = [
-            -1,-1,-1,    1,-1,-1,    1, 1,-1,    -1, 1,-1,
-            -1,-1, 1,    1,-1, 1,    1, 1, 1,    -1, 1, 1,
-        ];
-        const indicesOfFaces = [
-            2,1,0,    0,3,2,
-            0,4,7,    7,3,0,
-            0,1,5,    5,4,0,
-            1,2,6,    6,5,1,
-            2,3,7,    7,6,2,
-            4,5,6,    6,7,4
-        ];
-
-        // create a material, color or image texture
-        const polyhedronMaterial = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            wireframe: true
-        });
-
-        let polyhedron = new THREE.PolyhedronGeometry(verticesOfCube, indicesOfFaces, 0.5, 1)
-        this.polyhedronMesh = new THREE.Mesh(polyhedron, polyhedronMaterial)
-        this.polyhedronMesh.position.set(2, 0.5,-3)
-        this.app.scene.add(this.polyhedronMesh);
-
-        */
-    }
-
-    /**
-     * Creates the walls and floor of the room
-     */
-
-    
-
-
-    buildCandle() {
-        let candleMaterial = new THREE.MeshBasicMaterial({ color: "#f5d20c" });
-        let flameMaterial = new THREE.MeshBasicMaterial({ color: "#de7009" });
-
-        // Create candle
-        let candle = new THREE.CylinderGeometry(0.01, 0.01, 0.1);
-        this.candleMesh = new THREE.Mesh(candle, candleMaterial);
-        this.candleMesh.position.set(0, 0.225, 0);
-
-        // Create Flame
-
-        let flame = new THREE.ConeGeometry(0.01, 0.015);
-        this.flameMesh = new THREE.Mesh(flame, flameMaterial);
-        this.flameMesh.position.set(0, 0.063, 0);
-
-        this.candleMesh.add(this.flameMesh);
-        this.cake.add(this.candleMesh);
+        this.cake.add(this.candle);
     }
 
     /**
@@ -286,3 +181,83 @@ class MyContents {
 }
 
 export { MyContents };
+
+    
+// Demo code for each object
+/*  
+    this.buildBox()
+    
+    // Create Circle
+    let circle = new THREE.CircleGeometry(0.5);
+    let circleMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", specular: "#000000", emissive: "#000000", shininess: 90 })
+    this.circleMesh = new THREE.Mesh(circle, circleMaterial);
+    this.circleMesh.position.set(0, 0.5, 2);
+    this.app.scene.add(this.circleMesh);
+
+
+    // Create sphere
+    let sphere = new THREE.SphereGeometry(0.5);
+    this.sphereMesh = new THREE.Mesh(sphere, circleMaterial);
+    this.sphereMesh.position.set(3, 0.5, 0);
+    this.app.scene.add(this.sphereMesh);
+
+    // Create half sphere
+    let halfSphere = new THREE.SphereGeometry(0.5, 32, 32, -Math.PI/2, Math.PI);
+    this.halfSphereMesh = new THREE.Mesh(halfSphere, circleMaterial);
+    this.halfSphereMesh.position.set(3, 0.5, 3);
+    this.app.scene.add(this.halfSphereMesh);
+
+    // Create cylinder
+    let cylinder = new THREE.CylinderGeometry(0.5, 0.5, 1)
+    this.cylinderMesh = new THREE.Mesh(cylinder, circleMaterial)
+    this.cylinderMesh.position.set(-4, 0.5, 3);
+    this.app.scene.add(this.cylinderMesh);
+
+    // Create halfCylinder
+    let halfCylinder = new THREE.CylinderGeometry(0.5, 0.5, 1, 32, 32, false, -Math.PI, Math.PI);
+    this.halfCylinderMesh = new THREE.Mesh(halfCylinder, circleMaterial)
+    this.halfCylinderMesh.position.set(-2, 0.5, 3);
+    this.app.scene.add(this.halfCylinderMesh);
+
+
+    // Create cone
+    let cone = new THREE.ConeGeometry(0.5, 1)
+    this.coneMesh = new THREE.Mesh(cone, circleMaterial)
+    this.coneMesh.position.set(-4, 0.5, -3);
+    this.app.scene.add(this.coneMesh);
+
+    // Create halfcone
+    let halfcone = new THREE.ConeGeometry(0.5, 1, 32, 32, false, -Math.PI, Math.PI);
+    this.halfconeMesh = new THREE.Mesh(halfcone, circleMaterial)
+    this.halfconeMesh.position.set(-2, 0.5,-3);
+    this.app.scene.add(this.halfconeMesh);
+
+    
+    
+    // Create Polyhedron
+
+    const verticesOfCube = [
+        -1,-1,-1,    1,-1,-1,    1, 1,-1,    -1, 1,-1,
+        -1,-1, 1,    1,-1, 1,    1, 1, 1,    -1, 1, 1,
+    ];
+    const indicesOfFaces = [
+        2,1,0,    0,3,2,
+        0,4,7,    7,3,0,
+        0,1,5,    5,4,0,
+        1,2,6,    6,5,1,
+        2,3,7,    7,6,2,
+        4,5,6,    6,7,4
+    ];
+
+    // create a material, color or image texture
+    const polyhedronMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        wireframe: true
+    });
+
+    let polyhedron = new THREE.PolyhedronGeometry(verticesOfCube, indicesOfFaces, 0.5, 1)
+    this.polyhedronMesh = new THREE.Mesh(polyhedron, polyhedronMaterial)
+    this.polyhedronMesh.position.set(2, 0.5,-3)
+    this.app.scene.add(this.polyhedronMesh);
+
+    */
