@@ -6,6 +6,7 @@ import { MyCake } from "./MyCake.js";
 import { MyRoom } from "./MyRoom.js";
 import { MyCandle } from "./MyCandle.js";
 import { MyCarocha } from "./MyCarocha.js";
+import { MyMola } from "./MyMola.js";
 
 /**
  *  This class contains the contents of out application
