@@ -2,20 +2,7 @@ import * as THREE from "three";
 
 import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
 
-/**
-
- *  This class contains the contents of out application
-
- */
-
 class MyVase {
-    /**
-
-       constructs the object
-
-       @param {MyApp} app The application object
-
-    */
 
     constructor() {
         this.samplesU = 50;

@@ -9,6 +9,7 @@ import { MyCarocha } from "./MyCarocha.js";
 import { MyMola } from "./MyMola.js";
 import { MyNewspaper } from "./MyNewspaper.js";
 import { MyVase } from "./MyVase.js";
+import { MyFlower } from "./MyFlower.js";
 
 /**
  *  This class contains the contents of out application
