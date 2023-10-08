@@ -22,20 +22,14 @@ class MyRoom {
 
         this.floorMaterial =
             floorMaterial ||
-            new THREE.MeshPhongMaterial({
-                specular: "#222222",
-                emissive: "#000000",
-                shininess: 30,
+            new THREE.MeshLambertMaterial({
                 map: textureFloor
             });
 
         this.wallMaterial =
             wallMaterial ||
-            new THREE.MeshPhongMaterial({
-                color: "#896b49",
-                specular: "#000000",
-                emissive: "#444444",
-                shininess: 90,
+            new THREE.MeshLambertMaterial({
+                color: "#896b49"
             });
     }
 

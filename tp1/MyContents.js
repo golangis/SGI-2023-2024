@@ -81,36 +81,39 @@ class MyContents {
             this.app.scene.add(this.axis);
         }
 
-        // add a point light on top of the model
-        const pointLight = new THREE.PointLight(0xffffff, 500, 0);
-        pointLight.position.set(0, 20, 0);
-        this.app.scene.add(pointLight);
 
-        // add a point light helper for the previous point light
-        const sphereSize = 0.5;
-        const pointLightHelper = new THREE.PointLightHelper(
-            pointLight,
-            sphereSize
-        );
-        this.app.scene.add(pointLightHelper);
+        // Spotlight Cake
+        let colorSpotLight = 0xF6E4BC
+        let intensitySpotLight = 30
+        let distanceSpotLight = 5
+
+        const spotlight = new THREE.SpotLight(colorSpotLight, intensitySpotLight, distanceSpotLight, Math.PI/12, 1)
+        const spotlightHelper = new THREE.SpotLightHelper(spotlight)
+
+        spotlight.position.set(0, distanceSpotLight, 0)
+
+        this.app.scene.add(spotlight)
+        this.app.scene.add(spotlightHelper)
+
+        // Spotlight Room
+        let colorSpotLightRoom = 0xF6E4BC
+        let intensitySpotLightRoom = 50
+        let distanceSpotLightRoom = 10
+
+        const spotlightRoom = new THREE.SpotLight(colorSpotLightRoom, intensitySpotLightRoom, 0, Math.PI/2, 0.2)
+        const spotlightHelperRoom = new THREE.SpotLightHelper(spotlightRoom)
+
+        spotlightRoom.position.set(0, distanceSpotLightRoom, 0)
+
+        this.app.scene.add(spotlightRoom)
+        this.app.scene.add(spotlightHelperRoom)
 
 
-                // add a point light on top of the model
-        const pointLampLight = new THREE.PointLight(0xffffff, 50, 0);
-        pointLampLight.position.set(0, 8, 0);
-        this.app.scene.add(pointLampLight);
+        // Ambient Light
+        const lightAmbient = new THREE.AmbientLight( 0x404040 ); 
+        this.app.scene.add( lightAmbient, 0.1 );
 
-        // add a point light helper for the previous point light
-        const sphereLampSize = 0.5;
-        const pointLampLightHelper = new THREE.PointLightHelper(
-            pointLampLight,
-            sphereSize
-        );
-        this.app.scene.add(pointLampLightHelper);
 
-        // add an ambient light
-        const ambientLight = new THREE.AmbientLight(0X303030);
-        this.app.scene.add(ambientLight);
 
 
         this.roomGroup = new MyRoom().buildRoom();
