@@ -56,7 +56,7 @@ class MyRoom {
         backWallMesh.position.set(-this.roomWidth/2, this.roomDepth/2, 0);
 
         let frontWallMesh = new THREE.Mesh(frontWallGeom, this.wallMaterial);
-        frontWallMesh.rotation.y = Math.PI / 2;
+        frontWallMesh.rotation.y = -Math.PI / 2;
         frontWallMesh.position.set(this.roomWidth/2, this.roomDepth/2, 0);
 
         const roomGroup = new THREE.Group();
