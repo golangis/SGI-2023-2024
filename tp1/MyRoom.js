@@ -10,21 +10,31 @@ class MyRoom {
         this.roomHeight = roomHeight || 10;
         this.roomDepth = roomDepth || 5;
 
+        const textureFloor = new THREE.TextureLoader().load( "textures/floor.jpg" );
+        textureFloor.wrapS = THREE.RepeatWrapping;
+        textureFloor.wrapT = THREE.RepeatWrapping;
+        textureFloor.repeat.set( 4, 4 );
+
+        const textureWall = new THREE.TextureLoader().load( "textures/wall.jpg" );
+        textureWall.wrapS = THREE.RepeatWrapping;
+        textureWall.wrapT = THREE.RepeatWrapping;
+        textureWall.repeat.set( 4, 2);
+
         this.floorMaterial =
             floorMaterial ||
             new THREE.MeshPhongMaterial({
-                color: "#d6a267",
-                specular: "#000000",
+                specular: "#222222",
                 emissive: "#000000",
-                shininess: 90,
+                shininess: 30,
+                map: textureFloor
             });
 
         this.wallMaterial =
             wallMaterial ||
             new THREE.MeshPhongMaterial({
-                color: "#fcbd74",
+                color: "#896b49",
                 specular: "#000000",
-                emissive: "#000000",
+                emissive: "#444444",
                 shininess: 90,
             });
     }

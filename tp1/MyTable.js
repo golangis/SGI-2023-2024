@@ -11,10 +11,11 @@ class MyTable {
         this.material =
             material ||
             new THREE.MeshPhongMaterial({
-                color: "#995e17",
-                specular: "#000000",
+                specular: "#111111",
                 emissive: "#000000",
                 shininess: 90,
+                map: new THREE.TextureLoader().load('textures/wood-table.jpg')
+                
             });
 
         if (this.width > this.length) {

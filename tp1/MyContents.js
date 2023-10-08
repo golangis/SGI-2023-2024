@@ -5,7 +5,8 @@ import { MyCakeStand } from "./MyCakeStand.js";
 import { MyCake } from "./MyCake.js";
 import { MyRoom } from "./MyRoom.js";
 import { MyCandle } from "./MyCandle.js";
-
+import { MyPicFrame } from "./MyPicFrame.js";
+import { MyOven } from "./MyOven.js";
 /**
  *  This class contains the contents of out application
  */
@@ -93,18 +94,45 @@ class MyContents {
         );
         this.app.scene.add(pointLightHelper);
 
+
+                // add a point light on top of the model
+        const pointLampLight = new THREE.PointLight(0xffffff, 50, 0);
+        pointLampLight.position.set(0, 8, 0);
+        this.app.scene.add(pointLampLight);
+
+        // add a point light helper for the previous point light
+        const sphereLampSize = 0.5;
+        const pointLampLightHelper = new THREE.PointLightHelper(
+            pointLampLight,
+            sphereSize
+        );
+        this.app.scene.add(pointLampLightHelper);
+
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight(0x555555);
+        const ambientLight = new THREE.AmbientLight(0X303030);
         this.app.scene.add(ambientLight);
+
 
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
         this.cakeStand = new MyCakeStand().buildCakeStand();
         this.cake = new MyCake().buildCake();
         this.candle = new MyCandle().buildCandle();
+        this.oven = new MyOven().buildOven();
+        this.framePic1 = new MyPicFrame(null, null, null, new THREE.MeshPhongMaterial({
+            map: new THREE.TextureLoader().load('textures/mariana.png')})).buildPicFrame();
+        this.framePic2 = new MyPicFrame(null, null, null, new THREE.MeshPhongMaterial({
+            map: new THREE.TextureLoader().load('textures/matilde.png')})).buildPicFrame();
+
+        
 
         this.app.scene.add(this.roomGroup);
         this.roomGroup.add(this.tableGroup);
+        this.roomGroup.add(this.oven);
+        this.roomGroup.add(this.framePic1);
+        this.framePic1.position.set(-2,3,-5);
+        this.roomGroup.add(this.framePic2);
+        this.framePic2.position.set(2,3,-5);
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
