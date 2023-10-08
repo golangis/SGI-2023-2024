@@ -8,6 +8,7 @@ import { MyCandle } from "./MyCandle.js";
 import { MyCarocha } from "./MyCarocha.js";
 import { MyMola } from "./MyMola.js";
 import { MyNewspaper } from "./MyNewspaper.js";
+import { MyVase } from "./MyVase.js";
 
 /**
  *  This class contains the contents of out application

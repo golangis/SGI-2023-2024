@@ -127,6 +127,7 @@ class MyNewspaper {
 
         return mesh;
 
+        // TODO tapar o jornal
     }
 }
 
