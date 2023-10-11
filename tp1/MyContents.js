@@ -110,7 +110,8 @@ class MyContents {
 
         this.carocha = new MyCarocha().buildCarocha();
         this.mola = new MyMola().buildMola();
-        this.newspaper = new MyNewspaper(0.2).buildNewspaper();
+        this.normalNewspaper = new MyNewspaper(0.2).buildNormalNewspaper();
+        this.creativeNewspaper = new MyNewspaper(0.2).buildCreativeNewspaper();
         this.vase = new MyVase().buildVase();
         this.flower = new MyFlower().buildFlower();
 
@@ -122,7 +123,8 @@ class MyContents {
 
         //this.candle.add(this.carocha);
         // this.candle.add(this.mola);
-        // this.candle.add(this.newspaper);
+        // this.candle.add(this.creativeNewspaper);
+        // this.candle.add(this.normalNewspaper);
         // this.candle.add(this.vase);
         // this.candle.add(this.flower);
     }
