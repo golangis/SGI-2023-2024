@@ -108,11 +108,23 @@ class MyContents {
         this.cake = new MyCake().buildCake();
         this.candle = new MyCandle().buildCandle();
 
+        this.carocha = new MyCarocha().buildCarocha();
+        this.mola = new MyMola().buildMola();
+        this.newspaper = new MyNewspaper(0.2).buildNewspaper();
+        this.vase = new MyVase().buildVase();
+        this.flower = new MyFlower().buildFlower();
+
         this.app.scene.add(this.roomGroup);
         this.roomGroup.add(this.tableGroup);
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
+
+        //this.candle.add(this.carocha);
+        // this.candle.add(this.mola);
+        // this.candle.add(this.newspaper);
+        // this.candle.add(this.vase);
+        // this.candle.add(this.flower);
     }
 
     /**
@@ -187,7 +199,6 @@ class MyContents {
 
 export { MyContents };
 
-    
 // Demo code for each object
 /*  
     this.buildBox()
