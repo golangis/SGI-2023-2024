@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
 
 class MyVase {
-
     constructor() {
         this.samplesU = 50;
         this.samplesV = 50;
@@ -147,7 +146,11 @@ class MyVase {
         return mesh;
     }
 
-    createBase() {}
+    createBase() {
+        const geometry = new THREE.CircleGeometry(0.52);
+        const circle = new THREE.Mesh(geometry, this.material);
+        return circle;
+    }
 
     buildVase() {
         const tube = this.createTube();
@@ -155,13 +158,17 @@ class MyVase {
         //TODO criar base do vaso
 
         const base = this.createBase();
-
+        base.rotateX(Math.PI / 2)
+        base.position.set(0.09, 0, 0)
+        
         const vase = new THREE.Group();
         vase.add(tube);
         vase.add(bottom);
         vase.add(base);
 
         vase.scale.setScalar(0.25);
+        vase.rotateX(-Math.PI / 2);
+        vase.position.set(0, 0.8, 0)
 
         return vase;
     }
