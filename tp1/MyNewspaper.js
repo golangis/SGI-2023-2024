@@ -13,7 +13,6 @@ class MyNewspaper {
         this.samplesV = 20;
         this.scale = scale || 1;
 
-
         const map = new THREE.TextureLoader().load("textures/newspaper.jpg");
 
         map.wrapS = map.wrapT = THREE.RepeatWrapping;
@@ -29,8 +28,31 @@ class MyNewspaper {
         this.builder = new MyNurbsBuilder();
     }
 
-    buildNewspaper() {
+    generateCoverControlPoints(baseControlPoints) {
+        const coverControlPoints = [];
 
+        for (let u = 0; u < baseControlPoints.length; u++) {
+            const row = baseControlPoints[u];
+            const coverRow = [];
+
+            for (let v = 0; v < row.length; v++) {
+                const basePoint = row[v];
+                const coverPoint = [
+                    basePoint[0],
+                    basePoint[1],
+                    basePoint[2] + 1,
+                    1,
+                ]; // Adjust the z-coordinate for the cover
+                coverRow.push(coverPoint);
+            }
+
+            coverControlPoints.push(coverRow);
+        }
+
+        return coverControlPoints;
+    }
+
+    buildNewspaper() {
         let controlPoints;
 
         let surfaceData;
@@ -49,24 +71,18 @@ class MyNewspaper {
             [
                 // V = ​​0..1
 
-                [0, -1.5, 0, 1],
-
-                [0, -0.5, 0, 1],
-
-                [0, 0.5, 0, 1],
-
-                [0, 1.5, 0.0, 1],
+                [0.2, -1.5, 0.2, 1],
+                [0.16, -0.5, 0.2, 1],
+                [0.16, 0.5,  0.2, 1],
+                [0.2, 1.5,  0.2, 1],
             ],
 
             [
                 // V = ​​0..1;
 
                 [-1.5, -1.5, 0.0, 1],
-                
-                [-0.9, -0.5, 0, 1],
-
-                [-0.9, 0.5, 0, 1],
-
+                [-1.5, -0.5, 0, 1],
+                [-1.5, 0.5, 0, 1],
                 [-1.5, 1.5, 0.0, 1],
             ],
 
@@ -101,13 +117,10 @@ class MyNewspaper {
             [
                 // V = ​​0..1
 
-                [0, -1.5, 0.0, 1],
-
-                [0, -0.5, 0, 1],
-
-                [0, 0.5, 0, 1],
-
-                [0, 1.5, 0, 1],
+                [-0.28, -1.5, 0.32, 1],
+                [-0.28, -0.5, 0.32, 1],
+                [-0.28, 0.5 , 0.32, 1],
+                [-0.28, 1.5 , 0.32, 1],
             ],
             
         ];
@@ -122,12 +135,12 @@ class MyNewspaper {
         );
 
         mesh = new THREE.Mesh(surfaceData, this.material);
-
+        mesh.rotateZ(Math.PI/2)
+        console.log(mesh)
         mesh.scale.setScalar(this.scale);
 
-        return mesh;
 
-        // TODO tapar o jornal
+        return mesh;
     }
 }
 
