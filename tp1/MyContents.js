@@ -10,6 +10,7 @@ import { MyMola } from "./MyMola.js";
 import { MyNewspaper } from "./MyNewspaper.js";
 import { MyVase } from "./MyVase.js";
 import { MyFlower } from "./MyFlower.js";
+import { MyWindow } from "./MyWindow.js";
 
 /**
  *  This class contains the contents of out application
@@ -114,6 +115,8 @@ class MyContents {
         this.creativeNewspaper = new MyNewspaper(0.2).buildCreativeNewspaper();
         this.vase = new MyVase().buildVase();
         this.flower = new MyFlower().buildFlower();
+        this.windowObject = new MyWindow();
+        this.window = this.windowObject.buildFrame();
 
         this.app.scene.add(this.roomGroup);
         this.roomGroup.add(this.tableGroup);
@@ -127,6 +130,7 @@ class MyContents {
         // this.candle.add(this.normalNewspaper);
         // this.candle.add(this.vase);
         // this.candle.add(this.flower);
+         this.candle.add(this.window);
     }
 
     /**
@@ -188,7 +192,9 @@ class MyContents {
      * this method is called from the render method of the app
      *
      */
-    update() {
+    update(camera) {
+
+        this.windowObject.updateTexturePosition(camera);
         /*// check if box mesh needs to be updated
         this.updateBoxIfRequired()
 
