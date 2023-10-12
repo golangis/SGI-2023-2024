@@ -121,8 +121,8 @@ class MyContents {
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
 
-        this.candle.add(this.carocha);
-        // this.candle.add(this.mola);
+        //this.candle.add(this.carocha);
+         this.candle.add(this.mola);
         // this.candle.add(this.creativeNewspaper);
         // this.candle.add(this.normalNewspaper);
         // this.candle.add(this.vase);

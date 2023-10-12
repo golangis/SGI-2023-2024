@@ -9,13 +9,13 @@ class MyMola {
         lineMaterial,
         numberOfSamples
     ) {
-        this.radius = radius || 0.25;
-        this.height = height || 0.5;
-        this.numberOfStacks = numberOfStacks || 5;
-        this.numberOfSamples = numberOfSamples || 100;
         this.position = position || new THREE.Vector3(0, 0, 0);
+        this.radius = radius || 0.1;
+        this.height = height || 0.3;
+        this.numberOfStacks = numberOfStacks || 5;
+        this.numberOfSamples = numberOfSamples || 120;
         this.lineMaterial =
-            lineMaterial || new THREE.LineBasicMaterial({ color: 0x808080});
+            lineMaterial || new THREE.LineBasicMaterial({ color: 0x808080 });
     }
 
     /**
@@ -51,11 +51,13 @@ class MyMola {
 
         let sampledPoints = curve.getPoints(this.numberOfSamples);
 
-        const curveGeometry = new THREE.BufferGeometry().setFromPoints(
-            sampledPoints
+        const tubeGeometry = new THREE.TubeGeometry(
+            new THREE.CatmullRomCurve3(sampledPoints),
+            64,
+            0.005
         );
 
-        const lineObj = new THREE.Line(curveGeometry, this.lineMaterial);
+        const lineObj = new THREE.Mesh(tubeGeometry, this.lineMaterial);
 
         lineObj.position.set(this.position.x, this.position.y, this.position.z);
 
