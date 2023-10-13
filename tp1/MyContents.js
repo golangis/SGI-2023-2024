@@ -129,8 +129,8 @@ class MyContents {
         // this.candle.add(this.creativeNewspaper);
         // this.candle.add(this.normalNewspaper);
         // this.candle.add(this.vase);
-        // this.candle.add(this.flower);
-         this.candle.add(this.window);
+         this.candle.add(this.flower);
+        // this.candle.add(this.window);
     }
 
     /**
