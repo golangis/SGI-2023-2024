@@ -6,22 +6,22 @@ import * as THREE from "three";
 class MyOven {
     constructor( ovenWidth, ovenHeight, ovenThickness, ovenMaterial, burnerMaterial) {
 
-        this.ovenWidth = ovenWidth || 1.2;
-        this.ovenHeight = ovenHeight || 1.8;
-        this.ovenThickness = ovenThickness || 2;
+        this.ovenWidth =  1.2;
+        this.ovenHeight =  1.8;
+        this.ovenThickness =  2;
 
         
-        this.ovenMaterial = ovenMaterial ||  new THREE.MeshPhongMaterial({
-            specular: "#111111",
-            emissive: "#000000",
+        this.ovenMaterial = new THREE.MeshPhongMaterial({
+            specular: "#444444",
+            emissive: "#101010",
             shininess: 30,
-            color: "#606060"
+            color: "#909090"
         });
 
         this.burnerMaterial = burnerMaterial || new THREE.MeshPhongMaterial({
-            specular: "#111111",
+            specular: "#444444",
             emissive: "#000000",
-            shininess: 30,
+            shininess: 50,
             color: "#111111"
         });
 
@@ -48,7 +48,7 @@ class MyOven {
         let extractorBottomRad = this.ovenWidth;
         let extractorTopRad = extractorBottomRad*0.6;
         let extractorHeight = 1;
-        let extractorSeg = 4;
+        let extractorSeg = 4; 
 
     
 
@@ -75,7 +75,7 @@ class MyOven {
             extractorBottomRad,
             extractorHeight,
             extractorSeg
-        )
+        ) 
 
         this.ovenBody = new THREE.Mesh(ovenGeometry, this.ovenMaterial);
         this.ovenBody.position.set(-5 + this.ovenWidth/2, this.ovenHeight/2, 0);
@@ -102,7 +102,7 @@ class MyOven {
         // Extractor
         this.extractor = new THREE.Mesh(extractorGeometry, this.ovenMaterial);
         this.extractor.rotateY(Math.PI/4)
-        this.extractor.position.set(-this.ovenWidth/2 + extractorBottomRad / 2 + 0.2, 3.3, 0);
+        this.extractor.position.set(-this.ovenWidth/2 + extractorBottomRad / 2 + 0.2, 3.3, 0); 
 
         this.ovenBody.add(this.burnerOven1);
         this.ovenBody.add(this.burnerOven2);
@@ -113,7 +113,7 @@ class MyOven {
 
         this.ovenBody.add(this.extractor);
 
-        this.ovenGroup.add(this.ovenBody);
+        this.ovenGroup.add(this.ovenBody); 
         return this.ovenGroup;
     }
 

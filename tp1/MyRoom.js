@@ -18,7 +18,8 @@ class MyRoom {
         const textureWall = new THREE.TextureLoader().load( "textures/wall.jpg" );
         textureWall.wrapS = THREE.RepeatWrapping;
         textureWall.wrapT = THREE.RepeatWrapping;
-        textureWall.repeat.set( 4, 2);
+        textureWall.repeat.set( 3, 1)
+    
 
         this.floorMaterial =
             floorMaterial ||
@@ -29,7 +30,7 @@ class MyRoom {
         this.wallMaterial =
             wallMaterial ||
             new THREE.MeshLambertMaterial({
-                color: "#896b49"
+                map: textureWall
             });
     }
 

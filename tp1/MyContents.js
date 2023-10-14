@@ -82,7 +82,7 @@ class MyContents {
         }
 
 
-        // Spotlight Cake
+         // Spotlight Cake
         let colorSpotLight = 0xF6E4BC
         let intensitySpotLight = 30
         let distanceSpotLight = 5
@@ -94,25 +94,38 @@ class MyContents {
 
         this.app.scene.add(spotlight)
         this.app.scene.add(spotlightHelper)
+ 
 
-        // Spotlight Room
-        let colorSpotLightRoom = 0xF6E4BC
-        let intensitySpotLightRoom = 50
-        let distanceSpotLightRoom = 10
+         // Spotlight Oven
+         let colorSpotLightOven = 0xF6E4BC
+         let intensitySpotLightOven = 300
+         let distanceSpotLightOven = 10
+ 
+         const spotlightOven = new THREE.SpotLight(colorSpotLightOven, intensitySpotLightOven, distanceSpotLightOven, Math.PI/12, 1)
+         const spotlightHelperOven = new THREE.SpotLightHelper(spotlightOven)
+ 
+         spotlightOven.position.set(-4.5, distanceSpotLightOven, 0)
+ 
+         this.app.scene.add(spotlightOven)
+         this.app.scene.add(spotlightHelperOven)
 
-        const spotlightRoom = new THREE.SpotLight(colorSpotLightRoom, intensitySpotLightRoom, 0, Math.PI/2, 0.2)
-        const spotlightHelperRoom = new THREE.SpotLightHelper(spotlightRoom)
+        // Light Room
+        let colorLightRoom = 0xEBD480  
+        let intensityLightRoom = 50
+        let distanceLightRoom = 10
 
-        spotlightRoom.position.set(0, distanceSpotLightRoom, 0)
+        const lightRoom = new THREE.PointLight(colorLightRoom, intensityLightRoom, 0, Math.PI/2, 0.2)
+        const lightHelperRoom = new THREE.PointLightHelper(lightRoom)
 
-        this.app.scene.add(spotlightRoom)
-        this.app.scene.add(spotlightHelperRoom)
+        lightRoom.position.set(0, distanceLightRoom, 0)
+
+        this.app.scene.add(lightRoom)
+        this.app.scene.add(lightHelperRoom)
 
 
         // Ambient Light
         const lightAmbient = new THREE.AmbientLight( 0x404040 ); 
-        this.app.scene.add( lightAmbient, 0.1 );
-
+        this.app.scene.add( lightAmbient, 0.1 ) 
 
 
 
