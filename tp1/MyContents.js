@@ -201,10 +201,13 @@ class MyContents {
         this.tableGroup.add(this.creativeNewspaper);
         this.tableGroup.add(this.normalNewspaper);
         this.tableGroup.add(this.mola);
+        this.tableGroup.add(this.vase);
         
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
-
+        
+        this.vase.add(this.flower);
+        
         this.framePic1.position.set(-2, 3, -5);
         this.framePic2.position.set(2, 3, -5);
         this.tableGroup.position.x = 2;
@@ -221,12 +224,16 @@ class MyContents {
         this.mola.position.set(1.2, -0.3, 0.2)
         this.mola.rotateZ(Math.PI/8)
 
+        this.vase.position.set(-1.2, 0, 0.101)
+
+        this.flower.position.set(-0.2, 3, 0)
+        this.flower.rotateY(Math.PI)
+        this.flower.rotateZ(Math.PI/9)
+
         /* this.candle.add(spotlightCandle);
         this.candle.add(spotlightCandleHelper);
         spotlightCandle.position.set(0, 0.2, 0); */
 
-        // this.candle.add(this.vase);
-        // this.candle.add(this.flower);
     }
 
     /**

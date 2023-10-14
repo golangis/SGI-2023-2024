@@ -46,14 +46,14 @@ class MyVase {
                 if (j == 0) {
                     const x = (radius - 0.19) * Math.cos(j);
                     const z = (radius - 0.19) * Math.sin(j);
-                    const y = i / 2 - 0.2;
+                    const y = i / 2 - 0.3;
                     column.push([x, y, z, 1]);
                     continue;
                 }
 
                 const x = radius * Math.cos(j);
                 const z = radius * Math.sin(j);
-                const y = i / 2 - 0.2;
+                const y = i / 2 - 0.3;
 
                 column.push([x, y, z, 1]);
             }
@@ -155,7 +155,6 @@ class MyVase {
     buildVase() {
         const tube = this.createTube();
         const bottom = this.createBottom();
-        //TODO criar base do vaso
 
         const base = this.createBase();
         base.rotateX(Math.PI / 2)
@@ -169,7 +168,7 @@ class MyVase {
         vase.scale.setScalar(0.25);
         vase.rotateX(-Math.PI / 2);
         vase.position.set(0, 0.8, 0)
-
+        vase.rotateZ(Math.PI)
         return vase;
     }
 }

@@ -49,7 +49,7 @@ class MyFlower {
 
     createStalk() {
         const stalkRadiusTop = 0.01; // Radius of the stalk at the top
-        const stalkHeight = 0.5; // Height of the stalk
+        const stalkHeight = 0.7; // Height of the stalk
         const curvePoints = [
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(0, 0.1, 0.3),
@@ -66,7 +66,7 @@ class MyFlower {
             20,
             stalkRadiusTop,
             10,
-            true
+            false
         );
         const stalkMesh = new THREE.Mesh(stalkTubeGeometry, stalkMaterial);
 
@@ -99,6 +99,8 @@ class MyFlower {
 
         flowerGroup.rotateX(Math.PI);
         flowerGroup.position.y = 0.5;
+
+        flowerGroup.scale.setScalar(4)
         return flowerGroup;
     }
 }
