@@ -122,6 +122,14 @@ class MyContents {
 
         spotlightOven.position.set(-4.5, distanceSpotLightOven, 0);
 
+
+        const spotlightCandle = new THREE.PointLight(
+            0xebd481,
+            0.2,
+            0
+        );
+        const spotlightCandleHelper = new THREE.PointLightHelper(spotlightCandle, 0.05);
+
         this.app.scene.add(spotlightOven);
         this.app.scene.add(spotlightHelperOven);
 
@@ -146,7 +154,7 @@ class MyContents {
 
         // Ambient Light
         const lightAmbient = new THREE.AmbientLight(0x404040);
-        this.app.scene.add(lightAmbient, 0.1);
+        this.app.scene.add(lightAmbient);
 
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
@@ -161,7 +169,7 @@ class MyContents {
         this.vase = new MyVase().buildVase();
         this.flower = new MyFlower().buildFlower();
         this.windowObject = new MyWindow();
-        this.window = this.windowObject.buildFrame();
+        this.window = this.windowObject.buildWindow();
         this.oven = new MyOven().buildOven();
         this.framePic1 = new MyPicFrame(
             null,
@@ -181,10 +189,13 @@ class MyContents {
         ).buildPicFrame();
 
         this.app.scene.add(this.roomGroup);
+
         this.roomGroup.add(this.tableGroup);
         this.roomGroup.add(this.oven);
         this.roomGroup.add(this.framePic1);
         this.roomGroup.add(this.framePic2);
+        this.roomGroup.add(this.window);
+
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
@@ -193,13 +204,19 @@ class MyContents {
         this.framePic2.position.set(2, 3, -5);
         this.tableGroup.position.x = 2;
 
+        this.window.position.set(4.975, 3.5, 0);
+        this.window.rotateY(-Math.PI / 2)
+
+        /* this.candle.add(spotlightCandle);
+        this.candle.add(spotlightCandleHelper);
+        spotlightCandle.position.set(0, 0.2, 0); */
+
         //this.candle.add(this.carocha);
         // this.candle.add(this.mola);
         // this.candle.add(this.creativeNewspaper);
         // this.candle.add(this.normalNewspaper);
         // this.candle.add(this.vase);
         // this.candle.add(this.flower);
-        // this.candle.add(this.window);
     }
 
     /**
