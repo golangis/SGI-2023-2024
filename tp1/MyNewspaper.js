@@ -111,7 +111,8 @@ class MyNewspaper {
         );
 
         mesh = new THREE.Mesh(surfaceData, this.material);
-        mesh.rotateZ(Math.PI/2)
+        mesh.rotateZ(Math.PI / 2 + Math.PI/3)
+        mesh.rotateY(-Math.PI/2)
         mesh.scale.setScalar(this.scale);
 
 
@@ -194,8 +195,8 @@ class MyNewspaper {
 
         mesh = new THREE.Mesh(surfaceData, this.material);
         mesh.scale.setScalar(this.scale);
-        mesh.rotateZ(Math.PI/2)
-
+        mesh.rotateZ(Math.PI/2 - Math.PI/8)
+        mesh.rotateY(-Math.PI/2 - Math.PI/12)
 
         return mesh;
     }

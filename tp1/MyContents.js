@@ -198,6 +198,9 @@ class MyContents {
         this.roomGroup.add(this.carocha);
 
         this.tableGroup.add(this.cakeStand);
+        this.tableGroup.add(this.creativeNewspaper);
+        this.tableGroup.add(this.normalNewspaper);
+        
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
 
@@ -211,13 +214,15 @@ class MyContents {
         this.carocha.position.set(0, 3.5, 4.975);
         this.carocha.rotateY(Math.PI)
 
+        this.creativeNewspaper.position.set(1.9,-0.2, 0.207)
+        this.normalNewspaper.position.set(1.5,0.5, 0.15)
+        
+
         /* this.candle.add(spotlightCandle);
         this.candle.add(spotlightCandleHelper);
         spotlightCandle.position.set(0, 0.2, 0); */
 
         // this.candle.add(this.mola);
-        // this.candle.add(this.creativeNewspaper);
-        // this.candle.add(this.normalNewspaper);
         // this.candle.add(this.vase);
         // this.candle.add(this.flower);
     }
