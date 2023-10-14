@@ -11,8 +11,8 @@ class MyMola {
     ) {
         this.position = position || new THREE.Vector3(0, 0, 0);
         this.radius = radius || 0.1;
-        this.height = height || 0.3;
-        this.numberOfStacks = numberOfStacks || 5;
+        this.height = height || 0.5;
+        this.numberOfStacks = numberOfStacks || 7;
         this.numberOfSamples = numberOfSamples || 120;
         this.lineMaterial =
             lineMaterial || new THREE.LineBasicMaterial({ color: 0x808080 });
@@ -53,7 +53,7 @@ class MyMola {
 
         const tubeGeometry = new THREE.TubeGeometry(
             new THREE.CatmullRomCurve3(sampledPoints),
-            64,
+            this.numberOfSamples,
             0.005
         );
 
