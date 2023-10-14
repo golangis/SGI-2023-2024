@@ -11,7 +11,8 @@ import { MyNewspaper } from "./MyNewspaper.js";
 import { MyVase } from "./MyVase.js";
 import { MyFlower } from "./MyFlower.js";
 import { MyWindow } from "./MyWindow.js";
-
+import { MyPicFrame } from "./MyPicFrame.js";
+import { MyOven } from "./MyOven.js";
 /**
  *  This class contains the contents of out application
  */
@@ -86,22 +87,53 @@ class MyContents {
             this.app.scene.add(this.axis);
         }
 
-        // add a point light on top of the model
-        const pointLight = new THREE.PointLight(0xffffff, 500, 0);
-        pointLight.position.set(0, 20, 0);
-        this.app.scene.add(pointLight);
 
-        // add a point light helper for the previous point light
-        const sphereSize = 0.5;
-        const pointLightHelper = new THREE.PointLightHelper(
-            pointLight,
-            sphereSize
-        );
-        this.app.scene.add(pointLightHelper);
+         // Spotlight Cake
+        let colorSpotLight = 0xF6E4BC
+        let intensitySpotLight = 30
+        let distanceSpotLight = 5
 
-        // add an ambient light
-        const ambientLight = new THREE.AmbientLight(0x555555);
-        this.app.scene.add(ambientLight);
+        const spotlight = new THREE.SpotLight(colorSpotLight, intensitySpotLight, distanceSpotLight, Math.PI/12, 1)
+        const spotlightHelper = new THREE.SpotLightHelper(spotlight)
+
+        spotlight.position.set(0, distanceSpotLight, 0)
+
+        this.app.scene.add(spotlight)
+        this.app.scene.add(spotlightHelper)
+ 
+
+         // Spotlight Oven
+         let colorSpotLightOven = 0xF6E4BC
+         let intensitySpotLightOven = 300
+         let distanceSpotLightOven = 10
+ 
+         const spotlightOven = new THREE.SpotLight(colorSpotLightOven, intensitySpotLightOven, distanceSpotLightOven, Math.PI/12, 1)
+         const spotlightHelperOven = new THREE.SpotLightHelper(spotlightOven)
+ 
+         spotlightOven.position.set(-4.5, distanceSpotLightOven, 0)
+ 
+         this.app.scene.add(spotlightOven)
+         this.app.scene.add(spotlightHelperOven)
+
+        // Light Room
+        let colorLightRoom = 0xEBD480  
+        let intensityLightRoom = 50
+        let distanceLightRoom = 10
+
+        const lightRoom = new THREE.PointLight(colorLightRoom, intensityLightRoom, 0, Math.PI/2, 0.2)
+        const lightHelperRoom = new THREE.PointLightHelper(lightRoom)
+
+        lightRoom.position.set(0, distanceLightRoom, 0)
+
+        this.app.scene.add(lightRoom)
+        this.app.scene.add(lightHelperRoom)
+
+
+        // Ambient Light
+        const lightAmbient = new THREE.AmbientLight( 0x404040 ); 
+        this.app.scene.add( lightAmbient, 0.1 ) 
+
+
 
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
@@ -117,9 +149,21 @@ class MyContents {
         this.flower = new MyFlower().buildFlower();
         this.windowObject = new MyWindow();
         this.window = this.windowObject.buildFrame();
+        this.oven = new MyOven().buildOven();
+        this.framePic1 = new MyPicFrame(null, null, null, new THREE.MeshPhongMaterial({
+            map: new THREE.TextureLoader().load('textures/mariana.png')})).buildPicFrame();
+        this.framePic2 = new MyPicFrame(null, null, null, new THREE.MeshPhongMaterial({
+            map: new THREE.TextureLoader().load('textures/matilde.png')})).buildPicFrame();
+
+        
 
         this.app.scene.add(this.roomGroup);
         this.roomGroup.add(this.tableGroup);
+        this.roomGroup.add(this.oven);
+        this.roomGroup.add(this.framePic1);
+        this.framePic1.position.set(-2,3,-5);
+        this.roomGroup.add(this.framePic2);
+        this.framePic2.position.set(2,3,-5);
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);

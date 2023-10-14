@@ -26,8 +26,8 @@ class MyCake {
 
         this.cakeInteriorMaterial =
             cakeInteriorMaterial ||
-            new THREE.MeshBasicMaterial({
-                color: "#d6b383",
+            new THREE.MeshPhongMaterial({
+                map: new THREE.TextureLoader().load('textures/cake_interior.png')
             });
     }
 
