@@ -1,10 +1,11 @@
-# SGI 2023/2024
+# SGI 2023/2024 - TP1
 
-## Group T0xG0y
+## Group: T01G05
+
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Mariana Rocha    | 202004656 | up202004656@up.pt  |
+| Matilde Silva    | 202007928 | up202007928@up.pt  |
 
 ----
 
@@ -12,10 +13,7 @@
 
 ### [TP1 - ThreeJS Basics](tp1)
 
-- (items briefly describing main strong points)
-- Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
+- Our [Scene](/tp1/) depicts a small and cozy kitchen, getting ready for a Sunday roast! We have created various object classes ([MyTable.js](/tp1/MyTable.js), [MyCake.js](/tp1/MyCake.js), [MyCakeStand.js](/tp1/MyCakeStand.js), etc.) many of which are costumizable, meaning, you can input the measures (via the class constructor) and the object will be rendered with the desired characteristics. All specified requirements have been met.
 
 -----
 

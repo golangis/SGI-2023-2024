@@ -184,7 +184,7 @@ class MyContents {
             null,
             null,
             new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load("textures/matilde.png"),
+                map: new THREE.TextureLoader().load("textures/matilde.jpg"),
             })
         ).buildPicFrame();
 
