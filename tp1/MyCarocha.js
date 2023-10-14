@@ -80,7 +80,7 @@ class MyCarocha {
         
         const material = new THREE.MeshStandardMaterial({map: texture});
         
-        let background = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 1.3));
+        let background = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 1.3), new THREE.MeshBasicMaterial({color: 0xe3d3e0}));
         
 
         const geometry1 = new THREE.BoxGeometry(1.5, 0.2, 0.05), geometry2 = new THREE.BoxGeometry(2, 0.2, 0.05);

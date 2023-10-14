@@ -195,6 +195,7 @@ class MyContents {
         this.roomGroup.add(this.framePic1);
         this.roomGroup.add(this.framePic2);
         this.roomGroup.add(this.window);
+        this.roomGroup.add(this.carocha);
 
         this.tableGroup.add(this.cakeStand);
         this.cakeStand.add(this.cake);
@@ -207,11 +208,13 @@ class MyContents {
         this.window.position.set(4.975, 3.5, 0);
         this.window.rotateY(-Math.PI / 2)
 
+        this.carocha.position.set(0, 3.5, 4.975);
+        this.carocha.rotateY(Math.PI)
+
         /* this.candle.add(spotlightCandle);
         this.candle.add(spotlightCandleHelper);
         spotlightCandle.position.set(0, 0.2, 0); */
 
-        //this.candle.add(this.carocha);
         // this.candle.add(this.mola);
         // this.candle.add(this.creativeNewspaper);
         // this.candle.add(this.normalNewspaper);
