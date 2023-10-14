@@ -50,6 +50,7 @@ class MyRoom {
         
         let leftWallMesh = new THREE.Mesh(sideWallGeom, this.wallMaterial);
         leftWallMesh.rotation.x = Math.PI;
+        leftWallMesh.rotation.z = Math.PI;
         leftWallMesh.position.set(0, this.roomDepth/2, this.roomHeight/2);
 
         let rightWallMesh = new THREE.Mesh(sideWallGeom, this.wallMaterial);

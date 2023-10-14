@@ -5,7 +5,7 @@ import * as THREE from "three";
 */
 class MyTable {
     constructor(length, width, height, material) {
-        this.length = length || 3;
+        this.length = length || 5;
         this.width = width || 2;
         this.height = height || 1.5;
         this.material =
@@ -67,10 +67,9 @@ class MyTable {
         }
 
         this.tableGroup.rotateX(-Math.PI / 2);
+        this.tableGroup.rotateZ(-Math.PI/2)
         this.tableGroup.position.set(0, this.height, 0);
-
         this.tableGroup.add(this.tableTop);
-
         return this.tableGroup;
     }
 }
