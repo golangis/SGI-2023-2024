@@ -109,6 +109,15 @@ class MyContents {
         this.app.scene.add(spotlight);
         this.app.scene.add(spotlightHelper);
 
+
+        // Spotlight Window
+        const light = new THREE.DirectionalLight( 0xFFFFFF, 0.1 );
+        light.position.set(5,5,0);
+        const helper = new THREE.DirectionalLightHelper(light);
+        
+        this.app.scene.add( helper );
+        this.app.scene.add(light);
+
         // Spotlight Oven
         let colorSpotLightOven = 0xf6e4bc;
         let intensitySpotLightOven = 30;
@@ -159,7 +168,7 @@ class MyContents {
 
         // Ambient Light
         const lightAmbient = new THREE.AmbientLight(0x404040);
-        this.app.scene.add(lightAmbient);
+      //  this.app.scene.add(lightAmbient);
 
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
