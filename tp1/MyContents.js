@@ -13,6 +13,7 @@ import { MyFlower } from "./MyFlower.js";
 import { MyWindow } from "./MyWindow.js";
 import { MyPicFrame } from "./MyPicFrame.js";
 import { MyOven } from "./MyOven.js";
+import { MyCounter } from "./MyCounter.js";
 /**
  *  This class contains the contents of out application
  */
@@ -175,6 +176,8 @@ class MyContents {
         this.windowObject = new MyWindow();
         this.window = this.windowObject.buildWindow();
         this.oven = new MyOven().buildOven();
+        this.counter = new MyCounter().buildCounter();
+
         this.framePic1 = new MyPicFrame(
             null,
             null,
@@ -183,6 +186,7 @@ class MyContents {
                 map: new THREE.TextureLoader().load("textures/mariana.jpg"),
             })
         ).buildPicFrame();
+
         this.framePic2 = new MyPicFrame(
             null,
             null,
@@ -196,6 +200,7 @@ class MyContents {
 
         this.roomGroup.add(this.tableGroup);
         this.roomGroup.add(this.oven);
+        this.roomGroup.add(this.counter);
         this.roomGroup.add(this.framePic1);
         this.roomGroup.add(this.framePic2);
         this.roomGroup.add(this.window);
