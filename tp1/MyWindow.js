@@ -17,7 +17,7 @@ class MyWindow {
         const material = new THREE.MeshStandardMaterial({ map: texture });
 
         this.windowTexture = new THREE.TextureLoader().load(
-            "./textures/field.jpeg"
+            "./textures/landi.jpg"
         );
 
         this.windowTexture.wrapS = THREE.MirroredRepeatWrapping;

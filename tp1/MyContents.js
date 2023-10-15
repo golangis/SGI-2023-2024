@@ -99,28 +99,32 @@ class MyContents {
             Math.PI / 12,
             1
         );
-        const spotlightHelper = new THREE.SpotLightHelper(spotlight);
 
         spotlight.position.set(2, distanceSpotLight, 0);
+        spotlight.target.position.set(2, 1, 0);
+        const spotlightHelper = new THREE.SpotLightHelper(spotlight);
+
 
         this.app.scene.add(spotlight);
         this.app.scene.add(spotlightHelper);
 
         // Spotlight Oven
         let colorSpotLightOven = 0xf6e4bc;
-        let intensitySpotLightOven = 300;
-        let distanceSpotLightOven = 10;
+        let intensitySpotLightOven = 30;
+        let distanceSpotLightOven = 4.7;
 
         const spotlightOven = new THREE.SpotLight(
             colorSpotLightOven,
             intensitySpotLightOven,
             distanceSpotLightOven,
-            Math.PI / 12,
+            Math.PI / 9,
             1
         );
-        const spotlightHelperOven = new THREE.SpotLightHelper(spotlightOven);
 
-        spotlightOven.position.set(-4.5, distanceSpotLightOven, 0);
+        spotlightOven.position.set(-4.3, distanceSpotLightOven, 0); 
+        spotlightOven.target.position.set(-4.3, 0, 0);
+
+        const spotlightHelperOven = new THREE.SpotLightHelper(spotlightOven);
 
 
         const spotlightCandle = new THREE.PointLight(
@@ -131,11 +135,11 @@ class MyContents {
         const spotlightCandleHelper = new THREE.PointLightHelper(spotlightCandle, 0.05);
 
         this.app.scene.add(spotlightOven);
-        this.app.scene.add(spotlightHelperOven);
+        this.app.scene.add(spotlightHelperOven); 
 
         // Light Room
-        let colorLightRoom = 0xebd480;
-        let intensityLightRoom = 50;
+        let colorLightRoom = 0xfbdd9a;
+        let intensityLightRoom = 30;
         let distanceLightRoom = 10;
 
         const lightRoom = new THREE.PointLight(
@@ -176,7 +180,7 @@ class MyContents {
             null,
             null,
             new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load("textures/mariana.png"),
+                map: new THREE.TextureLoader().load("textures/mariana.jpg"),
             })
         ).buildPicFrame();
         this.framePic2 = new MyPicFrame(
