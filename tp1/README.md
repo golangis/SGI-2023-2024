@@ -31,3 +31,14 @@
 - When few control points were used, a great difficulty was met while creating spherical surfaces with NURBs curves.
 - Even though most of the objects on the scene are costumizable, their positions have been hard-coded, which means, if the size or measurements of an objected are altered it may not remain in it's previous relative position.
 
+----
+## Practical Work Answers
+
+### Geometric Transformations
+- In some cases, the order of between translations and rotations can influence the object's appearence/position; however, that was not the case with the suggested operations.
+
+### Curved Lines
+- The 'Polylines' were used to assist on the visualization of Bezier curves, representing the lines between the control points.
+- The number of Samples dictates how may points are used to create the curves and, in consequence, the number of interpolences. A higher number of samples translates into a smoother surface. This rule is applicable to both NURBs, Bezier and Catmull Curves.
+- With NURBs, the orderU and orderV are the number of axis in which each direction, horizontal and vertical, respectively, will be divided.
+
