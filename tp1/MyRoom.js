@@ -18,7 +18,7 @@ class MyRoom {
         const textureCeiling = new THREE.TextureLoader().load( "textures/ceiling.jpg" );
         textureCeiling.wrapS = THREE.RepeatWrapping;
         textureCeiling.wrapT = THREE.RepeatWrapping;
-        textureCeiling.repeat.set( 4, 2 );
+        textureCeiling.repeat.set( 1, 1 );
 
 
         const textureWall = new THREE.TextureLoader().load( "textures/wall.jpg" );
