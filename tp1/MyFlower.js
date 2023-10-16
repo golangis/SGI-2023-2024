@@ -69,7 +69,7 @@ class MyFlower {
             false
         );
         const stalkMesh = new THREE.Mesh(stalkTubeGeometry, stalkMaterial);
-
+        stalkMesh.castShadow = true;
         return stalkMesh;
     }
 
@@ -86,6 +86,7 @@ class MyFlower {
             );
             petal.rotation.y = angle;
             flowerHead.add(petal);
+            petal.castShadow = true;
         }
 
         // Add the center
@@ -101,16 +102,6 @@ class MyFlower {
         flowerGroup.position.y = 0.5;
 
         flowerGroup.scale.setScalar(4);
-
-        let children = flowerGroup.children;
-        let i = 0;
-
-        while (i < children.length) {
-            children[i].castShadow = true;
-            children[i].receiveShadow = true;
-            i++;
-        }
-
         
         return flowerGroup;
     }

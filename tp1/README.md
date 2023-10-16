@@ -10,7 +10,7 @@
 ----
 ## Project information
 
-**inserir screenshot**
+![screenshot](/tp1/textures/screenshot.png)
 
 - Our [Scene](/tp1/) depicts a small and cozy kitchen, getting ready for a Sunday roast! We have created various object classes ([MyTable.js](/tp1/MyTable.js), [MyCake.js](/tp1/MyCake.js), [MyCakeStand.js](/tp1/MyCakeStand.js), etc.) many of which are costumizable, meaning, you can input the measures (via the class constructor) and the object will be rendered with the desired characteristics. All specified requirements have been met.
   - The standout feature is the [window](/tp1/MyWindow.js) landscape, which makes use of the Parallax effect, changing the pictures UV coordinates with regard to the camera position.

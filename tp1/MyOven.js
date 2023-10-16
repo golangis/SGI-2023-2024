@@ -4,7 +4,7 @@ import * as THREE from "three";
     This class customizes the gui interface for the app
 */
 class MyOven {
-    constructor( ovenWidth, ovenHeight, ovenThickness, ovenMaterial, burnerMaterial) {
+    constructor(burnerMaterial) {
 
         this.ovenWidth =  1.2;
         this.ovenHeight =  1.8;

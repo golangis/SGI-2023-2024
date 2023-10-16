@@ -47,38 +47,6 @@ class MyContents {
     }
 
     /**
-     * builds the box mesh with material assigned
-     */
-    buildBox() {
-        let boxMaterial = new THREE.MeshPhongMaterial({
-            color: "#ffff77",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        });
-
-        // Create a Cube Mesh with basic material
-        let box = new THREE.BoxGeometry(
-            this.boxMeshSize,
-            this.boxMeshSize,
-            this.boxMeshSize
-        );
-        this.boxMesh = new THREE.Mesh(box, boxMaterial);
-        this.boxMesh.rotation.x = -Math.PI / 2;
-        this.boxMesh.position.y = this.boxDisplacement.y;
-
-        // Geometric transformations
-
-        // Rotate in X axis + Translate in Z axis
-        // this.boxMesh.rotation.x = Math.PI / 9;
-        // this.boxDisplacement.z = 3;
-
-        // Scaling then Translate
-        // this.boxMesh.scale.set(1,1,2);
-        // this.boxDisplacement.x = 3;
-    }
-
-    /**
      * initializes the contents
      */
     init() {
@@ -86,9 +54,13 @@ class MyContents {
         if (this.axis === null) {
             // create and attach the axis to the scene
             this.axis = new MyAxis(this);
-            this.app.scene.add(this.axis);
+            //this.app.scene.add(this.axis);
         }
 
+        this.buildScene();
+    }
+
+    buildScene() {
         // Spotlight Cake
         let colorSpotLight = 0xf6e4bc;
         let intensitySpotLight = 30;
@@ -106,24 +78,16 @@ class MyContents {
         spotlight.target.position.set(2, 1, 0);
         spotlight.castShadow = true;
 
-
-        const spotlightHelper = new THREE.SpotLightHelper(spotlight);
-
-
         this.app.scene.add(spotlight);
-        // this.app.scene.add(spotlightHelper);
-
 
         // Spotlight Window
-        const light = new THREE.DirectionalLight( 0xFFFFFF, 0.5 );
-        light.position.set(5,5,0);
-        const helper = new THREE.DirectionalLightHelper(light);
+        const light = new THREE.DirectionalLight(0xffffff, 0.5);
+        light.position.set(5, 5, 0);
         light.shadow.mapSize.width = this.mapSize;
         light.shadow.mapSize.height = this.mapSize;
         light.castShadow = true;
 
-
-       // this.app.scene.add( helper );
+        // this.app.scene.add( helper );
         this.app.scene.add(light);
 
         // Spotlight Oven
@@ -138,25 +102,14 @@ class MyContents {
             Math.PI / 9,
             1
         );
-        spotlightOven.position.set(-4.3, distanceSpotLightOven, 0); 
+        spotlightOven.position.set(-4.3, distanceSpotLightOven, 0);
         spotlightOven.target.position.set(-4.3, 0, 0);
 
-        const spotlightHelperOven = new THREE.SpotLightHelper(spotlightOven);
-
-
-        const spotlightCandle = new THREE.PointLight(
-            0xebd481,
-            0.2,
-            0
-        );
-        const spotlightCandleHelper = new THREE.PointLightHelper(spotlightCandle, 0.05);
         spotlightOven.shadow.mapSize.width = this.mapSize;
 
         spotlightOven.castShadow = true;
 
         this.app.scene.add(spotlightOven);
-       // this.app.scene.add(spotlightHelperOven); 
-
         // Light Room
         let colorLightRoom = 0xfbdd9a;
         let intensityLightRoom = 30;
@@ -169,18 +122,11 @@ class MyContents {
             Math.PI / 2,
             0.2
         );
-        const lightHelperRoom = new THREE.PointLightHelper(lightRoom);
 
         lightRoom.position.set(0, distanceLightRoom, 0);
         lightRoom.castShadow = true;
 
         this.app.scene.add(lightRoom);
-        //this.app.scene.add(lightHelperRoom);
-
-        // Ambient Light
-        const lightAmbient = new THREE.AmbientLight(0x404040);
-        // this.app.scene.add(lightAmbient);
-
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
         this.cakeStand = new MyCakeStand().buildCakeStand();
@@ -231,94 +177,35 @@ class MyContents {
         this.tableGroup.add(this.normalNewspaper);
         this.tableGroup.add(this.mola);
         this.tableGroup.add(this.vase);
-        
+
         this.cakeStand.add(this.cake);
         this.cake.add(this.candle);
-        
+
         this.vase.add(this.flower);
-        
+
         this.framePic1.position.set(-2, 3, -5);
         this.framePic2.position.set(2, 3, -5);
         this.tableGroup.position.x = 2;
 
         this.window.position.set(4.975, 3.5, 0);
-        this.window.rotateY(-Math.PI / 2)
+        this.window.rotateY(-Math.PI / 2);
 
         this.carocha.position.set(0, 3.5, 4.975);
-        this.carocha.rotateY(Math.PI)
+        this.carocha.rotateY(Math.PI);
 
-        this.creativeNewspaper.position.set(1.9,-0.2, 0.207)
-        this.normalNewspaper.position.set(1.5, 0.5, 0.15)
-        
-        this.mola.position.set(1.2, -0.3, 0.2)
-        this.mola.rotateZ(Math.PI/8)
+        this.creativeNewspaper.position.set(1.9, -0.2, 0.207);
+        this.normalNewspaper.position.set(1.5, 0.5, 0.15);
 
-        this.vase.position.set(-1.2, 0, 0.101)
+        this.mola.position.set(1.2, -0.3, 0.2);
+        this.mola.rotateZ(Math.PI / 8);
 
-        this.flower.position.set(-0.2, 3, 0)
-        this.flower.rotateY(Math.PI)
-        this.flower.rotateZ(Math.PI/9)
+        this.vase.position.set(-1.2, 0, 0.101);
 
-        /* this.candle.add(spotlightCandle);
-        this.candle.add(spotlightCandleHelper);
-        spotlightCandle.position.set(0, 0.2, 0); */
-
+        this.flower.position.set(-0.2, 3, 0);
+        this.flower.rotateY(Math.PI);
+        this.flower.rotateZ(Math.PI / 9);
     }
-
-    /**
-     * updates the diffuse plane color and the material
-     * @param {THREE.Color} value
-     */
-    updateDiffusePlaneColor(value) {
-        this.diffusePlaneColor = value;
-        this.planeMaterial.color.set(this.diffusePlaneColor);
-    }
-    /**
-     * updates the specular plane color and the material
-     * @param {THREE.Color} value
-     */
-    updateSpecularPlaneColor(value) {
-        this.specularPlaneColor = value;
-        this.planeMaterial.specular.set(this.specularPlaneColor);
-    }
-    /**
-     * updates the plane shininess and the material
-     * @param {number} value
-     */
-    updatePlaneShininess(value) {
-        this.planeShininess = value;
-        this.planeMaterial.shininess = this.planeShininess;
-    }
-
-    /**
-     * rebuilds the box mesh if required
-     * this method is called from the gui interface
-     */
-    rebuildBox() {
-        // remove boxMesh if exists
-        if (this.boxMesh !== undefined && this.boxMesh !== null) {
-            this.app.scene.remove(this.boxMesh);
-        }
-        this.buildBox();
-        this.lastBoxEnabled = null;
-    }
-
-    /**
-     * updates the box mesh if required
-     * this method is called from the render method of the app
-     * updates are trigered by boxEnabled property changes
-     */
-    updateBoxIfRequired() {
-        if (this.boxEnabled !== this.lastBoxEnabled) {
-            this.lastBoxEnabled = this.boxEnabled;
-            if (this.boxEnabled) {
-                this.app.scene.add(this.boxMesh);
-            } else {
-                this.app.scene.remove(this.boxMesh);
-            }
-        }
-    }
-
+    
     /**
      * updates the contents
      * this method is called from the render method of the app
@@ -326,13 +213,6 @@ class MyContents {
      */
     update(camera) {
         this.windowObject.updateTexturePosition(camera);
-        /*// check if box mesh needs to be updated
-        this.updateBoxIfRequired()
-
-        // sets the box mesh position based on the displacement vector
-        this.boxMesh.position.x = this.boxDisplacement.x
-        this.boxMesh.position.y = this.boxDisplacement.y
-        this.boxMesh.position.z = this.boxDisplacement.z*/
     }
 }
 
