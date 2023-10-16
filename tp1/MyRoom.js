@@ -15,6 +15,12 @@ class MyRoom {
         textureFloor.wrapT = THREE.RepeatWrapping;
         textureFloor.repeat.set( 4, 4 );
 
+        const textureCeiling = new THREE.TextureLoader().load( "textures/ceiling.jpg" );
+        textureCeiling.wrapS = THREE.RepeatWrapping;
+        textureCeiling.wrapT = THREE.RepeatWrapping;
+        textureCeiling.repeat.set( 4, 2 );
+
+
         const textureWall = new THREE.TextureLoader().load( "textures/wall.jpg" );
         textureWall.wrapS = THREE.RepeatWrapping;
         textureWall.wrapT = THREE.RepeatWrapping;
@@ -25,6 +31,11 @@ class MyRoom {
             floorMaterial ||
             new THREE.MeshLambertMaterial({
                 map: textureFloor
+            });
+
+        this.ceilingMaterial =
+            new THREE.MeshLambertMaterial({
+                map: textureCeiling
             });
 
         this.wallMaterial =
@@ -42,6 +53,12 @@ class MyRoom {
         let floorMesh = new THREE.Mesh(floor, this.floorMaterial);
         floorMesh.rotation.x = -Math.PI / 2;
         floorMesh.position.y = -0;
+
+        const ceiling = new THREE.PlaneGeometry(this.roomWidth, this.roomHeight);
+        let ceilingMesh = new THREE.Mesh(ceiling, this.ceilingMaterial);
+        ceilingMesh.rotation.x = Math.PI / 2;
+        ceilingMesh.position.y = 5;
+
 
         floorMesh.receiveShadow = true;
         // Create walls
@@ -66,6 +83,8 @@ class MyRoom {
         frontWallMesh.rotation.y = -Math.PI / 2;
         frontWallMesh.position.set(this.roomWidth/2, this.roomDepth/2, 0);
 
+    
+
         const roomGroup = new THREE.Group();
 
         roomGroup.add(
@@ -73,7 +92,8 @@ class MyRoom {
             leftWallMesh,
             rightWallMesh,
             backWallMesh,
-            frontWallMesh
+            frontWallMesh,
+            ceilingMesh
         );
         
         roomGroup.receiveShadow = true;

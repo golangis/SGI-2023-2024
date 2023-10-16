@@ -123,7 +123,7 @@ class MyContents {
         light.castShadow = true;
 
 
-       // this.app.scene.add( helper );
+        //this.app.scene.add(helper);
         this.app.scene.add(light);
 
         // Spotlight Oven
@@ -159,8 +159,8 @@ class MyContents {
 
         // Light Room
         let colorLightRoom = 0xfbdd9a;
-        let intensityLightRoom = 30;
-        let distanceLightRoom = 10;
+        let intensityLightRoom = 10;
+        let distanceLightRoom = 4;
 
         const lightRoom = new THREE.PointLight(
             colorLightRoom,
@@ -175,7 +175,7 @@ class MyContents {
         lightRoom.castShadow = true;
 
         this.app.scene.add(lightRoom);
-        //this.app.scene.add(lightHelperRoom);
+        this.app.scene.add(lightHelperRoom);
 
         // Ambient Light
         const lightAmbient = new THREE.AmbientLight(0x404040);
