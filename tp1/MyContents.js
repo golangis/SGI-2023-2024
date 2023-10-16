@@ -135,7 +135,7 @@ class MyContents {
             0.2
         );
 
-        lightRoom.position.set(2, distanceLightRoom, 0);
+        lightRoom.position.set(-2, distanceLightRoom, 0);
         lightRoom.castShadow = true;
 
         const lightAmbient = new THREE.AmbientLight( 0x404040 ); // soft white light
