@@ -52,6 +52,9 @@ class MyCakeStand {
         cakeStandPlateMesh.add(cakeStandMesh);
 
         cakeStandPlateMesh.position.set(0, 0, this.standHeight + 0.1);
+        
+        cakeStandPlateMesh.castShadow = true;
+        cakeStandPlateMesh.receiveShadow = true;
 
         return cakeStandPlateMesh;
     }

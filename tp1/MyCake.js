@@ -71,6 +71,8 @@ class MyCake {
         cakeMesh.add(cakeInteriorMesh);
         cakeMesh.add(instance);
 
+        cakeMesh.castShadow = true;
+        cakeMesh.receiveShadow = true;
         return cakeMesh;
     }
 }

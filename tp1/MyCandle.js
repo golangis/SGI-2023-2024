@@ -29,7 +29,8 @@ class MyCandle {
         flameMesh.position.set(0, this.candleHeight/2 + 0.015, 0);
 
         candleMesh.add(flameMesh);
-
+        candleMesh.castShadow = true;
+        
         return candleMesh;
     }
 

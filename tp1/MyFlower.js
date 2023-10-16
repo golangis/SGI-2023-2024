@@ -100,7 +100,18 @@ class MyFlower {
         flowerGroup.rotateX(Math.PI);
         flowerGroup.position.y = 0.5;
 
-        flowerGroup.scale.setScalar(4)
+        flowerGroup.scale.setScalar(4);
+
+        let children = flowerGroup.children;
+        let i = 0;
+
+        while (i < children.length) {
+            children[i].castShadow = true;
+            children[i].receiveShadow = true;
+            i++;
+        }
+
+        
         return flowerGroup;
     }
 }

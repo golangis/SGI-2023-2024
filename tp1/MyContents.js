@@ -25,6 +25,7 @@ class MyContents {
     constructor(app) {
         this.app = app;
         this.axis = null;
+        this.mapSize = 4096;
 
         // box related attributes
         this.boxMesh = null;
@@ -103,19 +104,26 @@ class MyContents {
 
         spotlight.position.set(2, distanceSpotLight, 0);
         spotlight.target.position.set(2, 1, 0);
+        spotlight.castShadow = true;
+
+
         const spotlightHelper = new THREE.SpotLightHelper(spotlight);
 
 
         this.app.scene.add(spotlight);
-        this.app.scene.add(spotlightHelper);
+        // this.app.scene.add(spotlightHelper);
 
 
         // Spotlight Window
-        const light = new THREE.DirectionalLight( 0xFFFFFF, 0.1 );
+        const light = new THREE.DirectionalLight( 0xFFFFFF, 0.5 );
         light.position.set(5,5,0);
         const helper = new THREE.DirectionalLightHelper(light);
-        
-        this.app.scene.add( helper );
+        light.shadow.mapSize.width = this.mapSize;
+        light.shadow.mapSize.height = this.mapSize;
+        light.castShadow = true;
+
+
+       // this.app.scene.add( helper );
         this.app.scene.add(light);
 
         // Spotlight Oven
@@ -130,7 +138,6 @@ class MyContents {
             Math.PI / 9,
             1
         );
-
         spotlightOven.position.set(-4.3, distanceSpotLightOven, 0); 
         spotlightOven.target.position.set(-4.3, 0, 0);
 
@@ -143,9 +150,12 @@ class MyContents {
             0
         );
         const spotlightCandleHelper = new THREE.PointLightHelper(spotlightCandle, 0.05);
+        spotlightOven.shadow.mapSize.width = this.mapSize;
+
+        spotlightOven.castShadow = true;
 
         this.app.scene.add(spotlightOven);
-        this.app.scene.add(spotlightHelperOven); 
+       // this.app.scene.add(spotlightHelperOven); 
 
         // Light Room
         let colorLightRoom = 0xfbdd9a;
@@ -162,13 +172,14 @@ class MyContents {
         const lightHelperRoom = new THREE.PointLightHelper(lightRoom);
 
         lightRoom.position.set(0, distanceLightRoom, 0);
+        lightRoom.castShadow = true;
 
         this.app.scene.add(lightRoom);
-        this.app.scene.add(lightHelperRoom);
+        //this.app.scene.add(lightHelperRoom);
 
         // Ambient Light
         const lightAmbient = new THREE.AmbientLight(0x404040);
-      //  this.app.scene.add(lightAmbient);
+        // this.app.scene.add(lightAmbient);
 
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();

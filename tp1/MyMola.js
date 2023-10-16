@@ -60,7 +60,7 @@ class MyMola {
         const lineObj = new THREE.Mesh(tubeGeometry, this.lineMaterial);
 
         lineObj.position.set(this.position.x, this.position.y, this.position.z);
-
+        lineObj.castShadow = true;
         return lineObj;
     }
 }

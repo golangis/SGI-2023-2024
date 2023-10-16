@@ -169,6 +169,7 @@ class MyVase {
         vase.rotateX(-Math.PI / 2);
         vase.position.set(0, 0.8, 0)
         vase.rotateZ(Math.PI)
+        vase.castShadow = true;
         return vase;
     }
 }

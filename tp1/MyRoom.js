@@ -43,6 +43,7 @@ class MyRoom {
         floorMesh.rotation.x = -Math.PI / 2;
         floorMesh.position.y = -0;
 
+        floorMesh.receiveShadow = true;
         // Create walls
 
         let sideWallGeom = new THREE.PlaneGeometry(this.roomWidth, this.roomDepth);
@@ -74,6 +75,8 @@ class MyRoom {
             backWallMesh,
             frontWallMesh
         );
+        
+        roomGroup.receiveShadow = true;
 
         return roomGroup;
     }

@@ -63,13 +63,16 @@ class MyTable {
 
             this.tableTop.add(instance1);
             this.tableTop.add(instance2);
-
         }
 
         this.tableGroup.rotateX(-Math.PI / 2);
         this.tableGroup.rotateZ(-Math.PI/2)
         this.tableGroup.position.set(0, this.height, 0);
         this.tableGroup.add(this.tableTop);
+
+        this.tableTop.castShadow = true;
+        this.tableTop.receiveShadow = true;
+
         return this.tableGroup;
     }
 }

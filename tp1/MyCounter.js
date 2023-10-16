@@ -80,6 +80,8 @@ class MyCounter {
         this.counterGroup.add(this.topCounter1);
         this.counterGroup.add(this.topCounter2);
 
+        this.topCounter1.receiveShadow = true;
+        this.topCounter1.castShadow = true;
         return this.counterGroup;
     }
 
