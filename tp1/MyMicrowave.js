@@ -12,11 +12,13 @@ class MyMicrowave {
 
         this.MyMicrowaveFrontMaterial = new THREE.MeshPhongMaterial({
             shininess: 0,
+            specular: '#444444',
             map: new THREE.TextureLoader().load('textures/microwave.jpg')
         })
 
         this.MyMicrowaveMaterial = new THREE.MeshPhongMaterial({
             shininess: 0,
+            specular: '#FFFFFF',
             color: '#404040'
         })
         
