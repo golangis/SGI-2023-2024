@@ -47,11 +47,11 @@ class MyQuarterCurve {
 
             new THREE.Vector3(
                 x_sign * this.curveRadius,
-                y_sign * this.curveRadius * (Math.sqrt(2) - 1),
+                4/3 * y_sign * this.curveRadius * (Math.sqrt(2) - 1),
                 0.0
             ),
             new THREE.Vector3(
-                x_sign * this.curveRadius * (Math.sqrt(2) - 1),
+                4/3 * x_sign * this.curveRadius * (Math.sqrt(2) - 1),
                 y_sign * this.curveRadius,
                 0.0
             ),
