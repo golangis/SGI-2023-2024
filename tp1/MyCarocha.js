@@ -65,6 +65,7 @@ class MyCarocha {
 
         
         const frame = this.buildFrame();
+        frame.position.z = -.05
         carochaGroup.add(frame)
         carochaGroup.scale.setScalar(0.25);
         return carochaGroup;
