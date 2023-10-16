@@ -15,6 +15,8 @@ import { MyPicFrame } from "./MyPicFrame.js";
 import { MyOven } from "./MyOven.js";
 import { MyCounter } from "./MyCounter.js";
 import { MyFloorLamp } from "./MyFloorLamp.js";
+import { MyCarpet } from "./MyCarpet.js";
+import { MyMicrowave } from "./MyMicrowave.js";
 /**
  *  This class contains the contents of out application
  */
@@ -142,6 +144,7 @@ class MyContents {
         this.roomGroup = new MyRoom().buildRoom();
         this.tableGroup = new MyTable().buildTableGroup();
         this.cakeStand = new MyCakeStand().buildCakeStand();
+        this.carpet = new MyCarpet().buildCarpet();
         this.cake = new MyCake().buildCake();
         this.candle = new MyCandle().buildCandle();
         this.floorLamp = new MyFloorLamp().buildFloorLamp();
@@ -155,6 +158,7 @@ class MyContents {
         this.window = this.windowObject.buildWindow();
         this.oven = new MyOven().buildOven();
         this.counter = new MyCounter().buildCounter();
+        this.microwave = new MyMicrowave().buildMicrowave();
 
         this.framePic1 = new MyPicFrame(
             null,
@@ -184,6 +188,8 @@ class MyContents {
         this.roomGroup.add(this.framePic2);
         this.roomGroup.add(this.window);
         this.roomGroup.add(this.carocha);
+        this.roomGroup.add(this.carpet);
+        this.roomGroup.add(this.microwave);
 
         this.tableGroup.add(this.cakeStand);
         this.tableGroup.add(this.creativeNewspaper);
