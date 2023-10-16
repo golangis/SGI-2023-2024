@@ -4,19 +4,37 @@ import * as THREE from "three";
     This class customizes the gui interface for the app
 */
 class MyFloorLamp {
-    constructor( lampRadius, lampHeight, stickRadius, stickHeight) {
+    constructor( lampRadius, lampHeight, stickRadius, stickHeight, baseHeight) {
 
-        this.lampRadius = 1.2;
+        this.lampRadius = 0.8;
         this.lampHeight = 0.8;
-        this.stickRadius = 0.2;
-        this.stickHeight = 1.8;
+        this.stickRadius = 0.1;
+        this.stickHeight = 3;
+        this.baseHeight = 0.1;
         
-        this.ovenMaterial = new THREE.MeshPhongMaterial({
+        this.holderMaterial = new THREE.MeshPhongMaterial({
             specular: "#444444",
             emissive: "#101010",
             shininess: 30,
-            color: "#909090"
+            color: "#6b4f2a",
+            side: THREE.DoubleSide
         });        
+
+        this.lampMaterial = new THREE.MeshPhongMaterial({
+            specular: "#444444",
+            emissive: "#101010",
+            shininess: 30,
+            color: "#e8c392",
+            side: THREE.DoubleSide
+        });        
+
+        this.bulbMaterial = new THREE.MeshPhongMaterial({
+            specular: "#444444",
+            emissive: "#FFFFFF",
+            shininess: 30,
+            color: "#FFFFFF",
+        });        
+
 
         
     }
@@ -25,45 +43,65 @@ class MyFloorLamp {
         this.lampGroup = new THREE.Group();
 
         const baseGeometry = new THREE.CylinderGeometry(
+            this.lampRadius - 0.5,
             this.lampRadius,
-            this.lampRadius,
-            0.1
+            this.baseHeight
+        );
+
+        const stickGeometry = new THREE.CylinderGeometry(
+            this.stickRadius,
+            this.stickRadius,
+            this.stickHeight
         );
 
         const lampGeometry = new THREE.CylinderGeometry(
             this.lampRadius*5/6,
             this.lampRadius,
-            this.lampHeight
+            this.lampHeight,
+            32,
+            1,
+            true
+        );
+
+        const bulbGeometry = new THREE.SphereGeometry(
+            this.lampRadius*1/6,
         );
 
         // Bottom Base Lamp
-        this.base = new THREE.Mesh(baseGeometry, '#A7837B');
-        this.base.position.set(-5 + this.ovenWidth/2, this.ovenHeight/2, 0);
+        this.base = new THREE.Mesh(baseGeometry, this.holderMaterial);
+        this.base.position.set(5 - this.lampRadius, this.baseHeight/2, -5 + this.lampRadius);
 
-        this.burnerOven4 = new THREE.Mesh(burnerOvenGeometry, this.burnerMaterial);
-        this.burnerOven4.position.set(-burnerOvenRad + 0.5, this.ovenHeight/2 + burnerOvenHeight/2, 0.45)
+        // Stick Lamp
+        this.stick = new THREE.Mesh(stickGeometry, this.holderMaterial);
+        this.stick.position.set(5 - this.lampRadius, this.stickHeight/2, -5 + this.lampRadius);
 
-        // Glass
-        this.glass = new THREE.Mesh(glassOvenGeometry, this.glassOvenMaterial)
-        this.glass.position.set(this.ovenWidth/2, 0, 0)
-        this.glass.rotateY(Math.PI/2)
-        this.glass.scale.set(2,2,2)
+        // Lamp Abajur
+        this.lamp = new THREE.Mesh(lampGeometry, this.lampMaterial);
+        this.lamp.position.set(5 - this.lampRadius, this.stickHeight, -5 + this.lampRadius);
 
-        // Extractor
-        this.extractor = new THREE.Mesh(extractorGeometry, this.ovenMaterial);
-        this.extractor.rotateY(Math.PI/4)
-        this.extractor.position.set(-this.ovenWidth/2 + extractorBottomRad / 2 + 0.2, 3.3, 0); 
+        // Bulb
+        this.bulb = new THREE.Mesh(bulbGeometry,this.bulbMaterial);
+        this.bulb.position.set(5 - this.lampRadius, this.stickHeight, -5 + this.lampRadius);
 
-        this.ovenBody.add(this.burnerOven1);
-        this.ovenBody.add(this.burnerOven2);
-        this.ovenBody.add(this.burnerOven3);
-        this.ovenBody.add(this.burnerOven4);
+        // Light
+        let colorLight = 0xfbdd9a;
+        let intensityLight = 1;
 
-        this.ovenBody.add(this.glass);
 
-        this.ovenBody.add(this.extractor);
+        const light = new THREE.PointLight(
+            colorLight,
+            intensityLight
+        );
 
-        this.lampGroup.add(this.ovenBody); 
+        light.position.set(5 - this.lampRadius, this.stickHeight, -5 + this.lampRadius);
+        light.castShadow = true;
+
+        this.lampGroup.add(light);
+        this.lampGroup.add(this.stick);
+        this.lampGroup.add(this.base); 
+        this.lampGroup.add(this.lamp);
+        this.lampGroup.add(this.bulb);
+
         return this.lampGroup;
     }
 

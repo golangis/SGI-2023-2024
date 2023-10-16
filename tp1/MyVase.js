@@ -165,6 +165,10 @@ class MyVase {
         vase.add(bottom);
         vase.add(base);
 
+        tube.castShadow = true;
+        bottom.castShadow = true;
+        base.castShadow = true;
+
         vase.scale.setScalar(0.25);
         vase.rotateX(-Math.PI / 2);
         vase.position.set(0, 0.8, 0)

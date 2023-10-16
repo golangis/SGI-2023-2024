@@ -96,8 +96,6 @@ class MyRoom {
             ceilingMesh
         );
         
-        roomGroup.receiveShadow = true;
-
         return roomGroup;
     }
 
