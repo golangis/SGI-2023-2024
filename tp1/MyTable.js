@@ -5,14 +5,12 @@ import * as THREE from "three";
 */
 class MyTable {
     constructor(length, width, height, material) {
-        this.length = length || 5;
-        this.width = width || 2;
-        this.height = height || 1.5;
+        this.length = 5;
+        this.width = 2;
+        this.height = 1.5;
         this.material =
-            material ||
-            new THREE.MeshPhongMaterial({
-                specular: "#444444",
-                emissive: "#000000",
+        new THREE.MeshPhongMaterial({
+                specular: "#FFFFFF",
                 shininess: 30,
                 map: new THREE.TextureLoader().load('textures/wood-table.jpg')
                 

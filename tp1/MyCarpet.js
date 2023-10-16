@@ -27,7 +27,7 @@ class MyCarpet {
         );
 
         this.carpetMesh = new THREE.Mesh(carpetGeometry, this.carpetMaterial);
-        this.carpetMesh.position.set(2, this.height/2, 0);
+        this.carpetMesh.position.set(0, this.height/2, 0);
 
         this.carpetMesh.receiveShadow = true;
         return this.carpetMesh;

@@ -81,7 +81,7 @@ class MyNurbsBuilder {
             samples1,
             samples2
         );
-
+        
         return geometry;
 
         function getSurfacePoint(u, v, target) {

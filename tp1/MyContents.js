@@ -17,6 +17,7 @@ import { MyCounter } from "./MyCounter.js";
 import { MyFloorLamp } from "./MyFloorLamp.js";
 import { MyCarpet } from "./MyCarpet.js";
 import { MyMicrowave } from "./MyMicrowave.js";
+import { MyFridge } from "./MyFridge.js";
 /**
  *  This class contains the contents of out application
  */
@@ -77,8 +78,8 @@ class MyContents {
             1
         );
 
-        spotlight.position.set(2, distanceSpotLight, 0);
-        spotlight.target.position.set(2, 1, 0);
+        spotlight.position.set(0, distanceSpotLight, 0);
+        spotlight.target.position.set(0, 1, 0);
         spotlight.castShadow = true;
 
         let spotlightHelper = new THREE.SpotLightHelper(spotlight, colorSpotLight);
@@ -134,7 +135,7 @@ class MyContents {
             0.2
         );
 
-        lightRoom.position.set(0, distanceLightRoom, 0);
+        lightRoom.position.set(2, distanceLightRoom, 0);
         lightRoom.castShadow = true;
 
         const lightAmbient = new THREE.AmbientLight( 0x404040 ); // soft white light
@@ -159,6 +160,7 @@ class MyContents {
         this.oven = new MyOven().buildOven();
         this.counter = new MyCounter().buildCounter();
         this.microwave = new MyMicrowave().buildMicrowave();
+        this.fridge = new MyFridge().buildFridge();
 
         this.framePic1 = new MyPicFrame(
             null,
@@ -190,6 +192,7 @@ class MyContents {
         this.roomGroup.add(this.carocha);
         this.roomGroup.add(this.carpet);
         this.roomGroup.add(this.microwave);
+        this.roomGroup.add(this.fridge);
 
         this.tableGroup.add(this.cakeStand);
         this.tableGroup.add(this.creativeNewspaper);
@@ -204,7 +207,7 @@ class MyContents {
 
         this.framePic1.position.set(-2, 3, -5);
         this.framePic2.position.set(2, 3, -5);
-        this.tableGroup.position.x = 2;
+        this.tableGroup.position.x = 0;
 
         this.window.position.set(4.975, 3.5, 0);
         this.window.rotateY(-Math.PI / 2);

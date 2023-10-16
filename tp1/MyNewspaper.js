@@ -197,7 +197,8 @@ class MyNewspaper {
         mesh.scale.setScalar(this.scale);
         mesh.rotateZ(Math.PI/2 - Math.PI/8)
         mesh.rotateY(-Math.PI/2 - Math.PI/12)
-
+        
+        mesh.castShadow = true;
         return mesh;
     }
 }

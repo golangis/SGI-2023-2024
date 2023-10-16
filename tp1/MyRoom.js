@@ -28,7 +28,6 @@ class MyRoom {
     
 
         this.floorMaterial =
-            floorMaterial ||
             new THREE.MeshLambertMaterial({
                 map: textureFloor
             });
@@ -39,7 +38,6 @@ class MyRoom {
             });
 
         this.wallMaterial =
-            wallMaterial ||
             new THREE.MeshLambertMaterial({
                 map: textureWall
             });
