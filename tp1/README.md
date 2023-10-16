@@ -34,8 +34,10 @@
 ----
 ## Practical Work Answers
 
+### Geometric Transformations
 - In some cases, the order of between translations and rotations can influence the object's appearence/position; however, that was not the case with the suggested operations.
- 
+
+### Curved Lines
 - The 'Polylines' were used to assist on the visualization of Bezier curves, representing the lines between the control points.
 - The number of Samples dictates how may points are used to create the curves and, in consequence, the number of interpolences. A higher number of samples translates into a smoother surface. This rule is applicable to both NURBs, Bezier and Catmull Curves.
 - With NURBs, the orderU and orderV are the number of axis in which each direction, horizontal and vertical, respectively, will be divided.
