@@ -12,7 +12,7 @@ class MyOven {
 
         
         this.ovenMaterial = new THREE.MeshPhongMaterial({
-            specular: "#FFFFFF",
+            specular: "#b8841c",
             emissive: "#101010",
             shininess: 30,
             color: "#909090"

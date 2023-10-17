@@ -12,7 +12,6 @@ class MyFridge {
 
         this.MyFridgeFrontMaterial = new THREE.MeshPhongMaterial({
             shininess: 0,
-            specular: "#FFFFFF",
             map: new THREE.TextureLoader().load('textures/fridge.jpg')
         })
 

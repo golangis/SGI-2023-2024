@@ -24,7 +24,7 @@ class MyFloorLamp {
             specular: "#444444",
             emissive: "#101010",
             shininess: 30,
-            color: "#e8c392",
+            color: "#a87d07",
             side: THREE.DoubleSide
         });        
 

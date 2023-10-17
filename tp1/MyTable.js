@@ -12,7 +12,7 @@ class MyTable {
         new THREE.MeshPhongMaterial({
                 specular: "#FFFFFF",
                 shininess: 30,
-                map: new THREE.TextureLoader().load('textures/wood-table.jpg')
+                color: '#000000'
                 
             });
 
