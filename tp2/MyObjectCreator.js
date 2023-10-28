@@ -94,7 +94,7 @@ class MyObjectCreator {
 	createPrimitiveObjectGeometry(primitiveObject) {
 		console.log(primitiveObject);
 		const objectAttributes = primitiveObject.representations[0];
-
+		
 		switch (primitiveObject.subtype) {
 			case "cylinder":
 				const cylinderGeometry = new THREE.CylinderGeometry(
@@ -194,7 +194,23 @@ class MyObjectCreator {
 				return NURBGeom;
 
 			case "box":
-				break;
+				const box_xyz1 = objectAttributes.xyz1;
+				const box_xyz2 = objectAttributes.xyz2;
+
+				const box_width = Math.abs(box_xyz2[0] - box_xyz1[0]);
+				const box_height = Math.abs(box_xyz2[1] - box_xyz1[1]);
+				const box_depth = Math.abs(box_xyz2[2] - box_xyz1[2]);
+
+				const boxGeometry = new THREE.BoxGeometry(
+					box_width,
+					box_height,
+					box_depth,
+					objectAttributes.parts_x,
+					objectAttributes.parts_y,
+					objectAttributes.parts_z
+				);
+
+				return boxGeometry;
 		}
 	}
 }
