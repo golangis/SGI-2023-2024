@@ -5,9 +5,10 @@ import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
     This class customizes the gui interface for the app
 */
 class MyObjectCreator {
-	constructor(data) {
+	constructor(data, scene) {
 		this.sceneData = data;
 		this.builder = new MyNurbsBuilder();
+		this.scene = scene;
 	}
 
 	getTexturesMap() {
@@ -211,6 +212,47 @@ class MyObjectCreator {
 				);
 
 				return boxGeometry;
+		}
+	}
+
+	createLightObject(lightObject) {
+
+		switch (lightObject.type) {
+
+			// TODO atributos "ID" e "enable"
+			case "spotlight":
+				console.log(lightObject)
+				const spotLight = new THREE.SpotLight(
+					lightObject.color,
+					lightObject.intensity,
+					lightObject.distance,
+					lightObject.angle,
+					lightObject.penumbra,
+					lightObject.decay
+				);
+
+				spotLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
+				
+				spotLight.castShadow = lightObject.castshadow;
+
+				spotLight.shadow.camera.far = lightObject.shadowfar;
+
+				spotLight.shadow.mapSize = new THREE.Vector2(lightObject.shadowmapsize, lightObject.shadowmapsize)
+				
+				const targetObject = new THREE.Object3D();
+				targetObject.position.copy(new THREE.Vector3(lightObject.target[0], lightObject.target[1], lightObject.target[2]));
+				this.scene.add(targetObject);
+				
+				spotLight.target = targetObject;
+
+				return spotLight;
+
+			case "pointlight":
+				break;
+			case "directionallight":
+				break;
+			default:
+				break;
 		}
 	}
 }

@@ -73,8 +73,10 @@ class MyContents  {
         for (var key in data.nodes) {
             let node = data.nodes[key]
             this.output(node, 1)
-            for (let i=0; i< node.children.length; i++) {
+            for (let i = 0; i < node.children.length; i++) {
                 let child = node.children[i]
+                if (child.type === "spotlight")
+                    console.log(child)
                 if (child.type === "primitive") {
                     prims.push(child)
                     console.log("" + new Array(2 * 4).join(' ') + " - " + child.type + " with "  + child.representations.length + " " + child.subtype + " representation(s)")
@@ -89,9 +91,9 @@ class MyContents  {
         }
 
         console.log("-------------------------------------------------------------")
-
+        
         console.log(prims)
-        const variable = new MyObjectCreator(data);
+        const variable = new MyObjectCreator(data, this.app.scene);
 
         console.log(variable.createPrimitiveObjectGeometry(prims[4]))
     }
