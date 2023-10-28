@@ -68,6 +68,7 @@ class MyContents  {
             this.output(camera, 1)
         }
 
+        let prims = []
         console.log("nodes:")
         for (var key in data.nodes) {
             let node = data.nodes[key]
@@ -75,6 +76,7 @@ class MyContents  {
             for (let i=0; i< node.children.length; i++) {
                 let child = node.children[i]
                 if (child.type === "primitive") {
+                    prims.push(child)
                     console.log("" + new Array(2 * 4).join(' ') + " - " + child.type + " with "  + child.representations.length + " " + child.subtype + " representation(s)")
                     if (child.subtype === "nurbs") {
                         console.log("" + new Array(3 * 4).join(' ') + " - " + child.representations[0].controlpoints.length + " control points")
@@ -88,8 +90,10 @@ class MyContents  {
 
         console.log("-------------------------------------------------------------")
 
+        console.log(prims)
         const variable = new MyObjectCreator(data);
-        console.log(variable.getCamerasMap())
+
+        console.log(variable.createPrimitiveObjectGeometry(prims[0]))
     }
 
     update() {
