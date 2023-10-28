@@ -68,7 +68,6 @@ class MyContents  {
             this.output(camera, 1)
         }
 
-        let prims = []
         const variable = new MyObjectCreator(data, this.app.scene);
 
         console.log("nodes:")
@@ -82,7 +81,6 @@ class MyContents  {
                     console.log(variable.createLightObject(child))
                 }
                 if (child.type === "primitive") {
-                    prims.push(child)
                     console.log("" + new Array(2 * 4).join(' ') + " - " + child.type + " with "  + child.representations.length + " " + child.subtype + " representation(s)")
                     if (child.subtype === "nurbs") {
                         console.log("" + new Array(3 * 4).join(' ') + " - " + child.representations[0].controlpoints.length + " control points")
@@ -95,10 +93,7 @@ class MyContents  {
         }
 
         console.log("-------------------------------------------------------------")
-        
-        console.log(prims)
-
-        console.log(variable.createPrimitiveObjectGeometry(prims[4]))
+    
     }
 
     update() {

@@ -256,6 +256,7 @@ class MyObjectCreator {
 				)
 
 				pointLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
+				
 				pointLight.castShadow = lightObject.castshadow;
 
 				pointLight.shadow.camera.far = lightObject.shadowfar;
@@ -264,10 +265,27 @@ class MyObjectCreator {
 								
 				return pointLight;
 			
+			// TODO atributos "ID", "enable","shadowright", "shadowleft", "shadowbottom", "shadowtop"
 			case "directionallight":
-				break;
+
+				const directionalLight = new THREE.DirectionalLight(
+					lightObject.color,
+					lightObject.intensity
+				)
+				
+				directionalLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
+				
+				directionalLight.castShadow = lightObject.castshadow;
+
+				directionalLight.shadow.camera.far = lightObject.shadowfar;
+
+				directionalLight.shadow.mapSize = new THREE.Vector2(lightObject.shadowmapsize, lightObject.shadowmapsize)
+				
+				return directionalLight;
+			
 			default:
-				break;
+				console.log("No light of type ", lightObject.type)
+				return;
 		}
 	}
 }
