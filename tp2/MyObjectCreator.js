@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
 
 /**
     This class customizes the gui interface for the app
@@ -6,6 +7,7 @@ import * as THREE from "three";
 class MyObjectCreator {
 	constructor(data) {
 		this.sceneData = data;
+		this.builder = new MyNurbsBuilder();
 	}
 
 	getTexturesMap() {
@@ -91,26 +93,27 @@ class MyObjectCreator {
 
 	createPrimitiveObjectGeometry(primitiveObject) {
 		console.log(primitiveObject);
+		const objectAttributes = primitiveObject.representations[0];
 
 		switch (primitiveObject.subtype) {
 			case "cylinder":
 				const cylinderGeometry = new THREE.CylinderGeometry(
-					primitiveObject.representations[0].top,
-					primitiveObject.representations[0].base,
-					primitiveObject.representations[0].height,
-					primitiveObject.representations[0].slices,
-					primitiveObject.representations[0].stacks,
-					!primitiveObject.representations[0].capsclose, // Negation because it is the opposite of the constructor argument -> 'OpenEnded'
-					primitiveObject.representations[0].thetastart,
-					primitiveObject.representations[0].thetalength
+					objectAttributes.top,
+					objectAttributes.base,
+					objectAttributes.height,
+					objectAttributes.slices,
+					objectAttributes.stacks,
+					!objectAttributes.capsclose, // Negation because it is the opposite of the constructor argument -> 'OpenEnded'
+					objectAttributes.thetastart,
+					objectAttributes.thetalength
 				);
 
 				return cylinderGeometry;
 
 			case "rectangle":
 				// TODO os xy1 e xy2 são as posições das pontas do retangulo?
-				const xy1 = primitiveObject.representations[0].xy1,
-					xy2 = primitiveObject.representations[0].xy2;
+				const xy1 = objectAttributes.xy1,
+					xy2 = objectAttributes.xy2;
 
 				const width = Math.abs(xy2[0] - xy1[0]),
 					height = Math.abs(xy2[1] - xy1[1]);
@@ -118,8 +121,8 @@ class MyObjectCreator {
 				const rectangleGeometry = new THREE.PlaneGeometry(
 					width,
 					height,
-					primitiveObject.representations[0].parts_x,
-					primitiveObject.representations[0].parts_y
+					objectAttributes.parts_x,
+					objectAttributes.parts_y
 				);
 
 				return rectangleGeometry;
@@ -127,15 +130,15 @@ class MyObjectCreator {
 			case "triangle":
 				// TODO testar Triangle -> nenhum objeto na Demo é um triangulo
 				// TODO os xyz1, xyz2 e xyz3 são as posições das pontas do triangulo?
-				const xyz1 = primitiveObject.representations[0].xyz1,
-					xyz2 = primitiveObject.representations[0].xyz2,
-					xyz3 = primitiveObject.representations[0].xyz3;
+				const xyz1 = objectAttributes.xyz1,
+					xyz2 = objectAttributes.xyz2,
+					xyz3 = objectAttributes.xyz3;
 
 				let triangleGeometry = new THREE.Geometry();
 
-				var triangle = new THREE.Triangle(xyz1, xyz2, xyz3);
+				let triangle = new THREE.Triangle(xyz1, xyz2, xyz3);
 
-				var normal = triangle.normal();
+				let normal = triangle.normal();
 				triangleGeometry.vertices.push(
 					triangle.a,
 					triangle.b,
@@ -147,9 +150,49 @@ class MyObjectCreator {
 				return triangleGeometry;
 
 			case "sphere":
-				break;
+				// TODO testar Sphere -> nenhum objeto na Demo é uma esfera
+				const sphereGeom = new THREE.SphereGeometry(
+					objectAttributes.radius,
+					objectAttributes.slices,
+					objectAttributes.stacks,
+					objectAttributes.phistart,
+					objectAttributes.philength,
+					objectAttributes.thetastart,
+					objectAttributes.thetalength
+				);
+
+				return sphereGeom;
+
 			case "nurbs":
-				break;
+				const controlPoints = objectAttributes.controlpoints,
+					degree_u = objectAttributes.degree_u,
+					degree_v = objectAttributes.degree_v;
+
+				let controlNURBs = [],
+					counter = 0,
+					list = [];
+
+				controlPoints.forEach(function (point) {
+					list.push([point.xx, point.yy, point.zz, 1]);
+					if (counter == degree_v) {
+						controlNURBs.push(list);
+						list = [];
+						counter = 0;
+					} else {
+						counter++;
+					}
+				});
+
+				const NURBGeom = this.builder.build(
+					controlNURBs,
+					degree_u,
+					degree_v,
+					objectAttributes.parts_u,
+					objectAttributes.parts_v
+				);
+
+				return NURBGeom;
+
 			case "box":
 				break;
 		}

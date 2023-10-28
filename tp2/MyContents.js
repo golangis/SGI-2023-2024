@@ -93,7 +93,7 @@ class MyContents  {
         console.log(prims)
         const variable = new MyObjectCreator(data);
 
-        console.log(variable.createPrimitiveObjectGeometry(prims[0]))
+        console.log(variable.createPrimitiveObjectGeometry(prims[3]))
     }
 
     update() {
