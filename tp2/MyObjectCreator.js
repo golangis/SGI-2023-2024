@@ -221,7 +221,6 @@ class MyObjectCreator {
 
 			// TODO atributos "ID" e "enable"
 			case "spotlight":
-				console.log(lightObject)
 				const spotLight = new THREE.SpotLight(
 					lightObject.color,
 					lightObject.intensity,
@@ -246,9 +245,25 @@ class MyObjectCreator {
 				spotLight.target = targetObject;
 
 				return spotLight;
-
+			
+			// TODO atributos "ID" e "enable"
 			case "pointlight":
-				break;
+				const pointLight = new THREE.PointLight(
+					lightObject.color,
+					lightObject.intensity,
+					lightObject.distance,
+					lightObject.decay
+				)
+
+				pointLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
+				pointLight.castShadow = lightObject.castshadow;
+
+				pointLight.shadow.camera.far = lightObject.shadowfar;
+
+				pointLight.shadow.mapSize = new THREE.Vector2(lightObject.shadowmapsize, lightObject.shadowmapsize)
+								
+				return pointLight;
+			
 			case "directionallight":
 				break;
 			default:
