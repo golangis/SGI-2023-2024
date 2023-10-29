@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<yaf> 
+
+	<!-- Credits of the original file go to Group 1, class 1 of course LAIG school year 2013/2014, FEUP, University of Porto -->
+	
+    <globals background="0 0 0 1" ambient="0 0 0 1" /> 
+
+    <fog color="1.0 1.0 1.0 1.0" near="0.0" far="100.0" />
+
+    <!-- TODO cameras -->
+    <cameras initial="cam1" > 
+        <perspective id="cam1" 
+            angle="60" 
+            near="0.1" 
+            far="1000" 
+            location="15 15 15" 
+            target="0 0.0 0" /> 
+
+        <orthogonal id="cam2" 
+            near="0.1" 
+            far="1000" 
+            location="0 15 15" 
+            target="0.0 15 0.0" 
+            left="-5" 
+            right="5" 
+            bottom="-5" 
+            top="-5" /> 
+    </cameras> 
+
+    <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas texturas --> 
+    <textures>        
+        <texture id="cake_interior" filepath="textures/cake_interior.png" />
+        <texture id="ceiling" filepath="textures/ceiling.jpg" />
+        <texture id="floor" filepath="textures/floor.jpg" />
+        <texture id="tile-floor" filepath="textures/tile-floor.jpg" />
+        <texture id="wall" filepath="textures/wall.jpg" />
+        <texture id="wood-table" filepath="textures/wood-table.jpg" />
+    </textures> 
+
+    <materials> 
+
+        <material id="cakeExteriorMaterial" 
+            color = "0.9 0.6 0.6 1.0"
+			emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            shininess = "90"
+            />
+			
+		<material id="cakeInteriorMaterial" 
+            textureref="cake_interior" 
+			emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            color="0.8 0.8 0.8 1.0"  
+            shininess="0" 
+            />
+		
+		<material id="floorMaterial" 
+            textureref="tile-floor" 
+			emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            color="0.8 0.8 0.8 1.0"  
+            shininess="0" />
+		
+		<material id="ceilingMaterial" 
+            textureref="ceiling" 
+			emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            color="0.8 0.8 0.8 1.0"  
+            shininess="0" />
+			
+		<material id="wallMaterial" 
+            textureref="wall" 
+			emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            color="0.8 0.8 0.8 1.0"  
+            shininess="0" />
+			
+		<material id="tableMaterial"
+			color = "0.9 0.98 0.95 1.0"
+            emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            shininess="90" 
+            textureref="wood-table"  />
+		
+		<material id="cakeStandMaterial"
+            color = "0.9 0.98 0.95 1.0"
+            emissive="0.0 0.0 0.0 1"
+            specular="0 0 0 0" 
+            shininess="90" />
+		
+        			
+    </materials> 
+
+    <graph rootid="scene"> 
+		
+		<node id="scene"> 
+            <children> 
+                <noderef id="frontWall" /> 
+                <noderef id="backWall" /> 
+                <noderef id="leftWall" /> 
+				<noderef id="rightWall" /> 
+				<noderef id="floor" /> 
+				<noderef id="ceiling" />
+
+                      
+                <spotlight id="spotlight" enabled="true" 
+            		color = "0.96 0.89 0.74 1.0"
+                    intensity="30"
+                    distance="5"
+                    angle="4.78" 
+                    penumbra="1.0"
+                    position="0 4.7 0" 
+                    target="0 1 0" 
+                /> 
+
+                
+            </children> 
+        </node>
+
+				<node id="frontWall">
+					<materialref id="wallMaterial" />
+					<transforms>
+						<rotate value3="0 -90.0 0.0" />
+						<translate value3="5.0 2.5 0.0" />
+					</transforms> 
+
+					
+					<children>             
+						<primitive>
+							<rectangle xy1="-5 -2.5" xy2="5 2.5" />
+						</primitive>
+					</children>
+
+				</node>
+
+				<node id="backWall">
+					<materialref id="wallMaterial" />
+					<transforms>
+						<rotate value3="0 90.0 0.0" />
+						<translate value3="-5.0 2.5 0.0" />
+					</transforms> 
+
+					
+					<children>             
+						<primitive>
+							<rectangle xy1="-5 -2.5" xy2="5 2.5" />
+						</primitive>
+					</children>
+
+				</node>
+
+				<node id="rightWall">
+					<materialref id="wallMaterial" />
+					<transforms>
+						<rotate value3="360.0 0.0 0.0" />
+						<translate value3="0.0 2.5 -5.0" />
+					</transforms> 
+					
+					<children>             
+						<primitive>
+							<rectangle xy1="-5 -2.5" xy2="5 2.5" />
+						</primitive>
+					</children>
+
+				</node>
+
+				<node id="leftWall">
+					<materialref id="wallMaterial" />
+					<transforms>
+						<rotate value3="180.0 0.0 180.0" />
+						<translate value3="0.0 2.5 5.0" />
+					</transforms> 
+					
+					<children>             
+						<primitive>
+							<rectangle xy1="-5 -2.5" xy2="5 2.5" />
+						</primitive>
+					</children>
+
+				</node>
+
+				<node id="floor">
+					<materialref id="floorMaterial" />
+					<transforms>
+						<rotate value3="-90.0 0 0.0" />
+					</transforms> 
+					
+					<children>             
+						<primitive>
+							<rectangle xy1="-5 -5" xy2="5 5" />
+						</primitive>
+					</children>
+
+				</node>
+
+				<node id="ceiling">
+					<materialref id="ceilingMaterial" />
+					<transforms>
+						<rotate value3="90.0 0 0.0" />
+						<translate value3="0 5 0" />
+					</transforms> 
+
+					
+					<children>             
+						<primitive>
+							<rectangle xy1="-5 -5" xy2="5 5" />
+						</primitive>
+					</children>
+
+				</node>
+
+		
+		<node id="table"> 
+	
+            <transforms>
+				<translate value3="0 1.5 0" />
+				<rotate value3="-90.0 0.0 -90.0" />
+            </transforms> 
+
+            <children> 
+
+				<noderef id="rectangle1" /> 
+                <noderef id="rectangle2" /> 
+                <noderef id="rectangle3" /> 
+				<noderef id="rectangle4" /> 
+				<noderef id="rectangle5" /> 
+				<noderef id="rectangle6" />
+
+				<noderef id="leg1" /> 
+                <noderef id="leg2" /> 
+                <noderef id="leg3" /> 
+				<noderef id="leg4" /> 
+
+                <noderef id="cakeStand" />
+
+            </children> 
+        </node>
+
+				<node id="rectangle1">
+					<materialref id="tableMaterial" />
+					<children>             
+						<primitive>
+							<rectangle xy1="-2.5 -1" xy2="2.5 1" /> 
+						</primitive>
+					</children> 
+				</node>
+
+				<node id="rectangle2"> 
+					<materialref id="tableMaterial" />
+					<transforms>
+						<rotate value3="180.0 0.0 0.0" />
+					</transforms> 
+
+					<children>             
+						<primitive>
+							<rectangle xy1="-2.5 -1" xy2="2.5 1" /> 
+						</primitive>
+					</children> 
+				</node>
+
+				<node id="rectangle3"> 
+					<materialref id="tableMaterial" />
+					<transforms>
+						<rotate value3="90.0 0.0 0.0" />
+						<translate value3="0.0 0.0 2.5" />
+					</transforms>
+
+					<children>             
+						<primitive>
+							<rectangle xy1="-2.5 -0.1" xy2="2.5 0.1" /> 
+						</primitive>
+					</children> 
+				</node>
+
+				<node id="rectangle4"> 
+					<materialref id="tableMaterial" />
+					<transforms>
+						<rotate value3="-90.0 0.0 0.0" />
+						<translate value3="0.0 0.0 -2.5" />
+					</transforms>
+
+					<children>             
+						<primitive>
+							<rectangle xy1="-2.5 -0.1" xy2="2.5 0.1" /> 
+						</primitive>
+					</children> 
+				</node>
+
+				<node id="rectangle5"> 
+					<materialref id="tableMaterial" />
+					<transforms>
+						<rotate value3="0.0 0.0 90.0" />
+						<translate value3="-0.5 0.0 0" />
+					</transforms>
+
+					<children>             
+						<primitive>
+							<rectangle xy1="-0.1 -1" xy2="0.1 1" /> 
+						</primitive>
+					</children> 
+				</node>
+
+				<node id="rectangle6"> 
+					<materialref id="tableMaterial" />
+					<transforms>
+						<rotate value3="0.0 0.0 -90.0" />
+						<translate value3="0.5 0.0 0" />
+					</transforms>
+
+					<children>             
+						<primitive>
+							<rectangle xy1="-0.1 -1" xy2="0.1 1" /> 
+						</primitive>
+					</children> 
+				</node>
+				
+
+				<node id="leg1">
+					<materialref id="tableMaterial" />
+					<transforms>
+						<translate value3="2.3 0.8 -0.75" />
+						<rotate value3="0.0 -90.0 0.0" />
+					</transforms>
+
+					<children>  
+						<primitive>           
+							<cylinder base="0.1" top="0.1" height="1.5" slices="32" stacks="32" />
+						</primitive>
+					</children>
+				</node>
+			
+				<node id="leg2">
+					<materialref id="tableMaterial" />
+					<transforms>
+						<translate value3="2.3 -0.8 -0.75" />
+						<rotate value3="0.0 -90.0 0.0" />
+					</transforms>
+
+					<children>  
+						<primitive>           
+							<cylinder base="0.1" top="0.1" height="1.5" slices="32" stacks="32" />
+						</primitive>
+					</children>
+				</node>
+
+				<node id="leg3">
+					<materialref id="tableMaterial" />
+					<transforms>
+						<translate value3="-2.3 0.8 -0.75" />
+						<rotate value3="0.0 -90.0 0.0" />
+					</transforms>
+
+					<children>  
+						<primitive>           
+							<cylinder base="0.1" top="0.1" height="1.5" slices="32" stacks="32" />
+						</primitive>
+					</children>
+				</node>
+
+				<node id="leg4">
+					<materialref id="tableMaterial" />
+					<transforms>
+						<translate value3="-2.3 -0.8 -0.75" />
+						<rotate value3="0.0 -90.0 0.0" />
+					</transforms>
+
+					<children>  
+						<primitive>           
+							<cylinder base="0.1" top="0.1" height="1.5" slices="32" stacks="32" />
+						</primitive>
+					</children>
+				</node>
+		
+		
+		
+		<node id="cakeStand">
+            <children>   
+                <noderef id="cakeStandPlate" />
+            </children>
+        </node>
+		
+		<node id="cakeStandPlate">
+			<materialref id="cakeStandMaterial" />
+            <transforms>
+				<rotate value3="90 0.0 0.0" />
+				<translate value3="0 0 0.3" />
+            </transforms> 
+
+            <children>   
+                <primitive>
+                    <cylinder base="0.32" top="0.35" height="0.02" slices="32" stacks="32" />
+                </primitive>
+				<noderef id="cakeStandBase" />
+				<noderef id="cake" />
+            </children> 
+        </node>
+
+		<node id="cakeStandBase">
+			<materialref id="cakeStandMaterial" />
+            <transforms>
+				<translate value3="0 -0.1 0" />
+            </transforms>
+
+            <children>   
+                <primitive>
+                    <cylinder base="0.22" top="0.1" height="0.2" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+
+		<node id="cake">
+			<materialref id="cakeExteriorMaterial" />
+
+            <transforms>
+				<translate value3="0 0.175 0" />
+            </transforms>
+
+            <children>             
+                <primitive>
+                    <cylinder base="0.27" top="0.27" height="0.35" slices="32" stacks="32" capsclose="true" thetastart="0" thetalength="270.0"/>
+                </primitive>
+				<noderef id="rectangle7" />
+				<noderef id="rectangle8" />
+            </children>
+        </node>
+
+		<node id="rectangle7"> 
+			<materialref id="cakeInteriorMaterial" />
+            <transforms>
+				<rotate value3="0.0 -90.0 0.0" />
+				<translate value3="0 0 0.175" />
+            </transforms> 
+
+            <children>             
+                <primitive>
+                    <rectangle xy1="-0.135 -0.175" xy2="0.135 0.175" /> 
+                </primitive>
+            </children> 
+        </node>
+
+		<node id="rectangle8"> 
+			<materialref id="cakeInteriorMaterial" />
+
+            <transforms>
+				<rotate value3="0.0 360.0 0.0" />
+				<translate value3="-0.175 0 0" />
+            </transforms> 
+
+            <children>             
+                <primitive>
+                    <rectangle xy1="-0.135 -0.175" xy2="0.135 0.175" /> 
+                </primitive>
+            </children> 
+        </node>
+		
+    </graph> 
+</yaf> 
