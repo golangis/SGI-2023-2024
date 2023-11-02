@@ -53,7 +53,6 @@ class MyObjectCreator {
 			materialMap.set(material.id, materialObject);
 		}
 
-		console.log(materialMap);
 		return materialMap;
 	}
 
@@ -93,7 +92,6 @@ class MyObjectCreator {
 	}
 
 	createPrimitiveObjectGeometry(primitiveObject) {
-		console.log(primitiveObject);
 		const objectAttributes = primitiveObject.representations[0];
 		
 		switch (primitiveObject.subtype) {

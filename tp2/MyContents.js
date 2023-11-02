@@ -16,7 +16,7 @@ class MyContents  {
         this.axis = null
 
         this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		this.reader.open("scenes/demo/entrega.xml");		
+		this.reader.open("scenes/demo/demo.xml");		
     }
 
     /**
@@ -68,18 +68,13 @@ class MyContents  {
             this.output(camera, 1)
         }
 
-        const variable = new MyObjectCreator(data, this.app.scene);
-
         console.log("nodes:")
         for (var key in data.nodes) {
             let node = data.nodes[key]
             this.output(node, 1)
             for (let i = 0; i < node.children.length; i++) {
-                let child = node.children[i]
-                if (child.type === "pointlight"){
-                    console.log(child)
-                    console.log(variable.createLightObject(child))
-                }
+				let child = node.children[i]
+				
                 if (child.type === "primitive") {
                     console.log("" + new Array(2 * 4).join(' ') + " - " + child.type + " with "  + child.representations.length + " " + child.subtype + " representation(s)")
                     if (child.subtype === "nurbs") {
@@ -92,13 +87,60 @@ class MyContents  {
             }
         }
 
-        console.log("-------------------------------------------------------------")
+		console.log("-------------------------------------------------------------")
+		
+		//console.log(data)
+		this.createNodeHierarchy(data)
     
     }
 
     update() {
         
-    }
+	}
+	
+	createNodeHierarchy(data) {
+
+		const myObjectCreator = new MyObjectCreator();
+		const nodes = new Map();
+		
+		for (var key in data.nodes) {
+			let node = data.nodes[key]
+			let nodeObj = new THREE.Object3D()
+
+			for (let i = 0; i < node.children.length; i++) {
+				
+				let child = node.children[i]
+
+				if (child.type === "primitive") {
+					const childObj = new THREE.Object3D()
+					const geom = myObjectCreator.createPrimitiveObjectGeometry(child)
+					childObj.add(new THREE.Mesh(geom))
+					nodeObj.add(childObj)
+				}
+			}
+
+			nodes.set(node.id, nodeObj)
+		}
+
+		for (var key in data.nodes) {
+			let node = data.nodes[key]
+			for (let i = 0; i < node.children.length; i++) {
+                
+				let child = node.children[i]
+
+				let parentNode = nodes.get(node.id), childNode = nodes.get(child.id)
+				if (childNode !== undefined && parentNode !== undefined) {
+					parentNode.add(childNode)
+					nodes.set(node.id, parentNode)
+				}
+			}
+		}
+		
+		this.app.scene.add(nodes.get(data.rootId))
+
+		return nodes
+	}
+
 }
 
 export { MyContents };
