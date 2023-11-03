@@ -89,12 +89,18 @@ class MyContents  {
 
 		console.log("-------------------------------------------------------------")
 		
+		this.addGlobals(data, this.app.scene)
+		
+		const camerasMap = new MyObjectCreator(data, this.app.scene).getCamerasMap();
+
+		this.app.addCameras(camerasMap, data.activeCameraId)
+		
+		
 		console.log("MyContents.js print 1\n", data)
 		const nodes = this.createNodeHierarchy(data, this.app.scene)
 		console.log("MyContents.js print 2\n", nodes)
 		this.applyTransformations(data, nodes)
-		this.addGlobals(data, this.app.scene)
-    
+
     }
 
     update() {
@@ -211,7 +217,7 @@ class MyContents  {
 
 	}
 
-	// TODO add materials and cameras
+	// TODO add materials
 
 }
 

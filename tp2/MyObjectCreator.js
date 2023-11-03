@@ -40,13 +40,7 @@ class MyObjectCreator {
 				emissive: material.emissive,
 				shininess: material.shininess,
 				wireframe: material.wireframe,
-				// TODO
-				//flatShading:
-				//shading
-				//textureref
-				//texlength_s
-				//texlength_t
-				//twosided
+				// TODO atributos "flatShading", "shading", "textureref", "texlength_s", "texlength_t" e "twosided"
 			});
 
 			materialMap.set(material.id, materialObject);
@@ -60,31 +54,47 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.cameras) {
 			let camera = this.sceneData.cameras[key];
+			let cameraObject;
 
 			switch (camera.type) {
 				case "orthogonal":
-					// TODO "location", "target"
-					camerasMap.set(
-						camera.id,
-						new THREE.OrthographicCamera(
-							camera.left,
-							camera.right,
-							camera.top,
-							camera.bottom,
-							camera.near,
-							camera.far
-						)
+					cameraObject = new THREE.OrthographicCamera(
+						camera.left,
+						camera.right,
+						camera.top,
+						camera.bottom,
+						camera.near,
+						camera.far
 					);
+
 					break;
 
 				case "perspective":
-					// TODO "angle", "location", "target"
-					camerasMap.set(
-						camera.id,
-						new THREE.PerspectiveCamera(camera.near, camera.far)
+					cameraObject = new THREE.PerspectiveCamera(
+						camera.angle,
+						undefined,
+						camera.near,
+						camera.far
 					);
 					break;
 			}
+
+			cameraObject.position.set(
+				camera.location[0],
+				camera.location[1],
+				camera.location[2]
+			);
+
+			const targetObject = new THREE.Object3D();
+			targetObject.position.set(
+				camera.target[0],
+				camera.target[1],
+				camera.target[2]
+			);
+
+			cameraObject.target = targetObject;
+			
+			camerasMap.set(camera.id, cameraObject);
 		}
 
 		return camerasMap;
@@ -92,7 +102,7 @@ class MyObjectCreator {
 
 	createPrimitiveObjectGeometry(primitiveObject) {
 		const objectAttributes = primitiveObject.representations[0];
-		
+
 		switch (primitiveObject.subtype) {
 			case "cylinder":
 				const cylinderGeometry = new THREE.CylinderGeometry(
@@ -132,7 +142,6 @@ class MyObjectCreator {
 
 			case "triangle":
 				// TODO testar Triangle -> nenhum objeto na Demo é um triangulo
-				// TODO os xyz1, xyz2 e xyz3 são as posições das pontas do triangulo?
 				const xyz1 = objectAttributes.xyz1,
 					xyz2 = objectAttributes.xyz2,
 					xyz3 = objectAttributes.xyz3;
@@ -218,9 +227,7 @@ class MyObjectCreator {
 	}
 
 	createLightObject(lightObject) {
-
 		switch (lightObject.type) {
-
 			// TODO atributos "ID" e "enable"
 			case "spotlight":
 				const spotLight = new THREE.SpotLight(
@@ -232,22 +239,35 @@ class MyObjectCreator {
 					lightObject.decay
 				);
 
-				spotLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
-				
+				spotLight.position.set(
+					lightObject.position[0],
+					lightObject.position[1],
+					lightObject.position[2]
+				);
+
 				spotLight.castShadow = lightObject.castshadow;
 
 				spotLight.shadow.camera.far = lightObject.shadowfar;
 
-				spotLight.shadow.mapSize = new THREE.Vector2(lightObject.shadowmapsize, lightObject.shadowmapsize)
-				
+				spotLight.shadow.mapSize = new THREE.Vector2(
+					lightObject.shadowmapsize,
+					lightObject.shadowmapsize
+				);
+
 				const targetObject = new THREE.Object3D();
-				targetObject.position.copy(new THREE.Vector3(lightObject.target[0], lightObject.target[1], lightObject.target[2]));
+				targetObject.position.copy(
+					new THREE.Vector3(
+						lightObject.target[0],
+						lightObject.target[1],
+						lightObject.target[2]
+					)
+				);
 				this.scene.add(targetObject);
-				
+
 				spotLight.target = targetObject;
 
 				return spotLight;
-			
+
 			// TODO atributos "ID" e "enable"
 			case "pointlight":
 				const pointLight = new THREE.PointLight(
@@ -255,38 +275,51 @@ class MyObjectCreator {
 					lightObject.intensity,
 					lightObject.distance,
 					lightObject.decay
-				)
+				);
 
-				pointLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
-				
+				pointLight.position.set(
+					lightObject.position[0],
+					lightObject.position[1],
+					lightObject.position[2]
+				);
+
 				pointLight.castShadow = lightObject.castshadow;
 
 				pointLight.shadow.camera.far = lightObject.shadowfar;
 
-				pointLight.shadow.mapSize = new THREE.Vector2(lightObject.shadowmapsize, lightObject.shadowmapsize)
-								
+				pointLight.shadow.mapSize = new THREE.Vector2(
+					lightObject.shadowmapsize,
+					lightObject.shadowmapsize
+				);
+
 				return pointLight;
-			
+
 			// TODO atributos "ID", "enable","shadowright", "shadowleft", "shadowbottom", "shadowtop"
 			case "directionallight":
-
 				const directionalLight = new THREE.DirectionalLight(
 					lightObject.color,
 					lightObject.intensity
-				)
-				
-				directionalLight.position.set(lightObject.position[0], lightObject.position[1], lightObject.position[2]);
-				
+				);
+
+				directionalLight.position.set(
+					lightObject.position[0],
+					lightObject.position[1],
+					lightObject.position[2]
+				);
+
 				directionalLight.castShadow = lightObject.castshadow;
 
 				directionalLight.shadow.camera.far = lightObject.shadowfar;
 
-				directionalLight.shadow.mapSize = new THREE.Vector2(lightObject.shadowmapsize, lightObject.shadowmapsize)
-				
+				directionalLight.shadow.mapSize = new THREE.Vector2(
+					lightObject.shadowmapsize,
+					lightObject.shadowmapsize
+				);
+
 				return directionalLight;
-			
+
 			default:
-				console.log("No light of type ", lightObject.type)
+				console.log("No light of type ", lightObject.type);
 				return;
 		}
 	}
