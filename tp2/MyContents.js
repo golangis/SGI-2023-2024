@@ -89,8 +89,9 @@ class MyContents  {
 
 		console.log("-------------------------------------------------------------")
 		
-		console.log(data.nodes)
+		console.log("MyContents.js print 1\n", data.nodes)
 		const nodes = this.createNodeHierarchy(data)
+		console.log("MyContents.js print 2\n", nodes)
 		this.applyTransformations(data, nodes)
     
     }
@@ -101,12 +102,14 @@ class MyContents  {
 	
 	createNodeHierarchy(data) {
 
-		const myObjectCreator = new MyObjectCreator();
+		const lightType = ['spotlight', 'pointlight', 'directionallight']
+		const myObjectCreator = new MyObjectCreator(data, this.app.scene);
 		const nodes = new Map();
 		
 		for (var key in data.nodes) {
 			let node = data.nodes[key]
 			let nodeObj = new THREE.Object3D()
+			nodeObj.name = node.id
 
 			for (let i = 0; i < node.children.length; i++) {
 				
@@ -116,6 +119,14 @@ class MyContents  {
 					const childObj = new THREE.Object3D()
 					const geom = myObjectCreator.createPrimitiveObjectGeometry(child)
 					childObj.add(new THREE.Mesh(geom))
+					nodeObj.add(childObj)
+				}
+
+				else if (lightType.includes(child.type)) {
+					const childObj = new THREE.Object3D()
+					const light = myObjectCreator.createLightObject(child)
+					childObj.name = child.id
+					childObj.add(light)
 					nodeObj.add(childObj)
 				}
 			}
@@ -148,7 +159,6 @@ class MyContents  {
 			const object = nodes.get(node.id)
 
 			node.transformations.forEach(function (transformation) {
-				console.log(transformation)
 				switch (transformation.type) {
 					case "T":
 						object.position.x += transformation.translate[0]
@@ -173,6 +183,8 @@ class MyContents  {
 		}
 
 	}
+
+	// TODO add materials, cameras, fog, ambient and background
 
 }
 
