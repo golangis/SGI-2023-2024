@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { MyContents } from './MyContents.js';
 import { MyGuiInterface } from './MyGuiInterface.js';
 import Stats from 'three/addons/libs/stats.module.js'
+import { MyObjectCreator } from './MyObjectCreator.js';
+import { MySceneData } from './parser/MySceneData.js';
 
 /**
  * This class contains the application object
@@ -99,7 +101,24 @@ class MyApp  {
         orthoFront.up = new THREE.Vector3(0,1,0);
         orthoFront.position.set(0,0, this.frustumSize /4) 
         orthoFront.lookAt( new THREE.Vector3(0,0,0) );
-        this.cameras['Front'] = orthoFront
+		this.cameras['Front'] = orthoFront
+	}
+
+	addCameras(camerasMap, defaultCamera) {
+		let cameraKeys = []
+        for (const value of camerasMap) {
+			this.cameras[value[0]] = value[1];
+		}
+
+		for (var key in this.cameras) {
+			cameraKeys.push(key)
+		}
+
+		this.setActiveCamera(defaultCamera)
+
+		const cameraFolder = this.gui.datgui.addFolder('Camera')
+        cameraFolder.add(this, 'activeCameraName', cameraKeys ).name("active camera");
+		cameraFolder.open()
     }
 
     /**
