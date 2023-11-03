@@ -27,7 +27,6 @@ class MyObjectCreator {
 
 	/**
 	 * None of the built-in materials in Three.js include all of the attributes
-	 * If the value is not required, and thus null, the constructor catches that?
 	 */
 	getMaterialsMap() {
 		let materialMap = new Map();
@@ -110,7 +109,6 @@ class MyObjectCreator {
 				return cylinderGeometry;
 
 			case "rectangle":
-				// TODO os xy1 e xy2 são as posições das pontas do retangulo?
 				const xy1 = objectAttributes.xy1,
 					xy2 = objectAttributes.xy2;
 
@@ -122,6 +120,12 @@ class MyObjectCreator {
 					height,
 					objectAttributes.parts_x,
 					objectAttributes.parts_y
+				);
+
+				rectangleGeometry.translate(
+					(xy2[0] + xy1[0]) / 2,
+					(xy2[1] + xy1[1]) / 2,
+					0
 				);
 
 				return rectangleGeometry;

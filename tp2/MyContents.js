@@ -89,8 +89,9 @@ class MyContents  {
 
 		console.log("-------------------------------------------------------------")
 		
-		//console.log(data)
-		this.createNodeHierarchy(data)
+		console.log(data.nodes)
+		const nodes = this.createNodeHierarchy(data)
+		this.applyTransformations(data, nodes)
     
     }
 
@@ -139,6 +140,38 @@ class MyContents  {
 		this.app.scene.add(nodes.get(data.rootId))
 
 		return nodes
+	}
+
+	applyTransformations(data, nodes) {
+		for (var key in data.nodes) {
+			let node = data.nodes[key]
+			const object = nodes.get(node.id)
+
+			node.transformations.forEach(function (transformation) {
+				console.log(transformation)
+				switch (transformation.type) {
+					case "T":
+						object.position.x += transformation.translate[0]
+						object.position.y += transformation.translate[1]
+						object.position.z += transformation.translate[2]
+						break;
+					case "R":
+						object.rotation.x += THREE.MathUtils.degToRad(transformation.rotation[0])
+						object.rotation.y += THREE.MathUtils.degToRad(transformation.rotation[1])
+						object.rotation.z += THREE.MathUtils.degToRad(transformation.rotation[2])
+						break;
+					case "S":
+						object.scale.x *= transformation.scale[0]
+						object.scale.y *= transformation.scale[1]
+						object.scale.z *= transformation.scale[2]
+						break;
+					default:
+						break;
+				}
+			}
+			);
+		}
+
 	}
 
 }
