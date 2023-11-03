@@ -89,10 +89,11 @@ class MyContents  {
 
 		console.log("-------------------------------------------------------------")
 		
-		console.log("MyContents.js print 1\n", data.nodes)
-		const nodes = this.createNodeHierarchy(data)
+		console.log("MyContents.js print 1\n", data)
+		const nodes = this.createNodeHierarchy(data, this.app.scene)
 		console.log("MyContents.js print 2\n", nodes)
 		this.applyTransformations(data, nodes)
+		this.addGlobals(data, this.app.scene)
     
     }
 
@@ -100,7 +101,33 @@ class MyContents  {
         
 	}
 	
-	createNodeHierarchy(data) {
+
+	addGlobals(data, scene) {
+		scene.fog = new THREE.Fog(
+			new THREE.Color(data.fog.color.r, data.fog.color.g, data.fog.color.b),
+			data.fog.near,
+			data.fog.far
+		)
+
+		scene.add(
+			new THREE.AmbientLight(
+				new THREE.Color(
+					data.options.ambient.r,
+					data.options.ambient.g,
+					data.options.ambient.b
+				)
+			)
+		)
+
+		scene.background = new THREE.Color(
+			data.options.background.r,
+			data.options.background.g,
+			data.options.background.b
+		)
+		
+	}
+
+	createNodeHierarchy(data, scene) {
 
 		const lightType = ['spotlight', 'pointlight', 'directionallight']
 		const myObjectCreator = new MyObjectCreator(data, this.app.scene);
@@ -148,7 +175,7 @@ class MyContents  {
 			}
 		}
 		
-		this.app.scene.add(nodes.get(data.rootId))
+		scene.add(nodes.get(data.rootId))
 
 		return nodes
 	}
@@ -184,7 +211,7 @@ class MyContents  {
 
 	}
 
-	// TODO add materials, cameras, fog, ambient and background
+	// TODO add materials and cameras
 
 }
 
