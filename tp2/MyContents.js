@@ -137,6 +137,7 @@ class MyContents  {
 
 		const lightType = ['spotlight', 'pointlight', 'directionallight']
 		const myObjectCreator = new MyObjectCreator(data, this.app.scene);
+		const materialMap = myObjectCreator.getMaterialsMap();
 		const nodes = new Map();
 		
 		for (var key in data.nodes) {
@@ -151,7 +152,13 @@ class MyContents  {
 				if (child.type === "primitive") {
 					const childObj = new THREE.Object3D()
 					const geom = myObjectCreator.createPrimitiveObjectGeometry(child)
-					childObj.add(new THREE.Mesh(geom))
+					const mesh = new THREE.Mesh(geom);
+
+					if ((node.materialIds[0] !== undefined)) {
+						mesh.material = materialMap.get(node.materialIds[0])
+					}
+
+					childObj.add(mesh)
 					nodeObj.add(childObj)
 				}
 
@@ -175,9 +182,21 @@ class MyContents  {
 
 				let parentNode = nodes.get(node.id), childNode = nodes.get(child.id)
 				if (childNode !== undefined && parentNode !== undefined) {
-					parentNode.add(childNode)
+					
+					if (childNode.parent !== null) {
+						const clone = childNode.clone()
+						
+						parentNode.add(clone)
+					}
+					
+					else {
+						parentNode.add(childNode)
+					}
+
 					nodes.set(node.id, parentNode)
+
 				}
+
 			}
 		}
 		

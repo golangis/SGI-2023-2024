@@ -30,19 +30,23 @@ class MyObjectCreator {
 	 */
 	getMaterialsMap() {
 		let materialMap = new Map();
-
+		const textureMap = this.getTexturesMap();
+		
 		for (var key in this.sceneData.materials) {
 			let material = this.sceneData.materials[key];
 
+			// TODO atributos "texlength_s" e "texlength_t"
 			const materialObject = new THREE.MeshPhongMaterial({
 				color: material.color,
 				specular: material.specular,
 				emissive: material.emissive,
 				shininess: material.shininess,
 				wireframe: material.wireframe,
-				// TODO atributos "flatShading", "shading", "textureref", "texlength_s", "texlength_t" e "twosided"
+				map: textureMap.get(material.textureref),
+				flatShading: material.shading === "flat" ? true : false,
+				side: material.twosided === true ? THREE.DoubleSide: THREE.FrontSide
 			});
-
+			
 			materialMap.set(material.id, materialObject);
 		}
 
