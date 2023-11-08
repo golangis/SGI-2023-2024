@@ -89,6 +89,8 @@ class MyContents  {
 
 		console.log("-------------------------------------------------------------")
 		
+		this.myObjectCreator = new MyObjectCreator(data, this.app.scene);
+
 		this.addGlobals(data, this.app.scene)
 		
 		const camerasMap = new MyObjectCreator(data, this.app.scene).getCamerasMap();
@@ -96,11 +98,9 @@ class MyContents  {
 		this.app.addCameras(camerasMap, data.activeCameraId)
 		
 		
-		console.log("MyContents.js print 1\n", data)
-		const nodes = this.createNodeHierarchy(data, this.app.scene)
-		console.log("MyContents.js print 2\n", nodes)
-		this.applyTransformations(data, nodes)
-
+		console.log("Data\n", data)
+		const rootObject = this.visitNodes(data.nodes[data.rootId], null);
+		this.app.scene.add(rootObject)
     }
 
     update() {
@@ -132,111 +132,96 @@ class MyContents  {
 		)
 		
 	}
+ 
+	visitNodes(node, parent) {
 
-	createNodeHierarchy(data, scene) {
+		let object = new THREE.Object3D()
+		object.name = node.id
+	
+		
+		if (node.children) {
+			node.children.forEach(
+				(element) => {
+					const childObj = (this.visitNodes(element, node))
+					object.add(childObj)
+				}
+			)
+		}
+		
+		else {
+			object = this.buildLeafNode(node, parent)
+		}
+		
+		if (node.type === 'node') {
+			this.applyTransformations(node, object)
+		}
 
+		
+
+		return object;
+	}
+
+
+	buildLeafNode(node, parent) {
+
+		
+		
 		const lightType = ['spotlight', 'pointlight', 'directionallight']
-		const myObjectCreator = new MyObjectCreator(data, this.app.scene);
-		const materialMap = myObjectCreator.getMaterialsMap();
-		const nodes = new Map();
-		
-		for (var key in data.nodes) {
-			let node = data.nodes[key]
-			let nodeObj = new THREE.Object3D()
+
+		if (node.type === "primitive") {
+			const nodeObj = new THREE.Object3D()
+			const geom = this.myObjectCreator.createPrimitiveObjectGeometry(node)
+			const mesh = new THREE.Mesh(geom);
+
+			if ((parent.materialIds[0] !== undefined)) {
+				const materialMap = this.myObjectCreator.getMaterialsMap();
+				mesh.material = materialMap.get(parent.materialIds[0])
+			}
+
+			nodeObj.add(mesh)
+
+			return nodeObj;
+		}
+
+		else if (lightType.includes(node.type)) {
+			const nodeObj = new THREE.Object3D()
+			const light = this.myObjectCreator.createLightObject(node)
 			nodeObj.name = node.id
+			nodeObj.add(light)
 
-			for (let i = 0; i < node.children.length; i++) {
-				
-				let child = node.children[i]
-
-				if (child.type === "primitive") {
-					const childObj = new THREE.Object3D()
-					const geom = myObjectCreator.createPrimitiveObjectGeometry(child)
-					const mesh = new THREE.Mesh(geom);
-
-					if ((node.materialIds[0] !== undefined)) {
-						mesh.material = materialMap.get(node.materialIds[0])
-					}
-
-					childObj.add(mesh)
-					nodeObj.add(childObj)
-				}
-
-				else if (lightType.includes(child.type)) {
-					const childObj = new THREE.Object3D()
-					const light = myObjectCreator.createLightObject(child)
-					childObj.name = child.id
-					childObj.add(light)
-					nodeObj.add(childObj)
-				}
-			}
-
-			nodes.set(node.id, nodeObj)
+			return nodeObj;
 		}
 
-		for (var key in data.nodes) {
-			let node = data.nodes[key]
-			for (let i = 0; i < node.children.length; i++) {
-                
-				let child = node.children[i]
+	}
 
-				let parentNode = nodes.get(node.id), childNode = nodes.get(child.id)
-				if (childNode !== undefined && parentNode !== undefined) {
-					
-					if (childNode.parent !== null) {
-						const clone = childNode.clone()
-						
-						parentNode.add(clone)
-					}
-					
-					else {
-						parentNode.add(childNode)
-					}
-
-					nodes.set(node.id, parentNode)
-
-				}
-
-			}
-		}
+	applyTransformations(node, object) {
 		
-		scene.add(nodes.get(data.rootId))
-
-		return nodes
-	}
-
-	applyTransformations(data, nodes) {
-		for (var key in data.nodes) {
-			let node = data.nodes[key]
-			const object = nodes.get(node.id)
-
-			node.transformations.forEach(function (transformation) {
-				switch (transformation.type) {
-					case "T":
-						object.position.x += transformation.translate[0]
-						object.position.y += transformation.translate[1]
-						object.position.z += transformation.translate[2]
-						break;
-					case "R":
-						object.rotation.x += THREE.MathUtils.degToRad(transformation.rotation[0])
-						object.rotation.y += THREE.MathUtils.degToRad(transformation.rotation[1])
-						object.rotation.z += THREE.MathUtils.degToRad(transformation.rotation[2])
-						break;
-					case "S":
-						object.scale.x *= transformation.scale[0]
-						object.scale.y *= transformation.scale[1]
-						object.scale.z *= transformation.scale[2]
-						break;
-					default:
-						break;
-				}
+		node.transformations.forEach(function (transformation) {
+			switch (transformation.type) {
+				case "T":
+					object.position.x += transformation.translate[0]
+					object.position.y += transformation.translate[1]
+					object.position.z += transformation.translate[2]
+					break;
+				case "R":
+					object.rotation.x += THREE.MathUtils.degToRad(transformation.rotation[0])
+					object.rotation.y += THREE.MathUtils.degToRad(transformation.rotation[1])
+					object.rotation.z += THREE.MathUtils.degToRad(transformation.rotation[2])
+					break;
+				case "S":
+					object.scale.x *= transformation.scale[0]
+					object.scale.y *= transformation.scale[1]
+					object.scale.z *= transformation.scale[2]
+					break;
+				default:
+					break;
 			}
-			);
 		}
+		);
 
 	}
 
-	// TODO add materials
+	// TODO cascade materials
 
 }
 
