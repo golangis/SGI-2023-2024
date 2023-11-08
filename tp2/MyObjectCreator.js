@@ -25,11 +25,10 @@ class MyObjectCreator {
 		return textureMap;
 	}
 
-	
 	getMaterialsMap() {
 		let materialMap = new Map();
 		const textureMap = this.getTexturesMap();
-		
+
 		for (var key in this.sceneData.materials) {
 			let material = this.sceneData.materials[key];
 
@@ -42,9 +41,12 @@ class MyObjectCreator {
 				wireframe: material.wireframe,
 				map: textureMap.get(material.textureref),
 				flatShading: material.shading === "flat" ? true : false,
-				side: material.twosided === true ? THREE.DoubleSide: THREE.FrontSide
+				side:
+					material.twosided === true
+						? THREE.DoubleSide
+						: THREE.FrontSide,
 			});
-			
+
 			materialMap.set(material.id, materialObject);
 		}
 
@@ -95,7 +97,7 @@ class MyObjectCreator {
 			);
 
 			cameraObject.target = targetObject;
-			
+
 			camerasMap.set(camera.id, cameraObject);
 		}
 
@@ -225,6 +227,10 @@ class MyObjectCreator {
 				);
 
 				return boxGeometry;
+
+			default:
+				console.log("\noh no! we dont have any object like that :/\n");
+				break;
 		}
 	}
 
