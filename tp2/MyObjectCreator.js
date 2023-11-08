@@ -25,9 +25,7 @@ class MyObjectCreator {
 		return textureMap;
 	}
 
-	/**
-	 * None of the built-in materials in Three.js include all of the attributes
-	 */
+	
 	getMaterialsMap() {
 		let materialMap = new Map();
 		const textureMap = this.getTexturesMap();
@@ -115,7 +113,7 @@ class MyObjectCreator {
 					objectAttributes.height,
 					objectAttributes.slices,
 					objectAttributes.stacks,
-					!objectAttributes.capsclose, // Negation because it is the opposite of the constructor argument -> 'OpenEnded'
+					objectAttributes.capsclose,
 					objectAttributes.thetastart,
 					objectAttributes.thetalength
 				);
@@ -232,7 +230,7 @@ class MyObjectCreator {
 
 	createLightObject(lightObject) {
 		switch (lightObject.type) {
-			// TODO atributos "ID" e "enable"
+			// TODO atributo "enable"
 			case "spotlight":
 				const spotLight = new THREE.SpotLight(
 					lightObject.color,
@@ -272,7 +270,7 @@ class MyObjectCreator {
 
 				return spotLight;
 
-			// TODO atributos "ID" e "enable"
+			// TODO atributo "enable"
 			case "pointlight":
 				const pointLight = new THREE.PointLight(
 					lightObject.color,
@@ -298,7 +296,7 @@ class MyObjectCreator {
 
 				return pointLight;
 
-			// TODO atributos "ID", "enable","shadowright", "shadowleft", "shadowbottom", "shadowtop"
+			// TODO atributos "enable","shadowright", "shadowleft", "shadowbottom", "shadowtop"
 			case "directionallight":
 				const directionalLight = new THREE.DirectionalLight(
 					lightObject.color,

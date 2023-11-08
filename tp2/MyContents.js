@@ -101,6 +101,7 @@ class MyContents  {
 		console.log("Data\n", data)
 		const rootObject = this.visitNodes(data.nodes[data.rootId], null);
 		this.app.scene.add(rootObject)
+
     }
 
     update() {
@@ -142,6 +143,12 @@ class MyContents  {
 		if (node.children) {
 			node.children.forEach(
 				(element) => {
+
+					if ((node.materialIds.length !== 0)) {
+						element.materialIds = []
+						element.materialIds.push(node.materialIds[0])
+					}
+					
 					const childObj = (this.visitNodes(element, node))
 					object.add(childObj)
 				}
