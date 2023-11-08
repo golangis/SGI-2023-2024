@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
 import { MyObjectCreator } from './MyObjectCreator.js';
+import { MySceneBuilder } from './MySceneBuilder.js';
 /**
  *  This class contains the contents of out application
  */
@@ -89,17 +90,11 @@ class MyContents  {
 
 		console.log("-------------------------------------------------------------")
 		
-		this.myObjectCreator = new MyObjectCreator(data, this.app.scene);
+		this.sceneBuilder = new MySceneBuilder(data, this.app);
 
-		this.addGlobals(data, this.app.scene)
-		
-		const camerasMap = new MyObjectCreator(data, this.app.scene).getCamerasMap();
-
-		this.app.addCameras(camerasMap, data.activeCameraId)
-		
-		
-		console.log("Data\n", data)
-		const rootObject = this.visitNodes(data.nodes[data.rootId], null);
+		this.sceneBuilder.addGlobals()
+		this.sceneBuilder.addCameras()
+		const rootObject = this.sceneBuilder.visitNodes(data.nodes[data.rootId], null)
 		this.app.scene.add(rootObject)
 
     }
@@ -107,128 +102,6 @@ class MyContents  {
     update() {
         
 	}
-	
-
-	addGlobals(data, scene) {
-		scene.fog = new THREE.Fog(
-			new THREE.Color(data.fog.color.r, data.fog.color.g, data.fog.color.b),
-			data.fog.near,
-			data.fog.far
-		)
-
-		scene.add(
-			new THREE.AmbientLight(
-				new THREE.Color(
-					data.options.ambient.r,
-					data.options.ambient.g,
-					data.options.ambient.b
-				)
-			)
-		)
-
-		scene.background = new THREE.Color(
-			data.options.background.r,
-			data.options.background.g,
-			data.options.background.b
-		)
-		
-	}
- 
-	visitNodes(node, parent) {
-
-		let object = new THREE.Object3D()
-		object.name = node.id
-	
-		
-		if (node.children) {
-			node.children.forEach(
-				(element) => {
-
-					if ((node.materialIds.length !== 0)) {
-						element.materialIds = []
-						element.materialIds.push(node.materialIds[0])
-					}
-					
-					const childObj = (this.visitNodes(element, node))
-					object.add(childObj)
-				}
-			)
-		}
-		
-		else {
-			object = this.buildLeafNode(node, parent)
-		}
-		
-		if (node.type === 'node') {
-			this.applyTransformations(node, object)
-		}
-
-		
-
-		return object;
-	}
-
-
-	buildLeafNode(node, parent) {
-
-		
-		
-		const lightType = ['spotlight', 'pointlight', 'directionallight']
-
-		if (node.type === "primitive") {
-			const nodeObj = new THREE.Object3D()
-			const geom = this.myObjectCreator.createPrimitiveObjectGeometry(node)
-			const mesh = new THREE.Mesh(geom);
-
-			if ((parent.materialIds[0] !== undefined)) {
-				const materialMap = this.myObjectCreator.getMaterialsMap();
-				mesh.material = materialMap.get(parent.materialIds[0])
-			}
-
-			nodeObj.add(mesh)
-
-			return nodeObj;
-		}
-
-		else if (lightType.includes(node.type)) {
-			const nodeObj = new THREE.Object3D()
-			const light = this.myObjectCreator.createLightObject(node)
-			nodeObj.name = node.id
-			nodeObj.add(light)
-
-			return nodeObj;
-		}
-
-	}
-
-	applyTransformations(node, object) {
-		
-		node.transformations.forEach(function (transformation) {
-			switch (transformation.type) {
-				case "T":
-					object.position.x += transformation.translate[0]
-					object.position.y += transformation.translate[1]
-					object.position.z += transformation.translate[2]
-					break;
-				case "R":
-					object.rotation.x += THREE.MathUtils.degToRad(transformation.rotation[0])
-					object.rotation.y += THREE.MathUtils.degToRad(transformation.rotation[1])
-					object.rotation.z += THREE.MathUtils.degToRad(transformation.rotation[2])
-					break;
-				case "S":
-					object.scale.x *= transformation.scale[0]
-					object.scale.y *= transformation.scale[1]
-					object.scale.z *= transformation.scale[2]
-					break;
-				default:
-					break;
-			}
-		}
-		);
-
-	}
-
-	// TODO cascade materials
 
 }
 
