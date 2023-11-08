@@ -10,6 +10,7 @@ class MySceneBuilder {
 		this.scene = app.scene;
 		this.app = app;
 		this.myObjectCreator = new MyObjectCreator(data, this.app.scene);
+		this.rootObject = null
 	}
 
 	addGlobals() {
@@ -58,7 +59,6 @@ class MySceneBuilder {
 				}
 
 				const childObj = this.visitNodes(element, node);
-				console.log(object);
 				object.add(childObj);
 			});
 		} else {
@@ -128,6 +128,32 @@ class MySceneBuilder {
 			}
 		});
 	}
+
+	transformIntoWireframes(node, value) {
+		
+		let inheritance = false;
+
+		if (node.children) {
+
+			if (node.name !== undefined && this.data.nodes[node.name] != undefined && this.data.nodes[node.name].materialIds !== undefined && this.data.nodes[node.name].materialIds.length !== 0) {
+							
+				const materialMap = this.myObjectCreator.getMaterialsMap();
+				const material = materialMap.get(this.data.nodes[node.name].materialIds[0]);
+
+				inheritance = material.wireframe; // TODO PORQUE E QUE O VALOR NAO ASSUME??????
+			}
+
+			node.children.forEach((element) => {
+				
+				if (element.isMesh) {
+					element.material.wireframe = (value || inheritance);
+				}
+
+				this.transformIntoWireframes(element, value)
+			});
+		}
+	}
+
 }
 
 export { MySceneBuilder };

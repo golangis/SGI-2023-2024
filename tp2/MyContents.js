@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyFileReader } from "./parser/MyFileReader.js";
-import { MyObjectCreator } from "./MyObjectCreator.js";
 import { MySceneBuilder } from "./MySceneBuilder.js";
 /**
  *  This class contains the contents of out application
@@ -17,6 +16,8 @@ class MyContents {
 
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
 		this.reader.open("scenes/demo/demo.xml");
+
+		this.activateWireframe = false;
 	}
 
 	/**
@@ -164,14 +165,25 @@ class MyContents {
 
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();
-		const rootObject = this.sceneBuilder.visitNodes(
+
+		this.rootObject = this.sceneBuilder.visitNodes(
 			data.nodes[data.rootId],
 			null
 		);
-		this.app.scene.add(rootObject);
+
+		this.app.scene.add(this.rootObject);
+
+		console.log(data);
 	}
 
-	update() {}
+	update() { }
+	
+	activateWireframes(value) {
+		this.sceneBuilder.transformIntoWireframes(
+			this.rootObject,
+			value
+		);
+	}
 }
 
 export { MyContents };

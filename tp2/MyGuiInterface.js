@@ -31,9 +31,21 @@ class MyGuiInterface {
 		const cameraFolder = this.datgui.addFolder("Camera");
 		cameraFolder
 			.add(this.app, "activeCameraName", this.app.cameraKeys)
-			.name("active camera");
+			.name("Active camera");
 		cameraFolder.open();
+
+		this.wireframeActivated = false;
+		
+		const wireframeFolder = this.datgui.addFolder("Wireframe");
+		wireframeFolder.add({ wireframeActivated: false }, 'wireframeActivated').name('Activate Wireframes').onChange((value) => this.contents.activateWireframes(value));
+		wireframeFolder.open();
 	}
+		
+	onCheckboxChange(value) {
+		this.wireframeActivated = value;
+		console.log((value))
+	}
+
 }
 
 export { MyGuiInterface };
