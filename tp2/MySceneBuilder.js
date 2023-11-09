@@ -130,28 +130,48 @@ class MySceneBuilder {
 	}
 
 	transformIntoWireframes(node, value) {
-		
-		let inheritance = false;
 
 		if (node.children) {
+			
+			node.children.forEach((child) => {
 
-			if (node.name !== undefined && this.data.nodes[node.name] != undefined && this.data.nodes[node.name].materialIds !== undefined && this.data.nodes[node.name].materialIds.length !== 0) {
-							
-				const materialMap = this.myObjectCreator.getMaterialsMap();
-				const material = materialMap.get(this.data.nodes[node.name].materialIds[0]);
+				if (child.type == "Mesh") {
 
-				inheritance = material.wireframe; // TODO PORQUE E QUE O VALOR NAO ASSUME??????
-			}
-
-			node.children.forEach((element) => {
-				
-				if (element.isMesh) {
-					element.material.wireframe = (value || inheritance);
+					const inheritance = this.checkInheritance(node);
+					
+					child.material.wireframe = value || inheritance;
+					child.material.needsUpdate = true;
 				}
 
-				this.transformIntoWireframes(element, value)
+
+				this.transformIntoWireframes(child, value)
 			});
 		}
+	}
+
+	checkInheritance(node) {
+		let ancestor = node;
+		let materialKey = "";
+
+		while((materialKey === "" || materialKey === undefined) && ancestor !== null)
+		{
+			ancestor = ancestor.parent
+			
+			try {
+				materialKey = this.data.nodes[ancestor.name].materialIds[0];
+			}
+			catch { }
+		}
+		
+		if (ancestor === null) {
+			return false;
+		}
+
+		const materialMap = this.myObjectCreator.getMaterialsMap();
+		const material = materialMap.get(this.data.nodes[ancestor.name].materialIds[0]);
+		const inheritance = material.wireframe;
+		
+		return inheritance;
 	}
 
 }
