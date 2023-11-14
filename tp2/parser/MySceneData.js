@@ -272,6 +272,14 @@ class MySceneData {
 			{ name: "back", type: "string" },
 		];
 
+		this.descriptors["polygon"] = [
+			{ name: "radius", type: "float" },
+			{ name: "stacks", type: "integer" },
+			{ name: "slices", type: "integer" },
+			{ name: "color_c", type: "rgba" },
+			{ name: "color_p", type: "rgba" },
+		];
+
 		this.descriptors["spotlight"] = [
 			{ name: "id", type: "string" },
 			{ name: "color", type: "rgba" },
@@ -411,6 +419,7 @@ class MySceneData {
 			"model3d",
 			"skybox",
 			"lod",
+			"polygon",
 		];
 	}
 

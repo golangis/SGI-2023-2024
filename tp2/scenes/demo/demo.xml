@@ -50,7 +50,6 @@
             mipmap6="scenes/demo/textures/demo16.png"
             mipmap7="scenes/demo/textures/demo8.png"
         />
-		
     </textures> 
 
     <materials> 
@@ -624,6 +623,11 @@
                 <primitive>
                     <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
                 </primitive>
+                <primitive>
+                    <polygon radius="2.0" slices="12" stacks="3" color_c="1 0 0 1" color_p="1 1 0 1" />
+                </primitive>
+
+
 
             </children> 
         </node>
