@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyFileReader } from "./parser/MyFileReader.js";
 import { MySceneBuilder } from "./MySceneBuilder.js";
+import { MyObjectCreator } from "./MyObjectCreator.js";
 /**
  *  This class contains the contents of out application
  */

@@ -10,7 +10,7 @@ class MySceneBuilder {
 		this.scene = app.scene;
 		this.app = app;
 		this.myObjectCreator = new MyObjectCreator(data, this.app.scene);
-		this.rootObject = null
+		this.rootObject = null;
 	}
 
 	addGlobals() {
@@ -53,7 +53,7 @@ class MySceneBuilder {
 
 		if (node.children) {
 			node.children.forEach((element) => {
-				if (node.materialIds.length !== 0) {
+				if (node.materialIds.length !== 0 && (element.materialIds === undefined || element.materialIds.length === 0)) {
 					element.materialIds = [];
 					element.materialIds.push(node.materialIds[0]);
 				}
@@ -103,25 +103,25 @@ class MySceneBuilder {
 		node.transformations.forEach(function (transformation) {
 			switch (transformation.type) {
 				case "T":
-					object.position.x += transformation.translate[0];
-					object.position.y += transformation.translate[1];
-					object.position.z += transformation.translate[2];
+					object.translateX(transformation.translate[0]);
+					object.translateY(transformation.translate[1]);
+					object.translateZ(transformation.translate[2]);
 					break;
 				case "R":
-					object.rotation.x += THREE.MathUtils.degToRad(
+					object.rotation.x = THREE.MathUtils.degToRad(
 						transformation.rotation[0]
 					);
-					object.rotation.y += THREE.MathUtils.degToRad(
+					object.rotation.y = THREE.MathUtils.degToRad(
 						transformation.rotation[1]
 					);
-					object.rotation.z += THREE.MathUtils.degToRad(
+					object.rotation.z = THREE.MathUtils.degToRad(
 						transformation.rotation[2]
 					);
 					break;
 				case "S":
-					object.scale.x *= transformation.scale[0];
-					object.scale.y *= transformation.scale[1];
-					object.scale.z *= transformation.scale[2];
+					object.scale.x = transformation.scale[0];
+					object.scale.y = transformation.scale[1];
+					object.scale.z = transformation.scale[2];
 					break;
 				default:
 					break;
@@ -130,21 +130,16 @@ class MySceneBuilder {
 	}
 
 	transformIntoWireframes(node, value) {
-
 		if (node.children) {
-			
 			node.children.forEach((child) => {
-
 				if (child.type == "Mesh") {
-
 					const inheritance = this.checkInheritance(node);
-					
+
 					child.material.wireframe = value || inheritance;
 					child.material.needsUpdate = true;
 				}
 
-
-				this.transformIntoWireframes(child, value)
+				this.transformIntoWireframes(child, value);
 			});
 		}
 	}
@@ -153,27 +148,29 @@ class MySceneBuilder {
 		let ancestor = node;
 		let materialKey = "";
 
-		while((materialKey === "" || materialKey === undefined) && ancestor !== null)
-		{
-			ancestor = ancestor.parent
-			
+		while (
+			(materialKey === "" || materialKey === undefined) &&
+			ancestor !== null
+		) {
+			ancestor = ancestor.parent;
+
 			try {
 				materialKey = this.data.nodes[ancestor.name].materialIds[0];
-			}
-			catch { }
+			} catch {}
 		}
-		
+
 		if (ancestor === null) {
 			return false;
 		}
 
 		const materialMap = this.myObjectCreator.getMaterialsMap();
-		const material = materialMap.get(this.data.nodes[ancestor.name].materialIds[0]);
+		const material = materialMap.get(
+			this.data.nodes[ancestor.name].materialIds[0]
+		);
 		const inheritance = material.wireframe;
-		
+
 		return inheritance;
 	}
-
 }
 
 export { MySceneBuilder };

@@ -31,7 +31,6 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.materials) {
 			let material = this.sceneData.materials[key];
-
 			// TODO atributos "texlength_s" e "texlength_t"
 			const materialObject = new THREE.MeshPhongMaterial({
 				color: material.color,
@@ -39,14 +38,16 @@ class MyObjectCreator {
 				emissive: material.emissive,
 				shininess: material.shininess,
 				wireframe: material.wireframe,
-				map: textureMap.get(material.textureref),
+				map: (material.textureref !== null)? textureMap.get(material.textureref): null,
 				flatShading: material.shading === "flat" ? true : false,
 				side:
-					material.twosided === true
-						? THREE.DoubleSide
-						: THREE.FrontSide,
+				material.twosided === true
+				? THREE.DoubleSide
+				: THREE.FrontSide,
 			});
-
+			
+			materialObject.name = key;
+			
 			materialMap.set(material.id, materialObject);
 		}
 
@@ -115,7 +116,7 @@ class MyObjectCreator {
 					objectAttributes.height,
 					objectAttributes.slices,
 					objectAttributes.stacks,
-					objectAttributes.capsclose,
+					!objectAttributes.capsclose,
 					objectAttributes.thetastart,
 					objectAttributes.thetalength
 				);
