@@ -352,6 +352,7 @@ class MyObjectCreator {
 		
 		const skyboxGeo = new THREE.BoxGeometry(node.size[0], node.size[1], node.size[2]);
   		const skybox = new THREE.Mesh(skyboxGeo, materialObjects);
+		skybox.position.set(node.center[0], node.center[1], node.center[2])
 
 		return skybox
 	}
