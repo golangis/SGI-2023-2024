@@ -332,6 +332,29 @@ class MyObjectCreator {
 				return;
 		}
 	}
+
+	createSkyBox(node) {
+		const sides = ["front", "back", "up", "down", "right", "left"]
+		const materialObjects = [];
+
+		sides.forEach(function (side) {
+			const texObject = new THREE.TextureLoader().load("./"+node[side]);
+
+			const materialObject = new THREE.MeshPhongMaterial({
+				emissive: node.emissive,
+				emissiveIntensity: node.intensity,
+				map: texObject,
+				side: THREE.BackSide
+			});
+			
+			materialObjects.push(materialObject)
+		})
+		
+		const skyboxGeo = new THREE.BoxGeometry(node.size[0], node.size[1], node.size[2]);
+  		const skybox = new THREE.Mesh(skyboxGeo, materialObjects);
+
+		return skybox
+	}
 }
 
 export { MyObjectCreator };

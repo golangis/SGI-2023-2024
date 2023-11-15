@@ -16,7 +16,7 @@ class MyContents {
 		this.axis = null;
 
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		this.reader.open("scenes/demo/demo.xml");
+		this.reader.open("scenes/space-living/SGI_TP2_XML_T04_G06_v01.xml");
 
 		this.activateWireframe = false;
 	}
@@ -166,6 +166,7 @@ class MyContents {
 
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();
+		this.sceneBuilder.addSkybox();
 
 		this.rootObject = this.sceneBuilder.visitNodes(
 			data.nodes[data.rootId],
@@ -188,3 +189,21 @@ class MyContents {
 }
 
 export { MyContents };
+
+
+// TODO primitives:
+	// polygon
+	// model3d
+	// lod (level of detail)
+// TODO textures:
+	// isVideo
+	// magFilter
+	// minFilter
+	// mipmaps
+	// anisotropy
+	// mipmap0 - mipmap7
+// TODO material:
+	// bumpref
+	// bumpscale
+	// specularref
+	

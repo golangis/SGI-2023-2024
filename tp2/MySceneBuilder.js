@@ -41,6 +41,11 @@ class MySceneBuilder {
 		);
 	}
 
+	addSkybox() {
+		const skybox = this.myObjectCreator.createSkyBox(this.data.skyboxes.default)
+		this.scene.add(skybox)
+	}
+
 	addCameras() {
 		const camerasMap = this.myObjectCreator.getCamerasMap();
 
