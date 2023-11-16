@@ -206,4 +206,6 @@ export { MyContents };
 	// bumpref
 	// bumpscale
 	// specularref
-	
+// TODO nodes:
+	// castshadows
+	// receiveshadows

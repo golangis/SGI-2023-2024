@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
+import { MyTriangle } from "./MyTriangle.js";
+import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
 
 /**
     This class customizes the gui interface for the app
@@ -38,16 +40,19 @@ class MyObjectCreator {
 				emissive: material.emissive,
 				shininess: material.shininess,
 				wireframe: material.wireframe,
-				map: (material.textureref !== null)? textureMap.get(material.textureref): null,
+				map:
+					material.textureref !== null
+						? textureMap.get(material.textureref)
+						: null,
 				flatShading: material.shading === "flat" ? true : false,
 				side:
-				material.twosided === true
-				? THREE.DoubleSide
-				: THREE.FrontSide,
+					material.twosided === true
+						? THREE.DoubleSide
+						: THREE.FrontSide,
 			});
-			
+
 			materialObject.name = key;
-			
+
 			materialMap.set(material.id, materialObject);
 		}
 
@@ -229,10 +234,100 @@ class MyObjectCreator {
 
 				return boxGeometry;
 
+			case "polygon":
+				const polygonGeometry = this.createPolygonGeometry(
+					objectAttributes.radius,
+					objectAttributes.stacks,
+					objectAttributes.slices,
+					objectAttributes.color_c,
+					objectAttributes.color_p
+				);
+
+				return polygonGeometry;
 			default:
 				console.log("\noh no! we dont have any object like that :/\n");
 				break;
 		}
+	}
+
+	createPolygonGeometry(radius, stacks, slices, color_c, color_p) {
+		const angleIncrement = (2 * Math.PI) / slices;
+		const stackLength = radius / stacks;
+
+		let material = new THREE.MeshBasicMaterial({ color: color_c });
+
+		const polygonGroup = new THREE.Group();
+
+		for (let theta = 0; theta <= 2 * Math.PI; ) {
+			const x0 = 0,
+				y0 = 0;
+			const x1 = Math.cos(theta) * stackLength,
+				y1 = Math.sin(theta) * stackLength;
+
+			theta += angleIncrement;
+
+			const x2 = Math.cos(theta) * stackLength,
+				y2 = Math.sin(theta) * stackLength;
+
+			const triangleGeo = new MyTriangle(x0, y0, 0, x1, y1, 0, x2, y2, 0);
+
+			const mesh = new THREE.Mesh(triangleGeo, material);
+			polygonGroup.add(mesh);
+		}
+
+		for (let stack = 1; stack < stacks; stack++) {
+			const t = stack / stacks;
+			const color = new THREE.Color().lerpColors(color_c, color_p, t);
+
+			material = new THREE.MeshBasicMaterial({ color: color });
+
+			for (let theta = 0; theta <= 2 * Math.PI; ) {
+				const x0 = Math.cos(theta) * stackLength * stack,
+					y0 = Math.sin(theta) * stackLength * stack;
+
+				const x1 = Math.cos(theta) * stackLength * (stack + 1),
+					y1 = Math.sin(theta) * stackLength * (stack + 1);
+
+				theta += angleIncrement;
+
+				const x2 = Math.cos(theta) * stackLength * (stack + 1),
+					y2 = Math.sin(theta) * stackLength * (stack + 1);
+
+				const x3 = Math.cos(theta) * stackLength * stack,
+					y3 = Math.sin(theta) * stackLength * stack;
+
+				const triangleGeo1 = new MyTriangle(
+						x0,
+						y0,
+						0,
+						x1,
+						y1,
+						0,
+						x2,
+						y2,
+						0
+					),
+					triangleGeo2 = new MyTriangle(
+						x0,
+						y0,
+						0,
+						x2,
+						y2,
+						0,
+						x3,
+						y3,
+						0
+					);
+
+				const mesh1 = new THREE.Mesh(triangleGeo1, material),
+					mesh2 = new THREE.Mesh(triangleGeo2, material);
+
+				polygonGroup.add(mesh1);
+				polygonGroup.add(mesh2);
+			}
+		}
+
+		return polygonGroup;
 	}
 
 	createLightObject(lightObject) {
@@ -334,27 +429,31 @@ class MyObjectCreator {
 	}
 
 	createSkyBox(node) {
-		const sides = ["front", "back", "up", "down", "right", "left"]
+		const sides = ["front", "back", "up", "down", "right", "left"];
 		const materialObjects = [];
 
 		sides.forEach(function (side) {
-			const texObject = new THREE.TextureLoader().load("./"+node[side]);
+			const texObject = new THREE.TextureLoader().load("./" + node[side]);
 
 			const materialObject = new THREE.MeshPhongMaterial({
 				emissive: node.emissive,
 				emissiveIntensity: node.intensity,
 				map: texObject,
-				side: THREE.BackSide
+				side: THREE.BackSide,
 			});
-			
-			materialObjects.push(materialObject)
-		})
-		
-		const skyboxGeo = new THREE.BoxGeometry(node.size[0], node.size[1], node.size[2]);
-  		const skybox = new THREE.Mesh(skyboxGeo, materialObjects);
-		skybox.position.set(node.center[0], node.center[1], node.center[2])
 
-		return skybox
+			materialObjects.push(materialObject);
+		});
+
+		const skyboxGeo = new THREE.BoxGeometry(
+			node.size[0],
+			node.size[1],
+			node.size[2]
+		);
+		const skybox = new THREE.Mesh(skyboxGeo, materialObjects);
+		skybox.position.set(node.center[0], node.center[1], node.center[2]);
+
+		return skybox;
 	}
 }
 

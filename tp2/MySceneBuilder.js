@@ -42,8 +42,10 @@ class MySceneBuilder {
 	}
 
 	addSkybox() {
-		const skybox = this.myObjectCreator.createSkyBox(this.data.skyboxes.default)
-		this.scene.add(skybox)
+		const skybox = this.myObjectCreator.createSkyBox(
+			this.data.skyboxes.default
+		);
+		this.scene.add(skybox);
 	}
 
 	addCameras() {
@@ -58,7 +60,11 @@ class MySceneBuilder {
 
 		if (node.children) {
 			node.children.forEach((element) => {
-				if (node.materialIds.length !== 0 && (element.materialIds === undefined || element.materialIds.length === 0)) {
+				if (
+					node.materialIds.length !== 0 &&
+					(element.materialIds === undefined ||
+						element.materialIds.length === 0)
+				) {
 					element.materialIds = [];
 					element.materialIds.push(node.materialIds[0]);
 				}
@@ -84,13 +90,17 @@ class MySceneBuilder {
 			const nodeObj = new THREE.Object3D();
 			const geom =
 				this.myObjectCreator.createPrimitiveObjectGeometry(node);
-			const mesh = new THREE.Mesh(geom);
+			let mesh = new THREE.Mesh();
 
-			if (parent.materialIds[0] !== undefined) {
-				const materialMap = this.myObjectCreator.getMaterialsMap();
-				mesh.material = materialMap.get(parent.materialIds[0]);
+			if (node.subtype === "polygon") {
+				mesh = geom;
+			} else {
+				mesh = new THREE.Mesh(geom);
+				if (parent.materialIds[0] !== undefined) {
+					const materialMap = this.myObjectCreator.getMaterialsMap();
+					mesh.material = materialMap.get(parent.materialIds[0]);
+				}
 			}
-
 			nodeObj.add(mesh);
 
 			return nodeObj;
@@ -113,6 +123,7 @@ class MySceneBuilder {
 					object.translateZ(transformation.translate[2]);
 					break;
 				case "R":
+					// TODO trocar de graus para radianos
 					object.rotation.x = THREE.MathUtils.degToRad(
 						transformation.rotation[0]
 					);

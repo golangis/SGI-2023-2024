@@ -500,8 +500,22 @@
                 <noderef id="sofa_left" />
                 <noderef id="sofa_near" />
                 <noderef id="sofa_far" />
+				<noderef id="polygon"/>
             </children>
         </node>
+
+		<node id="polygon">
+			<transforms>
+                <translate value3="0 0 -50" />
+                <scale value3="1.5 1.5 1.5"/>
+            </transforms>
+
+			<children>
+				<primitive>
+                    <polygon radius="10" stacks="5" slices="5" color_c="1 1 1 1.0" color_p="1 0 0 1"  />
+                </primitive>
+            </children>
+		</node>
 
         <node id="sofa_left" castshadows="true" receiveshadows="true">
             <transforms>
