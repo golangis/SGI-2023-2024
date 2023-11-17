@@ -56,31 +56,36 @@ class MySceneBuilder {
 
 
 	visitNodes(node, parent, lastMaterial) {
-		let object = new THREE.Object3D();
+		let object = new THREE.Object3D(),
+			childObj = new THREE.Object3D();
+
 		object.name = node.id;
 
 		if (node.children) {
 			node.children.forEach((element) => {
-
 				if (
-					(node.materialIds !== undefined) && (node.materialIds.length !== 0) &&
+					node.materialIds !== undefined &&
+					node.materialIds.length !== 0 &&
 					(element.materialIds === undefined ||
 						element.materialIds.length === 0)
 				) {
-					lastMaterial = (node.materialIds[0]);
+					lastMaterial = node.materialIds[0];
 				}
 
-				const childObj = this.visitNodes(element, node, lastMaterial);
-				
-				if (element.type === "lodnoderef") {
-					// TODO LODs
-					return new THREE.Object3D()
+				// TODO testar os LODs (esperar que o André dê as texturas)
+				if (node.type === "lod") {
+					childObj = this.visitNodes(element.node, node, lastMaterial);
+					object = new THREE.LOD();
+					object.addLevel(childObj, element.mindist);
+
+				} else {
+					childObj = this.visitNodes(element, node, lastMaterial);
+	
+					childObj.castShadow = node.castShadows;
+					childObj.receiveShadow = node.receiveShadows;
+					object.add(childObj);
 				}
 
-				childObj.castShadow = node.castShadows
-				childObj.receiveShadow = node.receiveShadows
-
-				object.add(childObj);
 			});
 		} else {
 			object = this.buildLeafNode(node, parent, lastMaterial);
@@ -89,7 +94,7 @@ class MySceneBuilder {
 		if (node.type === "node") {
 			this.applyTransformations(node, object);
 		}
-
+		object.isLOD? console.log(object) : console.log()
 		return object;
 	}
 
@@ -111,8 +116,8 @@ class MySceneBuilder {
 					mesh.material = materialMap.get(material);
 				}
 			}
-			mesh.castShadow = parent.castShadows
-			mesh.receiveShadow = parent.receiveShadows
+			mesh.castShadow = parent.castShadows;
+			mesh.receiveShadow = parent.receiveShadows;
 
 			nodeObj.add(mesh);
 

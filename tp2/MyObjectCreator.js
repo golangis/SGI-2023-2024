@@ -33,11 +33,11 @@ class MyObjectCreator {
 
 				video.addEventListener("canplaythrough", canplaythrough, false);
 
-				videoCanvas = document.createElement("canvas");
+				const videoCanvas = document.createElement("canvas");
 				videoCanvas.width = 1280;
 				videoCanvas.height = 720;
 
-				videoContext = videoCanvas.getContext("2d");
+				const videoContext = videoCanvas.getContext("2d");
 
 				// background color if no video present
 				videoContext.fillStyle = "#ff0000";
