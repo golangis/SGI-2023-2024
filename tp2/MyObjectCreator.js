@@ -106,8 +106,9 @@ class MyObjectCreator {
 						: null,
 				bumpScale:
 					material.bumpscale !== null ? material.bumpscale : null,
-				specularMap:
-					material.specularref !== null ? material.specularref : null,
+				// FIXME
+					/* specularMap:
+					material.specularref !== null ? material.specularref : null,*/
 			});
 
 			materialObject.name = key;
