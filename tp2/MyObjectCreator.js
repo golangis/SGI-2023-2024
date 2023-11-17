@@ -156,18 +156,17 @@ class MyObjectCreator {
 					xyz2 = objectAttributes.xyz2,
 					xyz3 = objectAttributes.xyz3;
 
-				let triangleGeometry = new THREE.Geometry();
-
-				let triangle = new THREE.Triangle(xyz1, xyz2, xyz3);
-
-				let normal = triangle.normal();
-				triangleGeometry.vertices.push(
-					triangle.a,
-					triangle.b,
-					triangle.c
+				const triangleGeometry = new MyTriangle(
+					xyz1[0],
+					xyz1[1],
+					xyz1[2],
+					xyz1[0],
+					xyz3[1],
+					xyz4[2],
+					xyz3[0],
+					xyz3[1],
+					xyz3[2]
 				);
-
-				triangleGeometry.faces.push(new THREE.Face3(0, 1, 2, normal));
 
 				return triangleGeometry;
 

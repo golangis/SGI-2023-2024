@@ -192,8 +192,7 @@ export { MyContents };
 
 
 // TODO primitives:
-	// polygon
-	// model3d
+	// model3d (não está no enunciado, só no MySceneData.js)
 	// lod (level of detail)
 // TODO textures:
 	// isVideo
@@ -206,6 +205,3 @@ export { MyContents };
 	// bumpref
 	// bumpscale
 	// specularref
-// TODO nodes:
-	// castshadows
-	// receiveshadows

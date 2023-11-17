@@ -54,26 +54,31 @@ class MySceneBuilder {
 		this.app.addCameras(camerasMap, this.data.activeCameraId);
 	}
 
-	visitNodes(node, parent) {
+
+	visitNodes(node, parent, lastMaterial) {
 		let object = new THREE.Object3D();
 		object.name = node.id;
 
 		if (node.children) {
 			node.children.forEach((element) => {
+
 				if (
 					node.materialIds.length !== 0 &&
 					(element.materialIds === undefined ||
 						element.materialIds.length === 0)
 				) {
-					element.materialIds = [];
-					element.materialIds.push(node.materialIds[0]);
+					lastMaterial = (node.materialIds[0]);
 				}
 
-				const childObj = this.visitNodes(element, node);
+				const childObj = this.visitNodes(element, node, lastMaterial);
+				
+				childObj.castShadow = node.castShadows
+				childObj.receiveShadow = node.receiveShadows
+
 				object.add(childObj);
 			});
 		} else {
-			object = this.buildLeafNode(node, parent);
+			object = this.buildLeafNode(node, parent, lastMaterial);
 		}
 
 		if (node.type === "node") {
@@ -83,7 +88,7 @@ class MySceneBuilder {
 		return object;
 	}
 
-	buildLeafNode(node, parent) {
+	buildLeafNode(node, parent, material) {
 		const lightType = ["spotlight", "pointlight", "directionallight"];
 
 		if (node.type === "primitive") {
@@ -96,11 +101,14 @@ class MySceneBuilder {
 				mesh = geom;
 			} else {
 				mesh = new THREE.Mesh(geom);
-				if (parent.materialIds[0] !== undefined) {
+				if (material !== undefined) {
 					const materialMap = this.myObjectCreator.getMaterialsMap();
-					mesh.material = materialMap.get(parent.materialIds[0]);
+					mesh.material = materialMap.get(material);
 				}
 			}
+			mesh.castShadow = parent.castShadows
+			mesh.receiveShadow = parent.receiveShadows
+
 			nodeObj.add(mesh);
 
 			return nodeObj;
