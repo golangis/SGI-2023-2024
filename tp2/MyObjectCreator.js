@@ -22,45 +22,54 @@ class MyObjectCreator {
 		for (var key in this.sceneData.textures) {
 			let texture = this.sceneData.textures[key];
 			if (texture.isVideo) {
-				const video = document.createElement('video');
+				const video = document.createElement("video");
 				video.src = "./" + texture.filepath;
 				video.load();
-			  
-				var canplaythrough = function() {
-				  video.removeEventListener('canplaythrough', canplaythrough);
-				  video.play();
+
+				var canplaythrough = function () {
+					video.removeEventListener("canplaythrough", canplaythrough);
+					video.play();
 				};
 
-				video.addEventListener('canplaythrough', canplaythrough, false);
-			  
-				videoCanvas = document.createElement( 'canvas' );
+				video.addEventListener("canplaythrough", canplaythrough, false);
+
+				videoCanvas = document.createElement("canvas");
 				videoCanvas.width = 1280;
 				videoCanvas.height = 720;
-			  
-				videoContext = videoCanvas.getContext('2d');
-			  
+
+				videoContext = videoCanvas.getContext("2d");
+
 				// background color if no video present
-				videoContext.fillStyle = '#ff0000';
-				videoContext.fillRect( 0, 0, videoCanvas.width, videoCanvas.height );
-			  
-				texObject = new THREE.Texture( videoCanvas );
-			}
-			else {
-				
+				videoContext.fillStyle = "#ff0000";
+				videoContext.fillRect(
+					0,
+					0,
+					videoCanvas.width,
+					videoCanvas.height
+				);
+
+				texObject = new THREE.Texture(videoCanvas);
+			} else {
 				texObject = new THREE.TextureLoader().load(
 					"./" + texture.filepath
 				);
 
-				texture.mipmaps = []
+				texture.mipmaps = [];
 				for (let i = 0; ; i++) {
-					const mipmapPropertyName ='mipmap'+ String(i);
-					
-					if (texture[mipmapPropertyName] === null || texture[mipmapPropertyName] === undefined) {
+					const mipmapPropertyName = "mipmap" + String(i);
+
+					if (
+						texture[mipmapPropertyName] === null ||
+						texture[mipmapPropertyName] === undefined
+					) {
 						break;
 					} else {
-						texture.mipmaps[i] = new THREE.TextureLoader().load("./" + texture[mipmapPropertyName])
+						texture.mipmaps[i] = new THREE.TextureLoader().load(
+							"./" + texture[mipmapPropertyName]
+						);
 					}
-			}}
+				}
+			}
 
 			textureMap.set(texture.id, texObject);
 		}
@@ -74,6 +83,7 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.materials) {
 			let material = this.sceneData.materials[key];
+			// TODO testar o bumpMap, bumpscale e specularMap
 			// TODO atributos "texlength_s" e "texlength_t"
 			const materialObject = new THREE.MeshPhongMaterial({
 				color: material.color,
@@ -90,6 +100,14 @@ class MyObjectCreator {
 					material.twosided === true
 						? THREE.DoubleSide
 						: THREE.FrontSide,
+				bumpMap:
+					material.bumpref !== null
+						? textureMap.get(material.bumpref)
+						: null,
+				bumpScale:
+					material.bumpscale !== null ? material.bumpscale : null,
+				specularMap:
+					material.specularref !== null ? material.specularref : null,
 			});
 
 			materialObject.name = key;

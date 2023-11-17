@@ -199,7 +199,3 @@ export { MyContents };
 	// magFilter (não está no enunciado, só no MySceneData.js)
 	// minFilter (não está no enunciado, só no MySceneData.js)
 	// anisotropy (não está no enunciado, só no MySceneData.js)
-// TODO material:
-	// bumpref
-	// bumpscale
-	// specularref
