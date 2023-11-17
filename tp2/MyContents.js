@@ -16,7 +16,7 @@ class MyContents {
 		this.axis = null;
 
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		this.reader.open("scenes/space-living/SGI_TP2_XML_T04_G06_v01.xml");
+		this.reader.open("scenes/demo/demo.xml");
 
 		this.activateWireframe = false;
 	}
@@ -170,7 +170,8 @@ class MyContents {
 
 		this.rootObject = this.sceneBuilder.visitNodes(
 			data.nodes[data.rootId],
-			null
+			undefined,
+			undefined
 		);
 
 		this.app.scene.add(this.rootObject);
@@ -195,12 +196,9 @@ export { MyContents };
 	// model3d (não está no enunciado, só no MySceneData.js)
 	// lod (level of detail)
 // TODO textures:
-	// isVideo
-	// magFilter
-	// minFilter
-	// mipmaps
-	// anisotropy
-	// mipmap0 - mipmap7
+	// magFilter (não está no enunciado, só no MySceneData.js)
+	// minFilter (não está no enunciado, só no MySceneData.js)
+	// anisotropy (não está no enunciado, só no MySceneData.js)
 // TODO material:
 	// bumpref
 	// bumpscale

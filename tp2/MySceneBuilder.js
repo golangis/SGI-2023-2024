@@ -63,7 +63,7 @@ class MySceneBuilder {
 			node.children.forEach((element) => {
 
 				if (
-					node.materialIds.length !== 0 &&
+					(node.materialIds !== undefined) && (node.materialIds.length !== 0) &&
 					(element.materialIds === undefined ||
 						element.materialIds.length === 0)
 				) {
@@ -72,6 +72,11 @@ class MySceneBuilder {
 
 				const childObj = this.visitNodes(element, node, lastMaterial);
 				
+				if (element.type === "lodnoderef") {
+					// TODO LODs
+					return new THREE.Object3D()
+				}
+
 				childObj.castShadow = node.castShadows
 				childObj.receiveShadow = node.receiveShadows
 
@@ -131,7 +136,7 @@ class MySceneBuilder {
 					object.translateZ(transformation.translate[2]);
 					break;
 				case "R":
-					// TODO trocar de graus para radianos
+					// TODO trocar de graus para radianos (quando entregar)
 					object.rotation.x = THREE.MathUtils.degToRad(
 						transformation.rotation[0]
 					);
