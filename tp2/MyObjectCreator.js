@@ -11,45 +11,85 @@ class MyObjectCreator {
 		this.sceneData = data;
 		this.builder = new MyNurbsBuilder();
 		this.scene = scene;
+		this.texturesMap = this.createTexturesMap();
+		this.camerasMap = this.createCamerasMap();
+		this.materialsMap = this.createMaterialsMap();
+	}
+
+	/**
+     * load an image and create a mipmap to be added to a texture at the defined level.
+     * In between, add the image some text and control squares. These items become part of the picture
+     * 
+     * @param {*} parentTexture the texture to which the mipmap is added
+     * @param {*} level the level of the mipmap
+     * @param {*} path the path for the mipmap image
+    // * @param {*} size if size not null inscribe the value in the mipmap. null by default
+    // * @param {*} color a color to be used for demo
+     */
+	loadMipmap(parentTexture, level, path) {
+		// load texture. On loaded call the function to create the mipmap for the specified level
+		new THREE.TextureLoader().load(
+			path,
+			function (
+				mipmapTexture // onLoad callback
+			) {
+				const canvas = document.createElement("canvas");
+				const ctx = canvas.getContext("2d");
+				ctx.scale(1, 1);
+
+				// const fontSize = 48
+				const img = mipmapTexture.image;
+				canvas.width = img.width;
+				canvas.height = img.height;
+
+				// first draw the image
+				ctx.drawImage(img, 0, 0);
+
+				// set the mipmap image in the parent texture in the appropriate level
+				parentTexture.mipmaps[level] = canvas;
+			},
+			undefined, // onProgress callback currently not supported
+			function (err) {
+				console.error(
+					"Unable to load the image " +
+						path +
+						" as mipmap level " +
+						level +
+						".",
+					err
+				);
+			}
+		);
 	}
 
 	getTexturesMap() {
+		return this.texturesMap;
+	}
+
+	createTexturesMap() {
 		let textureMap = new Map();
 		let texObject;
-		// TODO testar mipmaps -> mipmaps da demo nao tem a imagem disponivel nas folders (hence o erro GET na consola)
-		// TODO testar video textures -> não textures de video na demo
 
 		for (var key in this.sceneData.textures) {
 			let texture = this.sceneData.textures[key];
-			/*if (texture.isVideo) {
+			
+			if (texture.isVideo) {
 				const video = document.createElement("video");
+				video.id = "video";
+				video.playsinline = true;
+				video.setAttribute("webkit-playsinline", ""); // Webkit specific attribute
+				video.muted = true;
+				video.loop = true;
+				video.autoplay = true;
+				video.width = 640;
+				video.height = 360;
 				video.src = "./" + texture.filepath;
-				video.load();
+				video.style.display = "none";
 
-				var canplaythrough = function () {
-					video.removeEventListener("canplaythrough", canplaythrough);
-					video.play();
-				};
+				document.body.appendChild(video);
 
-				video.addEventListener("canplaythrough", canplaythrough, false);
-
-				const videoCanvas = document.createElement("canvas");
-				videoCanvas.width = 1280;
-				videoCanvas.height = 720;
-
-				const videoContext = videoCanvas.getContext("2d");
-
-				// background color if no video present
-				videoContext.fillStyle = "#ff0000";
-				videoContext.fillRect(
-					0,
-					0,
-					videoCanvas.width,
-					videoCanvas.height
-				);
-
-				texObject = new THREE.Texture(videoCanvas);
-			} else {*/
+				texObject = new THREE.VideoTexture(video);
+			} else {
 				texObject = new THREE.TextureLoader().load(
 					"./" + texture.filepath
 				);
@@ -57,28 +97,34 @@ class MyObjectCreator {
 				texObject.mipmaps = [];
 				for (let i = 0; ; i++) {
 					const mipmapPropertyName = "mipmap" + String(i);
-					console.log(texture[mipmapPropertyName])
 					if (
 						texture[mipmapPropertyName] === null ||
 						texture[mipmapPropertyName] === undefined
 					) {
 						break;
 					} else {
-						texObject.mipmaps[i] = new THREE.TextureLoader().load(
+						texObject.generateMipmaps = false;
+						this.loadMipmap(
+							texObject,
+							i,
 							"./" + texture[mipmapPropertyName]
 						);
 					}
+				}
 			}
-			texObject.name = texture.id;
-			//}
 
+			texObject.name = texture.id;
 			textureMap.set(texture.id, texObject);
 		}
 
 		return textureMap;
 	}
 
-	getMaterialsMap() {
+	getMaterialsMap() { 
+		return this.materialsMap;
+	}
+
+	createMaterialsMap() {
 		let materialMap = new Map();
 		const textureMap = this.getTexturesMap();
 
@@ -119,7 +165,11 @@ class MyObjectCreator {
 		return materialMap;
 	}
 
-	getCamerasMap() {
+	getCamerasMap() { 
+		return this.camerasMap;
+	}
+		
+	createCamerasMap(){
 		let camerasMap = new Map();
 
 		for (var key in this.sceneData.cameras) {
@@ -498,7 +548,7 @@ class MyObjectCreator {
 				emissive: node.emissive,
 				emissiveIntensity: node.intensity,
 				map: texObject,
-				side: THREE.DoubleSide,
+				side: THREE.BackSide,
 				emissiveMap: texObject,
 			});
 
@@ -512,8 +562,6 @@ class MyObjectCreator {
 		);
 		const skybox = new THREE.Mesh(skyboxGeo, materialObjects);
 		skybox.position.set(node.center[0], node.center[1], node.center[2]);
-		
-		console.log(skybox)
 		return skybox;
 	}
 }
