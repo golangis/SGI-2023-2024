@@ -72,7 +72,7 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.textures) {
 			let texture = this.sceneData.textures[key];
-			
+
 			if (texture.isVideo) {
 				const video = document.createElement("video");
 				video.id = "video";
@@ -120,7 +120,7 @@ class MyObjectCreator {
 		return textureMap;
 	}
 
-	getMaterialsMap() { 
+	getMaterialsMap() {
 		return this.materialsMap;
 	}
 
@@ -152,9 +152,10 @@ class MyObjectCreator {
 						: null,
 				bumpScale:
 					material.bumpscale !== null ? material.bumpscale : null,
-				// FIXME
-				/*specularMap:
-					material.specularref !== null ? material.specularref : null,*/
+				specularMap:
+					material.specularref !== null
+						? textureMap.get(material.specularref)
+						: null,
 			});
 
 			materialObject.name = key;
@@ -165,11 +166,11 @@ class MyObjectCreator {
 		return materialMap;
 	}
 
-	getCamerasMap() { 
+	getCamerasMap() {
 		return this.camerasMap;
 	}
-		
-	createCamerasMap(){
+
+	createCamerasMap() {
 		let camerasMap = new Map();
 
 		for (var key in this.sceneData.cameras) {
