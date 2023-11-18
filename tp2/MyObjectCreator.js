@@ -21,7 +21,7 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.textures) {
 			let texture = this.sceneData.textures[key];
-			if (texture.isVideo) {
+			/*if (texture.isVideo) {
 				const video = document.createElement("video");
 				video.src = "./" + texture.filepath;
 				video.load();
@@ -49,27 +49,28 @@ class MyObjectCreator {
 				);
 
 				texObject = new THREE.Texture(videoCanvas);
-			} else {
+			} else {*/
 				texObject = new THREE.TextureLoader().load(
 					"./" + texture.filepath
 				);
 
-				texture.mipmaps = [];
+				texObject.mipmaps = [];
 				for (let i = 0; ; i++) {
 					const mipmapPropertyName = "mipmap" + String(i);
-
+					console.log(texture[mipmapPropertyName])
 					if (
 						texture[mipmapPropertyName] === null ||
 						texture[mipmapPropertyName] === undefined
 					) {
 						break;
 					} else {
-						texture.mipmaps[i] = new THREE.TextureLoader().load(
+						texObject.mipmaps[i] = new THREE.TextureLoader().load(
 							"./" + texture[mipmapPropertyName]
 						);
 					}
-				}
 			}
+			texObject.name = texture.id;
+			//}
 
 			textureMap.set(texture.id, texObject);
 		}
@@ -83,7 +84,6 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.materials) {
 			let material = this.sceneData.materials[key];
-			// TODO testar o bumpMap, bumpscale e specularMap
 			// TODO atributos "texlength_s" e "texlength_t"
 			const materialObject = new THREE.MeshPhongMaterial({
 				color: material.color,
@@ -107,7 +107,7 @@ class MyObjectCreator {
 				bumpScale:
 					material.bumpscale !== null ? material.bumpscale : null,
 				// FIXME
-					/* specularMap:
+				/*specularMap:
 					material.specularref !== null ? material.specularref : null,*/
 			});
 
@@ -498,7 +498,8 @@ class MyObjectCreator {
 				emissive: node.emissive,
 				emissiveIntensity: node.intensity,
 				map: texObject,
-				side: THREE.BackSide,
+				side: THREE.DoubleSide,
+				emissiveMap: texObject,
 			});
 
 			materialObjects.push(materialObject);
@@ -511,7 +512,8 @@ class MyObjectCreator {
 		);
 		const skybox = new THREE.Mesh(skyboxGeo, materialObjects);
 		skybox.position.set(node.center[0], node.center[1], node.center[2]);
-
+		
+		console.log(skybox)
 		return skybox;
 	}
 }

@@ -59,6 +59,10 @@ class MySceneBuilder {
 		let object = new THREE.Object3D(),
 			childObj = new THREE.Object3D();
 
+		if (node.type === "lod") {
+			object = new THREE.LOD();
+		}
+
 		object.name = node.id;
 
 		if (node.children) {
@@ -72,12 +76,9 @@ class MySceneBuilder {
 					lastMaterial = node.materialIds[0];
 				}
 
-				// TODO testar os LODs (esperar que o André dê as texturas)
-				if (node.type === "lod") {
+				if (element.type === "lodnoderef") {
 					childObj = this.visitNodes(element.node, node, lastMaterial);
-					object = new THREE.LOD();
 					object.addLevel(childObj, element.mindist);
-
 				} else {
 					childObj = this.visitNodes(element, node, lastMaterial);
 	
@@ -94,7 +95,7 @@ class MySceneBuilder {
 		if (node.type === "node") {
 			this.applyTransformations(node, object);
 		}
-		object.isLOD? console.log(object) : console.log()
+		
 		return object;
 	}
 

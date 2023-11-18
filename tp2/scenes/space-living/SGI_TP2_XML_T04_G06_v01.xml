@@ -149,9 +149,7 @@
                 <noderef id="sun"/>
                 <noderef id="earth"/>
                 <noderef id="jupyter"/>
-                <primitive>
-                    <polygon radius="5" stacks="3" slices="5" color_c="1 1 1 1" color_p="0 0 0 1" />
-                </primitive>
+				<noderef id="polygon"/>
             </children>
         </node>
 
@@ -555,7 +553,6 @@
                 <noderef id="sofa_left" />
                 <noderef id="sofa_near" />
                 <noderef id="sofa_far" />
-				<noderef id="polygon"/>
             </children>
         </node>
 
@@ -1213,7 +1210,7 @@
 
         <node id="doorFarAway" castshadows="false" receiveshadows="false">
             <transforms>
-                <translate value3="11 0 0" />
+                <translate value3="11 3 0" />
             </transforms>
             <materialref id="door"/>
             <children>
