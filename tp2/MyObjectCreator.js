@@ -341,6 +341,12 @@ class MyObjectCreator {
 					objectAttributes.parts_y,
 					objectAttributes.parts_z
 				);
+				boxGeometry.translate(
+					(box_xyz2[0] + box_xyz1[0]) / 2,
+					(box_xyz2[1] + box_xyz1[1]) / 2,
+					(box_xyz2[2] + box_xyz1[2]) / 2
+				);
+				
 
 				return boxGeometry;
 

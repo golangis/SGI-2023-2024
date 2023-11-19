@@ -1,9 +1,23 @@
-<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+
+<?xml-model href="https://schema.toino.pt/yaf.xsd" type="application/xml"?>
+
 <yaf>
 
     <globals background="0 0 0 1" ambient="0.1 0.1 0.1 1" />
 
     <fog color="1.0 1.0 1.0 1.0" near="1000.0" far="10000.0" />
+
+    <skybox
+        size="100 100 100"
+        center="0 49.9 0"
+        emissive="0 0 0 1"
+        intensity="5"
+        front="scenes/entrega/texturas-entrega/OPA.jpg"
+        back="scenes/entrega/texturas-entrega/OPA.jpg"
+        up="scenes/entrega/texturas-entrega/OPA.jpg"
+        down="scenes/entrega/texturas-entrega/OPA.jpg"
+        left="scenes/entrega/texturas-entrega/OPA.jpg"
+        right="scenes/entrega/texturas-entrega/OPA.jpg" />
 
     <cameras initial="cam1">
         <perspective id="cam1"
@@ -27,16 +41,14 @@
     <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas
     texturas -->
     <textures>
-        <texture id="cake_interior" filepath="texturas-entrega/cake_interior.png" />
-        <texture id="ceiling" filepath="texturas-entrega/ceiling.jpg" />
-        <texture id="floor" filepath="texturas-entrega/floor.jpg" />
-        <texture id="tile-floor" filepath="texturas-entrega/tile-floor.jpg" />
-        <texture id="wall" filepath="texturas-entrega/wall.jpg" />
-        <texture id="wardrobe" filepath="texturas-entrega/wardrobe.png" />
-        <texture id="mirror" filepath="texturas-entrega/mirror.jpg" />
-        <texture id="carpet" filepath="texturas-entrega/carpet.jpg" />
-        <texture id="pic1" filepath="texturas-entrega/print1.png" />
-        <texture id="pic2" filepath="texturas-entrega/print2.png" />
+        <texture id="ceiling" filepath="scenes/entrega/texturas-entrega/ceiling.jpg" />
+        <texture id="tile-floor" filepath="scenes/entrega/texturas-entrega/tile-floor.jpg" />
+        <texture id="wall" filepath="scenes/entrega/texturas-entrega/wall.jpg" />
+        <texture id="wardrobe" filepath="scenes/entrega/texturas-entrega/wardrobe.png" />
+        <texture id="mirror" filepath="scenes/entrega/texturas-entrega/mirror.jpg" />
+        <texture id="carpet" filepath="scenes/entrega/texturas-entrega/carpet.jpg" />
+        <texture id="pic1" filepath="scenes/entrega/texturas-entrega/print1.png" />
+        <texture id="pic2" filepath="scenes/entrega/texturas-entrega/print2.png" />
     </textures>
 
     <materials>
@@ -46,6 +58,20 @@
             specular="0 0 0 0"
             shininess="0"
             emissive="0 0 0 0" />
+
+        <material id="white"
+            color="1 1 1 1"
+            specular="0.7 0.7 0.7 1"
+            shininess="10"
+            emissive="0.1 0.1 0.1 1"
+            twosided="true" />
+
+        <material id="grey"
+            color="0.6 0.6 0.6 1"
+            specular="0.7 0.7 0.7 1"
+            shininess="10"
+            emissive="0 0 0 1"
+            twosided="true" />
 
 
         <material id="floorMaterial"
@@ -93,7 +119,7 @@
             color="1 1 1 1"
             specular="0 0 0 1"
             shininess="0"
-            emissive="0 0 0 1" 
+            emissive="0 0 0 1"
         />
 
         <material id="pictureWall2Material"
@@ -101,17 +127,16 @@
             color="1 1 1 1"
             specular="0.01 0.01 0 1"
             shininess="0"
-            emissive="0 0 0 1" 
+            emissive="0 0 0 1"
         />
 
         <material id="carpetMaterial"
             textureref="carpet"
             specular="0 0 0 0"
             shininess="90"
-            emissive="0 0 0 1" 
+            emissive="0 0 0 1"
             color="0.5 0.5 0.5 1.0"
         />
-
 
 
     </materials>
@@ -129,9 +154,9 @@
                 <noderef id="wardrobe" />
                 <noderef id="mirror" />
                 <noderef id="carpet" />
-                <noderef id="picture-wall-1"/>
+                <noderef id="picture-wall-1" />
                 <noderef id="picture-wall-2" />
-                <noderef id="sink" />
+                <noderef id="toilet" />
 
                 <pointlight id="light" enabled="false"
                     color="0.41 0.37 0.22 1"
@@ -142,15 +167,15 @@
                     position="0 4 0"
                 />
 
-                <spotlight id="spotlight" enabled="true" 
-            	color = "0.96 0.89 0.74 1.0"
-                intensity="30"
-                distance="50"
-                angle="20" 
-                penumbra="1.0"
-                position="0 4.7 0" 
-                target="0 0 0" 
-                /> 
+                <spotlight id="spotlight" enabled="true"
+                    color="0.96 0.89 0.74 1.0"
+                    intensity="30"
+                    distance="50"
+                    angle="20"
+                    penumbra="1.0"
+                    position="0 4.7 0"
+                    target="0 0 0"
+                />
 
 
                 <directionallight id="light5" enabled="true"
@@ -289,7 +314,7 @@
                 </primitive>
             </children>
             <transforms>
-                <translate value3="0 0 0" />
+                <translate value3="-5 0 -4.5" />
                 <rotate value3="0 0 0" />
             </transforms>
         </node>
@@ -360,17 +385,98 @@
             </transforms>
         </node>
 
-        <node id="sink">
-            <materialref id="floorMaterial" />
+        <node id="toilet">
+            <children>
+                <noderef id="toilet-bottom-1" />
+                <noderef id="toilet-bottom-2" />
+                <noderef id="toilet-bottom-3" />
+                <noderef id="toilet-bottom-4" />
+                <noderef id="toilet-bottom-5" />
+                <noderef id="toilet-button" />
+            </children>
+            <transforms>
+                <translate value3="-4 0 4" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-1">
+            <materialref id="white" />
             <children>
                 <primitive>
-                    <cylinder base="0.6" top="1" height="0.6" slices="20" stacks="20" />
+                    <cylinder base="0.4" top="0.5" height="0.5" slices="20" stacks="20" />
                 </primitive>
             </children>
             <transforms>
-                <translate value3="0 1.4 -4" />
-                <scale value3="2 1 1" />
+                <scale value3="1 2 1.5" />
+                <translate value3="0 0.5 0" />
             </transforms>
         </node>
+
+        <node id="toilet-bottom-2">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <box xyz1="-0.5 0.8 0.4" xyz2="0.5 2 0.7" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0 0" />
+                <scale value3="1 1 1.5" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-3">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <sphere radius="0.6" slices="40" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+                <scale value3="1 0.4 1.7" />
+            </transforms>
+        </node>
+
+
+        <node id="toilet-bottom-4">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <sphere radius="0.7" slices="40" stacks="10" thetalength="1.57" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+                <scale value3="0.8 -1 1.3" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-5">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="1" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0.5 0.5" />
+                <scale value3="1 1 1.8" />
+            </transforms>
+        </node>
+
+        <node id="toilet-button">
+            <materialref id="grey" />
+            <children>
+                <primitive>
+                    <sphere radius="0.1" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 2 0.8" />
+                <scale value3="1 0.5 1" />
+            </transforms>
+        </node>
+
     </graph>
 </yaf> 
