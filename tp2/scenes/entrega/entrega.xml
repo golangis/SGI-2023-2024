@@ -998,7 +998,7 @@
             <materialref id="carpetMaterial" />
             <children>
                 <primitive>
-                    <box xyz1="0 0 0" xyz2="5 0.05 6" />
+                    <box xyz1="0 0 2" xyz2="5 0.05 5" />
                 </primitive>
             </children>
             <transforms>
