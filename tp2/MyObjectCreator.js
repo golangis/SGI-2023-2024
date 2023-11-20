@@ -360,7 +360,7 @@ class MyObjectCreator {
 		}
 	}
 
-	createPolygonGeometry(radius, stacks, slices, color_c, color_p) {
+	createPolygonGeometryOld(radius, stacks, slices, color_c, color_p) {
 		const angleIncrement = (2 * Math.PI) / slices;
 		const stackLength = radius / stacks;
 
@@ -440,6 +440,70 @@ class MyObjectCreator {
 		return polygonGroup;
 	}
 
+	createPolygonGeometry(radius, stacks, slices, color_c, color_p) {
+		const angleIncrement = (2 * Math.PI) / slices;
+		const stackLength = radius / stacks;
+	
+		const geometry = new THREE.BufferGeometry();
+		const vertices = [];
+		const colors = [];
+	
+		for (let stack = 0; stack < stacks; stack++) {
+			for (let theta = 0; theta < 2 * Math.PI; ) {
+				const x0 = Math.cos(theta) * stackLength * stack,
+					y0 = Math.sin(theta) * stackLength * stack;
+	
+				const x1 = Math.cos(theta) * stackLength * (stack + 1),
+					y1 = Math.sin(theta) * stackLength * (stack + 1);
+	
+				theta += angleIncrement;
+	
+				const x2 = Math.cos(theta) * stackLength * (stack + 1),
+					y2 = Math.sin(theta) * stackLength * (stack + 1);
+	
+				const x3 = Math.cos(theta) * stackLength * stack,
+					y3 = Math.sin(theta) * stackLength * stack;
+	
+				// Calculate the color for each vertex
+				const t1 = stack / stacks;
+				const t2 = (stack+1) / stacks;
+				const color1 = new THREE.Color().lerpColors(color_c, color_p, t1);
+				const color2 = new THREE.Color().lerpColors(color_c, color_p, t2);
+	
+				// Add vertices to the array
+				vertices.push(x0, y0, 0);
+				vertices.push(x1, y1, 0);
+				vertices.push(x2, y2, 0);
+	
+				vertices.push(x0, y0, 0);
+				vertices.push(x2, y2, 0);
+				vertices.push(x3, y3, 0);
+	
+				// Add colors to the array
+				colors.push(color1.r, color1.g, color1.b);
+				colors.push(color2.r, color2.g, color2.b);
+				colors.push(color2.r, color2.g, color2.b);
+	
+				colors.push(color1.r, color1.g, color1.b);
+				colors.push(color2.r, color2.g, color2.b);
+				colors.push(color1.r, color1.g, color1.b);
+			}
+		}
+	
+		// Set attributes for the geometry
+		geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+		geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+	
+		// Create a single mesh with MeshBasicMaterial
+		const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+		const polygonMesh = new THREE.Mesh(geometry, material);
+	
+		return polygonMesh;
+	}
+	
+	
+
+	
 	createLightObject(lightObject) {
 		switch (lightObject.type) {
 			// TODO atributo "enable"

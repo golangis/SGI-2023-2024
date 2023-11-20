@@ -114,7 +114,7 @@ class MySceneBuilder {
 				mesh = new THREE.Mesh(geom);
 				if (material !== undefined) {
 					const materialMap = this.myObjectCreator.getMaterialsMap();
-					mesh.material = materialMap.get(material);
+					mesh.material = materialMap.get(material).clone();
 				}
 			}
 			mesh.castShadow = parent.castShadows;
