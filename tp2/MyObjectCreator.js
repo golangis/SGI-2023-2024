@@ -8,6 +8,7 @@ import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js"
 */
 class MyObjectCreator {
 	constructor(data, scene) {
+		this.videoCounter = 0;
 		this.sceneData = data;
 		this.builder = new MyNurbsBuilder();
 		this.scene = scene;
@@ -75,7 +76,7 @@ class MyObjectCreator {
 
 			if (texture.isVideo) {
 				const video = document.createElement("video");
-				video.id = "video";
+				video.id = "video" + (this.videoCounter++);
 				video.playsinline = true;
 				video.setAttribute("webkit-playsinline", ""); // Webkit specific attribute
 				video.muted = true;
