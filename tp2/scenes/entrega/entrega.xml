@@ -1,9 +1,23 @@
-<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+
+<?xml-model href="https://schema.toino.pt/yaf.xsd" type="application/xml"?>
+
 <yaf>
 
     <globals background="0 0 0 1" ambient="0.1 0.1 0.1 1" />
 
     <fog color="1.0 1.0 1.0 1.0" near="1000.0" far="10000.0" />
+
+    <skybox
+        size="100 100 100"
+        center="0 49.9 0"
+        emissive="0 0 0 1"
+        intensity="5"
+        front="scenes/entrega/texturas-entrega/OPA.jpg"
+        back="scenes/entrega/texturas-entrega/OPA.jpg"
+        up="scenes/entrega/texturas-entrega/OPA.jpg"
+        down="scenes/entrega/texturas-entrega/OPA.jpg"
+        left="scenes/entrega/texturas-entrega/OPA.jpg"
+        right="scenes/entrega/texturas-entrega/OPA.jpg" />
 
     <cameras initial="cam1">
         <perspective id="cam1"
@@ -27,25 +41,45 @@
     <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas
     texturas -->
     <textures>
-        <texture id="cake_interior" filepath="texturas-entrega/cake_interior.png" />
-        <texture id="ceiling" filepath="texturas-entrega/ceiling.jpg" />
-        <texture id="floor" filepath="texturas-entrega/floor.jpg" />
-        <texture id="tile-floor" filepath="texturas-entrega/tile-floor.jpg" />
-        <texture id="wall" filepath="texturas-entrega/wall.jpg" />
-        <texture id="wardrobe" filepath="texturas-entrega/wardrobe.png" />
-        <texture id="mirror" filepath="texturas-entrega/mirror.jpg" />
-        <texture id="carpet" filepath="texturas-entrega/carpet.jpg" />
-        <texture id="pic1" filepath="texturas-entrega/print1.png" />
-        <texture id="pic2" filepath="texturas-entrega/print2.png" />
+        <texture id="ceiling-texture" filepath="scenes/entrega/texturas-entrega/ceiling.jpg" />
+        <texture id="tile-floor" filepath="scenes/entrega/texturas-entrega/tile-floor.jpg" />
+        <texture id="wall" filepath="scenes/entrega/texturas-entrega/wall.png" />
+        <texture id="door-texture" filepath="scenes/entrega/texturas-entrega/door.jpg" />
+        <texture id="mirror-texture" filepath="scenes/entrega/texturas-entrega/mirror1.jpg" />
+        <texture id="pic1" filepath="scenes/entrega/texturas-entrega/print1.png" />
+        <texture id="pic2" filepath="scenes/entrega/texturas-entrega/print2.png" />
+        <texture id="basket-texture" filepath="scenes/entrega/texturas-entrega/basket.jpg" />
+        <texture id="towels-texture" filepath="scenes/entrega/texturas-entrega/towels.jpg" />
+        <texture id="carpet-texture" filepath="scenes\entrega\texturas-entrega\carpet.jpg" />
+        <texture id="carpet-texture-bump"
+            filepath="scenes\entrega\texturas-entrega\carpet-bump.png" />
+        <texture id="wood-texture" filepath="scenes\entrega\texturas-entrega\wood.jpg" />
+        <texture id="towel-front-texture" filepath="scenes\entrega\texturas-entrega\towel-front.png" />
+
     </textures>
 
     <materials>
 
-        <material id="wardrobe-color"
+        <material id="white"
             color="1 1 1 1"
-            specular="0 0 0 0"
+            specular="0.7 0.7 0.7 1"
+            shininess="10"
+            emissive="0.1 0.1 0.1 1"
+            twosided="true" />
+
+        <material id="black"
+            color="0 0 0 1"
+            specular="0.5 0.5 0.5 1"
+            shininess="10"
+            emissive="0 0 0 1"
+            twosided="true" />
+
+        <material id="grey-metal"
+            color="0.5 0.5 0.5 1"
+            specular="0.5 0.5 0.5 1"
             shininess="0"
-            emissive="0 0 0 0" />
+            emissive="0 0 0 0"
+            twosided="true" />
 
 
         <material id="floorMaterial"
@@ -54,11 +88,10 @@
             specular="0 0 0 0"
             color="0.8 0.8 0.8 1.0"
             shininess="0"
-            twosided="true"
         />
 
         <material id="ceilingMaterial"
-            textureref="ceiling"
+            textureref="ceiling-texture"
             emissive="0.0 0.0 0.0 1"
             specular="0 0 0 0"
             color="0.8 0.8 0.8 1.0"
@@ -71,20 +104,22 @@
             specular="0 0 0 0"
             color="0.8 0.8 0.8 1.0"
             shininess="0"
+            texlength_t="2"
+            texlength_s="4"
         />
 
-        <material id="wardrobeMaterial"
+        <material id="doorMaterial"
             color="0.9 0.98 0.95 1.0"
             emissive="0.0 0.0 0.0 1"
             specular="0 0 0 0"
             shininess="90"
-            textureref="wardrobe" />
+            textureref="door-texture" />
 
         <material id="mirrorMaterial"
-            textureref="mirror"
+            textureref="mirror-texture"
+            color="1 1 1 1"
             emissive="0.0 0.0 0.0 1"
-            specular="0.1 0.1 0.1 0.1"
-            color="0.8 0.8 0.8 1.0"
+            specular="0.7 0.7 0.7 1"
             shininess="0"
         />
 
@@ -93,7 +128,7 @@
             color="1 1 1 1"
             specular="0 0 0 1"
             shininess="0"
-            emissive="0 0 0 1" 
+            emissive="0 0 0 1"
         />
 
         <material id="pictureWall2Material"
@@ -101,18 +136,56 @@
             color="1 1 1 1"
             specular="0.01 0.01 0 1"
             shininess="0"
-            emissive="0 0 0 1" 
+            emissive="0 0 0 1"
+        />
+
+        <material id="basketMaterial"
+            textureref="basket-texture"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
+        />
+
+
+        <material id="towelsMaterial"
+            textureref="towels-texture"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
+        />
+
+        <material id="towelsFrontMaterial"
+            textureref="towel-front-texture"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
         />
 
         <material id="carpetMaterial"
-            textureref="carpet"
+            textureref="carpet-texture"
+            color="1 1 1 1"
             specular="0 0 0 0"
-            shininess="90"
-            emissive="0 0 0 1" 
-            color="0.5 0.5 0.5 1.0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
+            bumpref="carpet-bump"
+            bumpscale="2"
         />
 
-
+        <material id="woodMaterial"
+            textureref="wood-texture"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
+        />
 
     </materials>
 
@@ -126,52 +199,42 @@
                 <noderef id="rightWall" />
                 <noderef id="floor" />
                 <noderef id="ceiling" />
-                <noderef id="wardrobe" />
-                <noderef id="mirror" />
-                <noderef id="carpet" />
-                <noderef id="picture-wall-1"/>
+                <noderef id="door" />
+                <noderef id="mirror-sink-group" />
+                <noderef id="picture-wall-1" />
                 <noderef id="picture-wall-2" />
-                <noderef id="sink" />
+                <noderef id="toilet" />
+                <noderef id="bath-tub" />
+                <noderef id="shelve-group" />
+                <noderef id="carpet" />
+                <noderef id="basket" />
 
-                <pointlight id="light" enabled="false"
+                <pointlight id="pl1" enabled="true"
                     color="0.41 0.37 0.22 1"
                     intensity="100.0"
-                    distance="1000"
+                    distance="100"
                     decay="2.0"
-                    castshadow="false"
-                    position="0 4 0"
-                />
-
-                <spotlight id="spotlight" enabled="true" 
-            	color = "0.96 0.89 0.74 1.0"
-                intensity="30"
-                distance="50"
-                angle="20" 
-                penumbra="1.0"
-                position="0 4.7 0" 
-                target="0 0 0" 
-                /> 
-
-
-                <directionallight id="light5" enabled="true"
-                    color="1.0 1.0 1.0 1"
-                    intensity="1.0"
                     castshadow="true"
-                    position="2 2 4"
+                    position="0 4.98 0"
                 />
 
-                <directionallight id="light6" enabled="true"
-                    color="1.0 1.0 1.0 1"
-                    intensity="1.0"
-                    castshadow="true"
-                    position="-4 2 -2"
-                />
 
+                <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                    position="4.98 4.9 4.98" target="0 0 0" intensity="50" />
+
+                <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                    position="-4.98 4.9 -4.98" target="0 0 0" intensity="50" />
+
+                <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                    position="4.98 4.9 -4.98" target="0 0 0" intensity="50" />
+
+                <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                    position="-4.98 4.9 4.98" target="0 0 0" intensity="50" />
 
             </children>
         </node>
 
-        <node id="frontWall">
+        <node id="frontWall" castshadows="true" receiveshadows="true">
             <materialref
                 id="wallMaterial"
             />
@@ -189,7 +252,7 @@
 
         </node>
 
-        <node id="backWall">
+        <node id="backWall" castshadows="true" receiveshadows="true">
             <materialref
                 id="wallMaterial"
             />
@@ -207,7 +270,7 @@
 
         </node>
 
-        <node id="rightWall">
+        <node id="rightWall" castshadows="true" receiveshadows="true">
             <materialref
                 id="wallMaterial"
             />
@@ -224,7 +287,7 @@
 
         </node>
 
-        <node id="leftWall">
+        <node id="leftWall" castshadows="true" receiveshadows="true">
             <materialref
                 id="wallMaterial"
             />
@@ -241,7 +304,7 @@
 
         </node>
 
-        <node id="floor">
+        <node id="floor" castshadows="true" receiveshadows="true">
             <materialref id="floorMaterial" />
             <transforms>
                 <rotate value3="-90.0 0 0.0" />
@@ -255,13 +318,12 @@
 
         </node>
 
-        <node id="ceiling">
+        <node id="ceiling" castshadows="true" receiveshadows="true">
             <materialref id="ceilingMaterial" />
             <transforms>
                 <translate value3="0 5 0" />
                 <rotate value3="90.0 0 0.0" />
             </transforms>
-
 
             <children>
                 <primitive>
@@ -272,52 +334,61 @@
         </node>
 
 
-        <node id="wardrobe">
-            <children>
-
-                <noderef id="wardrobe-structure" />
-                <noderef id="wardrobe-front" />
-
-            </children>
-        </node>
-
-        <node id="wardrobe-structure">
-            <materialref id="wardrobe-color" />
-            <children>
-                <primitive>
-                    <box xyz1="-5 0 -5" xyz2="-3 4.5 -3.5" />
-                </primitive>
-            </children>
-            <transforms>
-                <translate value3="0 0 0" />
-                <rotate value3="0 0 0" />
-            </transforms>
-        </node>
-
-        <node id="wardrobe-front">
-            <materialref id="wardrobeMaterial" />
+        <node id="door">
+            <materialref id="doorMaterial" />
             <children>
                 <primitive>
                     <rectangle xy1="0 0" xy2="2 4.5" />
                 </primitive>
             </children>
             <transforms>
-                <translate value3="-5 0 -3.499" />
+                <translate value3="-4.9 0 -2.5" />
+                <rotate value3="0 90 0" />
             </transforms>
         </node>
 
+        <node id="mirror-sink-group">
+            <children>
+                <noderef id="mirror-group" />
+                <noderef id="sink" />
+            </children>
+            <transforms>
+                <translate value3="1 0 0" />
+            </transforms>
+        </node>
+        <node id="mirror-group">
+            <children>
+                <noderef id="mirror" />
+                <noderef id="lights-mirror" />
+            </children>
+        </node>
         <node id="mirror">
             <materialref id="mirrorMaterial" />
             <children>
                 <primitive>
-                    <rectangle xy1="-1 0" xy2="3 2" />
+                    <cylinder base="1" top="1" height="0.2" slices="30" stacks="20" capsclose="true" />
                 </primitive>
+                <noderef id="mirror-border" />
             </children>
             <transforms>
-                <translate value3="-1 2 -4.98" />
+                <translate value3="0 3 4.98" />
+                <rotate value3="90 180 0" />
             </transforms>
+        </node>
+        <node id="mirror-border">
+            <materialref id="black" />
+            <children>
+                <primitive>
+                    <cylinder base="1.02" top="1.02" height="0.2" slices="30" stacks="20" />
+                </primitive>
+            </children>
+        </node>
 
-
+        <node id="lights-mirror">
+            <children>
+                <pointlight id="pl-mirror" color="0.41 0.37 0.22 1" position="-1.5 3.5 4.98"
+                    intensity="0.5" enabled="false" />
+            </children>
         </node>
 
         <node id="picture-wall-1">
@@ -347,30 +418,618 @@
         </node>
 
 
+        <node id="toilet">
+            <children>
+                <noderef id="toilet-bottom-1" />
+                <noderef id="toilet-bottom-2" />
+                <noderef id="toilet-bottom-3" />
+                <noderef id="toilet-bottom-4" />
+                <noderef id="toilet-bottom-5" />
+                <noderef id="toilet-button" />
+            </children>
+            <transforms>
+                <translate value3="4 0 1" />
+                <rotate value3="0 90 0" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-1">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <cylinder base="0.4" top="0.5" height="0.5" slices="20" stacks="20" />
+                </primitive>
+            </children>
+            <transforms>
+                <scale value3="1 2 1.5" />
+                <translate value3="0 0.5 0" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-2">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <box xyz1="-0.5 0.8 0.4" xyz2="0.5 2 0.7" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0 0" />
+                <scale value3="1 1 1.5" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-3">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <sphere radius="0.6" slices="40" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+                <scale value3="1 0.4 1.7" />
+            </transforms>
+        </node>
+
+
+        <node id="toilet-bottom-4">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <sphere radius="0.7" slices="40" stacks="10" thetalength="1.57" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+                <scale value3="0.8 -1 1.3" />
+            </transforms>
+        </node>
+
+        <node id="toilet-bottom-5">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="1" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0.5 0.5" />
+                <scale value3="1 1 1.8" />
+            </transforms>
+        </node>
+
+        <node id="toilet-button">
+            <materialref id="grey-metal" />
+            <children>
+                <primitive>
+                    <sphere radius="0.1" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 2 0.8" />
+                <scale value3="1 0.5 1" />
+            </transforms>
+        </node>
+
+
+        <node id="sink">
+            <materialref id="white" />
+            <children>
+                <noderef id="sink-base-wood" />
+                <noderef id="sink-actual-base" />
+                <noderef id="sink-handler" />
+
+            </children>
+            <transforms>
+                <translate value3="0 0.7 4.3" />
+            </transforms>
+        </node>
+
+        <node id="sink-base-wood">
+            <materialref id="woodMaterial" />
+            <children>
+                <primitive>
+                    <box xyz1="-1.2 0 -0.7" xyz2="1.2 1 0.7" />
+                </primitive>
+            </children>
+            <transforms>
+            </transforms>
+        </node>
+
+        <node id="sink-actual-base">
+            <children>
+                <noderef id="sink-actual-base-bottom" />
+                <noderef id="sink-actual-base-left" />
+                <noderef id="sink-actual-base-right" />
+                <noderef id="sink-actual-base-front" />
+                <noderef id="sink-actual-base-back" />
+                <noderef id="sink-button" />
+            </children>
+        </node>
+
+        <node id="sink-actual-base-bottom">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 -0.5" xyz2="0.6 0.1 0.2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+            </transforms>
+        </node>
+
+        <node id="sink-actual-base-left">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 -0.4" xyz2="-0.5 0.2 0.2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+            </transforms>
+        </node>
+
+        <node id="sink-actual-base-right">
+            <children>
+                <primitive>
+                    <box xyz1="0.6 0 -0.4" xyz2="0.5 0.2 0.2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+            </transforms>
+        </node>
+
+        <node id="sink-actual-base-front">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 -0.5" xyz2="0.6 0.2 -0.4" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+            </transforms>
+        </node>
+
+        <node id="sink-actual-base-back">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 0.3" xyz2="0.6 0.2 0.2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1 0" />
+            </transforms>
+        </node>
+
+        <node id="sink-button">
+            <materialref id="grey-metal" />
+            <children>
+                <primitive>
+                    <sphere radius="0.1" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1.05 0" />
+            </transforms>
+        </node>
+
+        <node id="sink-handler">
+            <materialref id="grey-metal" />
+            <children>
+                <noderef id="sink-handler-1" />
+                <noderef id="sink-handler-2" />
+                <noderef id="sink-handler-3" />
+            </children>
+        </node>
+        <node id="sink-handler-1">
+            <children>
+                <primitive>
+                    <cylinder base="0.08" top="0.08" height="0.8" slices="10" stacks="3" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1.3 0.5" />
+            </transforms>
+
+        </node>
+        <node id="sink-handler-2">
+            <children>
+                <primitive>
+                    <cylinder base="0.04" top="0.04" height="0.4" slices="10" stacks="3" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1.5 0.35" />
+                <rotate value3="60 0 0" />
+            </transforms>
+
+        </node>
+
+        <node id="sink-handler-3">
+            <children>
+                <primitive>
+                    <box xyz1="-0.08 0 -0.15" xyz2="0.08 0.03 0.25" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1.7 0.35" />
+            </transforms>
+
+        </node>
+
+
+        <node id="bath-tub">
+            <materialref id="white" />
+            <children>
+                <noderef id="bath-tub-body" />
+                <noderef id="bath-tub-handler" />
+            </children>
+            <transforms>
+                <translate value3="-7.45 0 0.6" />
+                <rotate value3="0 0 0" />
+            </transforms>
+        </node>
+
+        <node id="bath-tub-handler">
+            <children>
+                <noderef id="sink-handler" />
+            </children>
+            <transforms>
+                <translate value3="4 0.6 3.8" />
+            </transforms>
+        </node>
+        <node id="bath-tub-body">
+            <children>
+                <noderef id="bath-tub-bottom" />
+                <noderef id="bath-tub-body-base-cover" />
+                <!-- <noderef id="bath-tub-sides" /> -->
+            </children>
+            <transforms>
+                <scale value3="4 3 3" />
+                <translate value3="4 0 2" />
+                <rotate value3="0 90 0" />
+            </transforms>
+        </node>
+
+        <node id="bath-tub-body-base">
+            <materialref id="white" />
+            <children>
+                <primitive>
+                    <cylinder base="0.6" top="0.6" height="0.6" slices="20" stacks="20"
+                        thetalength="3.14" capsclose="true" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="-0.42 0 0" />
+                <rotate value3="180 0 180" />
+                <scale value3="0.3 0.1 0.7" />
+            </transforms>
+        </node>
+
+        <node id="bath-tub-body-base-cover">
+            <children>
+                <primitive>
+                    <rectangle xy1="0 0" xy2="0.5 0.05" />
+                </primitive>
+            </children>
+            <transforms>
+                <rotate value3="0 90 0" />
+                <translate value3="-0.25 0.475 -0.42" />
+            </transforms>
+        </node>
+
+        <node id="bath-tub-sides">
+            <children>
+                <noderef id="bath-tub-front" />
+                <noderef id="bath-tub-back" />
+                <noderef id="bath-tub-left" />
+                <noderef id="bath-tub-right" />
+            </children>
+
+            <transforms>
+                <scale value3="1 3 1" />
+            </transforms>
+        </node>
+
+        <node id="bath-tub-bottom">
+            <children>
+                <primitive>
+                    <sphere radius="0.6" slices="30" stacks="30" thetalength="1.57" />
+                </primitive>
+                <noderef id="bath-tub-body-base" />
+            </children>
+            <transforms>
+                <rotate value3="180 0 0" />
+                <translate value3="0 -0.5 0" />
+                <scale value3="1 0.8 0.6" />
+            </transforms>
+        </node>
+
+        <node id="bath-tub-left">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 -0.4" xyz2="-0.5 0.2 0.2" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="bath-tub-right">
+            <children>
+                <primitive>
+                    <box xyz1="0.6 0 -0.4" xyz2="0.5 0.2 0.2" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="bath-tub-front">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 -0.5" xyz2="0.6 0.2 -0.4" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="bath-tub-back">
+            <children>
+                <primitive>
+                    <box xyz1="-0.6 0 0.3" xyz2="0.6 0.2 0.2" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="shelve-group">
+            <materialref id="black" />
+            <children>
+                <noderef id="shelves" />
+                <noderef id="shelve-support" />
+            </children>
+            <transforms>
+                <scale value3="1 1 0.6" />
+                <translate value3="2.5 0 4.9" />
+                <rotate value3="0 90 0" />
+            </transforms>
+        </node>
+
+        <node id="shelve-support">
+            <children>
+                <noderef id="shelve-support-1" />
+                <noderef id="shelve-support-2" />
+                <noderef id="shelve-support-3" />
+                <noderef id="shelve-support-4" />
+            </children>
+            <transforms>
+                <translate value3="0 1.5 0" />
+            </transforms>
+        </node>
+
+        <node id="shelve-support-1">
+            <children>
+                <primitive>
+                    <cylinder base="0.05" top="0.05" height="3" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0.15 0 0.15" />
+            </transforms>
+        </node>
+
+        <node id="shelve-support-2">
+            <children>
+                <primitive>
+                    <cylinder base="0.05" top="0.05" height="3" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0.15 0 1.85" />
+            </transforms>
+        </node>
+
+
+        <node id="shelve-support-3">
+            <children>
+                <primitive>
+                    <cylinder base="0.05" top="0.05" height="3" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0.65 0 1.85" />
+            </transforms>
+        </node>
+
+
+        <node id="shelve-support-4">
+            <children>
+                <primitive>
+                    <cylinder base="0.05" top="0.05" height="3" slices="10" stacks="10" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0.65 0 0.15" />
+            </transforms>
+        </node>
+
+        <node id="shelves">
+            <children>
+                <noderef id="shelve-1" />
+                <noderef id="shelve-2" />
+                <noderef id="shelve-3" />
+                <noderef id="shelve-4" />
+                <noderef id="towels" />
+            </children>
+            <transforms>
+                <translate value3="0 0.5 0" />
+            </transforms>
+        </node>
+
+        <node id="shelve-1">
+            <children>
+                <primitive>
+                    <box xyz1="0 0 0" xyz2="0.8 0.1 2" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="shelve-2">
+            <children>
+                <primitive>
+                    <box xyz1="0 0 0" xyz2="0.8 0.1 2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0.8 0" />
+            </transforms>
+        </node>
+
+        <node id="shelve-3">
+            <children>
+                <primitive>
+                    <box xyz1="0 0 0" xyz2="0.8 0.1 2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 1.6 0" />
+            </transforms>
+        </node>
+
+        <node id="shelve-4">
+            <children>
+                <primitive>
+                    <box xyz1="0 0 0" xyz2="0.8 0.1 2" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 2.4 0" />
+            </transforms>
+        </node>
+        <node id="towels">
+            <materialref id="towelsMaterial" />
+            <children>
+                <noderef id="towel-1" />
+                <noderef id="towel-2" />
+            </children>
+        </node>
+        <node id="towel-1">
+            <children>
+                <noderef id="towel-1-1" />
+                <noderef id="towel-1-2" />
+                <noderef id="towel-1-3" />
+                <noderef id="towel-1-4" />
+            </children>
+            <transforms>
+                <scale value3="0.4 0.6 0.6" />
+                <rotate value3="0 0 90" />
+                <translate value3="0.25 -0.3 0.5" />
+            </transforms>
+        </node>
+
+        <node id="towel-2">
+            <children>
+                <noderef id="towel-1" />
+            </children>
+            <transforms>
+                <translate value3="0 0.25 0" />
+            </transforms>
+        </node>
+        <node id="towel-1-1">
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="0.5" slices="20" stacks="20"
+                        capsclose="true" />
+                </primitive>
+                <noderef id="front-towel" />
+            </children>
+        </node>
+        <node id="front-towel">
+            <materialref id="towelsFrontMaterial" />
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="0.05" slices="10" stacks="10"
+                        capsclose="true" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 -0.25 0" />
+            </transforms>
+        </node>
+
+
+        <node id="towel-1-2">
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="0.5" slices="20" stacks="20"
+                        capsclose="true" />
+                </primitive>
+                <noderef id="front-towel" />
+            </children>
+            <transforms>
+                <translate value3="0 0 0.6" />
+            </transforms>
+        </node>
+
+        <node id="towel-1-3">
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="0.5" slices="20" stacks="20"
+                        capsclose="true" />
+                </primitive>
+                <noderef id="front-towel" />
+
+            </children>
+            <transforms>
+                <translate value3="0 0 1.2" />
+            </transforms>
+        </node>
+        <node id="towel-1-4">
+            <children>
+                <primitive>
+                    <cylinder base="0.3" top="0.3" height="0.5" slices="20" stacks="20"
+                        capsclose="true" />
+                </primitive>
+                <noderef id="front-towel" />
+            </children>
+            <transforms>
+                <translate value3="0 0 1.8" />
+            </transforms>
+        </node>
+
         <node id="carpet">
             <materialref id="carpetMaterial" />
             <children>
                 <primitive>
-                    <rectangle xy1="-3 -2" xy2="3 2" />
+                    <box xyz1="0 0 2" xyz2="5 0.05 5" />
                 </primitive>
             </children>
             <transforms>
-                <translate value3="0 0.001 0" />
-                <rotate value3="-90 0 0" />
+                <translate value3="-2 0 -2" />
             </transforms>
         </node>
 
-        <node id="sink">
-            <materialref id="floorMaterial" />
+        <node id="basket">
+            <materialref id="basketMaterial" />
             <children>
                 <primitive>
-                    <cylinder base="0.6" top="1" height="0.6" slices="20" stacks="20" />
+                    <cylinder base="0.5" top="0.7" height="2" slices="10" stacks="10" />
+                </primitive>
+                <noderef id="basket-cap"></noderef>
+            </children>
+            <transforms>
+                <translate value3="-4.2 1 -1" />
+            </transforms>
+        </node>
+
+        <node id="basket-cap">
+            <children>
+                <primitive>
+                    <cylinder base="0.75" top="0.75" height="0.2" slices="10" stacks="10"
+                        capsclose="true" />
                 </primitive>
             </children>
             <transforms>
-                <translate value3="0 1.4 -4" />
-                <scale value3="2 1 1" />
+                <translate value3="0 1 0" />
             </transforms>
         </node>
+
     </graph>
 </yaf> 

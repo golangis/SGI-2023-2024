@@ -16,7 +16,7 @@ class MyContents {
 		this.axis = null;
 
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		this.reader.open("scenes/space-living/SGI_TP2_XML_T04_G06_v01.xml");
+		this.reader.open("scenes/entrega/entrega.xml");
 
 		this.activateWireframe = false;
 	}
