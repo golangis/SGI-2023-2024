@@ -108,7 +108,7 @@ class MySceneBuilder {
 				this.myObjectCreator.createPrimitiveObjectGeometry(node);
 			let mesh = new THREE.Mesh();
 
-			if (node.subtype === "polygon") {
+			if (node.subtype === "polygon" || node.subtype === "model3d") {
 				mesh = geom;
 			} else {
 				mesh = new THREE.Mesh(geom);

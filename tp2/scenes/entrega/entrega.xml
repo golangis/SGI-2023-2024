@@ -55,6 +55,14 @@
             filepath="scenes\entrega\texturas-entrega\carpet-bump.png" />
         <texture id="wood-texture" filepath="scenes\entrega\texturas-entrega\wood.jpg" />
         <texture id="towel-front-texture" filepath="scenes\entrega\texturas-entrega\towel-front.png" />
+        <texture id="video-bath" filepath="scenes/entrega/texturas-entrega/videos/water.mp4"
+            isVideo="true" />
+        <texture id="video-aquarium" filepath="scenes/entrega/texturas-entrega/videos/fish.mp4"
+            isVideo="true" />
+        <texture id="shampoo-label-texture-1"
+            filepath="scenes\entrega\texturas-entrega\shampoo-label-1.jpg" />
+        <texture id="shampoo-label-texture-2"
+            filepath="scenes\entrega\texturas-entrega\shampoo-label-2.jpg" />
 
     </textures>
 
@@ -69,18 +77,17 @@
 
         <material id="black"
             color="0 0 0 1"
-            specular="0.5 0.5 0.5 1"
-            shininess="10"
+            specular="0.4 0.4 0.4 1"
+            shininess="15"
             emissive="0 0 0 1"
             twosided="true" />
 
         <material id="grey-metal"
             color="0.5 0.5 0.5 1"
             specular="0.5 0.5 0.5 1"
-            shininess="0"
+            shininess="350"
             emissive="0 0 0 0"
             twosided="true" />
-
 
         <material id="floorMaterial"
             textureref="tile-floor"
@@ -119,8 +126,8 @@
             textureref="mirror-texture"
             color="1 1 1 1"
             emissive="0.0 0.0 0.0 1"
-            specular="0.7 0.7 0.7 1"
-            shininess="0"
+            specular="0.6 0.6 0.6 1"
+            shininess="10"
         />
 
         <material id="pictureWall1Material"
@@ -187,6 +194,32 @@
             twosided="true"
         />
 
+        <material id="videoBathMaterial" textureref="video-bath" color="1 1 1 1" specular="0 0 0 1"
+            emissive="0 0 0 1" shininess="12" />
+
+
+        <material id="videoAquariumMaterial" textureref="video-aquarium" color="1 1 1 1"
+            specular="0 0 0 1"
+            emissive="0 0 0 1" shininess="12" />
+
+        <material id="shampooLabelMaterial1"
+            textureref="shampoo-label-texture-1"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
+        />
+
+        <material id="shampooLabelMaterial2"
+            textureref="shampoo-label-texture-2"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            emissive="0 0 0 0"
+            twosided="true"
+        />
+
     </materials>
 
     <graph rootid="scene">
@@ -208,10 +241,12 @@
                 <noderef id="shelve-group" />
                 <noderef id="carpet" />
                 <noderef id="basket" />
+                <noderef id="aquarium" />
+                <noderef id="rubber-duck" />
 
                 <pointlight id="pl1" enabled="true"
                     color="0.41 0.37 0.22 1"
-                    intensity="100.0"
+                    intensity="50.0"
                     distance="100"
                     decay="2.0"
                     castshadow="true"
@@ -220,16 +255,16 @@
 
 
                 <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="4.98 4.9 4.98" target="0 0 0" intensity="50" />
+                    position="4.98 4.9 4.98" target="0 0 0" intensity="25" />
 
                 <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="-4.98 4.9 -4.98" target="0 0 0" intensity="50" />
+                    position="-4.98 4.9 -4.98" target="0 0 0" intensity="25" />
 
                 <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="4.98 4.9 -4.98" target="0 0 0" intensity="50" />
+                    position="4.98 4.9 -4.98" target="0 0 0" intensity="25" />
 
                 <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="-4.98 4.9 4.98" target="0 0 0" intensity="50" />
+                    position="-4.98 4.9 4.98" target="0 0 0" intensity="25" />
 
             </children>
         </node>
@@ -304,8 +339,8 @@
 
         </node>
 
-        <node id="floor" castshadows="true" receiveshadows="true">
-            <materialref id="floorMaterial" />
+        <node id="floor" receiveshadows="true">
+            <materialref id="black" />
             <transforms>
                 <rotate value3="-90.0 0 0.0" />
             </transforms>
@@ -359,10 +394,10 @@
         <node id="mirror-group">
             <children>
                 <noderef id="mirror" />
-                <noderef id="lights-mirror" />
+                <!-- <noderef id="lights-mirror" /> -->
             </children>
         </node>
-        <node id="mirror">
+        <node id="mirror" castshadows="true">
             <materialref id="mirrorMaterial" />
             <children>
                 <primitive>
@@ -371,7 +406,7 @@
                 <noderef id="mirror-border" />
             </children>
             <transforms>
-                <translate value3="0 3 4.98" />
+                <translate value3="0 3 4.97" />
                 <rotate value3="90 180 0" />
             </transforms>
         </node>
@@ -384,12 +419,13 @@
             </children>
         </node>
 
-        <node id="lights-mirror">
+        <!-- <node id="lights-mirror">
             <children>
-                <pointlight id="pl-mirror" color="0.41 0.37 0.22 1" position="-1.5 3.5 4.98"
-                    intensity="0.5" enabled="false" />
+                <spotlight id="pl-mirror" color="0.41 0.37 0.22 1" position="0.5 3 4.99" target="0.5 3.1 5.5"
+        angle="210"
+                    intensity="50" enabled="false" castshadow="true" />
             </children>
-        </node>
+        </node> -->
 
         <node id="picture-wall-1">
             <materialref id="pictureWall1Material" />
@@ -513,7 +549,7 @@
         </node>
 
 
-        <node id="sink">
+        <node id="sink" castshadows="true" receiveshadows="true">
             <materialref id="white" />
             <children>
                 <noderef id="sink-base-wood" />
@@ -527,7 +563,7 @@
         </node>
 
         <node id="sink-base-wood">
-            <materialref id="woodMaterial" />
+            <materialref id="grey-metal" />
             <children>
                 <primitive>
                     <box xyz1="-1.2 0 -0.7" xyz2="1.2 1 0.7" />
@@ -684,12 +720,25 @@
             <children>
                 <noderef id="bath-tub-bottom" />
                 <noderef id="bath-tub-body-base-cover" />
-                <!-- <noderef id="bath-tub-sides" /> -->
+                <noderef id="bath-tub-water" />
             </children>
             <transforms>
                 <scale value3="4 3 3" />
                 <translate value3="4 0 2" />
                 <rotate value3="0 90 0" />
+            </transforms>
+        </node>
+        <node id="bath-tub-water">
+            <materialref id="videoBathMaterial" />
+            <children>
+                <primitive>
+                    <cylinder base="0.6" top="0.6" height="0.05" slices="30" stacks="30"
+                        capsclose="true" />
+                </primitive>
+            </children>
+            <transforms>
+                <scale value3="0.85 1 0.5" />
+                <translate value3="0 0.3 0" />
             </transforms>
         </node>
 
@@ -784,6 +833,8 @@
             <children>
                 <noderef id="shelves" />
                 <noderef id="shelve-support" />
+                <noderef id="shampoo-bottle-1" />
+                <noderef id="shampoo-bottle-2" />
             </children>
             <transforms>
                 <scale value3="1 1 0.6" />
@@ -1028,6 +1079,135 @@
             </children>
             <transforms>
                 <translate value3="0 1 0" />
+            </transforms>
+        </node>
+
+        <node id="shampoo-bottle-1">
+            <materialref id="shampooLabelMaterial1" />
+            <children>
+                <noderef id="shampoo-bottle" />
+            </children>
+        </node>
+
+        <node id="shampoo-bottle-2">
+            <materialref id="shampooLabelMaterial2" />
+            <children>
+                <noderef id="shampoo-bottle" />
+            </children>
+            <transforms>
+                <translate value3="0 0 -0.5" />
+            </transforms>
+        </node>
+
+        <node id="shampoo-bottle">
+            <children>
+                <noderef id="shampoo-bottle-cap-bottom" />
+                <primitive>
+                    <cylinder base="0.1" top="0.1" height="0.3" slices="10" stacks="10"
+                        capsclose="true" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0.4 2.35 1.5" />
+                <scale value3="1 1 1.5" />
+            </transforms>
+        </node>
+
+
+        <node id="shampoo-bottle-cap-bottom">
+            <materialref id="black" />
+            <children>
+                <noderef id="shampoo-bottle-cap" />
+
+                <primitive>
+                    <cylinder base="0.1" top="0.06" height="0.05" slices="10" stacks="10"
+                        capsclose="true" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0.175 0" />
+            </transforms>
+        </node>
+
+        <node id="shampoo-bottle-cap">
+            <children>
+                <primitive>
+                    <cylinder base="0.05" top="0.06" height="0.05" slices="10" stacks="10"
+                        capsclose="true" />
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="0 0.05 0" />
+            </transforms>
+        </node>
+
+        <node id="aquarium">
+            <materialref id="videoAquariumMaterial" />
+            <children>
+                <primitive>
+                    <box xyz1="1 2 -3" xyz2="4 3.5 -4.3" />
+                </primitive>
+                <noderef id="aquarium-support" />
+                <noderef id="aquarium-lights" />
+            </children>
+            <transforms>
+                <rotate value3="0 180 0" />
+                <translate value3="-20 0 20" />
+            </transforms>
+        </node>
+
+        <node id="aquarium-support">
+            <materialref id="black" />
+            <children>
+                <primitive>
+                    <box xyz1="0.9 1.5 -2.7" xyz2="4.1 2 -4.4" />
+                </primitive>
+                <primitive>
+                    <box xyz1="0.9 3.5 -2.7" xyz2="1.2 3.8 -4.4" />
+                </primitive>
+                <primitive>
+                    <box xyz1="4.1 3.5 -2.7" xyz2="3.8 3.8 -4.4" />
+                </primitive>
+
+                <primitive>
+                    <box xyz1="0.9 3.5 -4.1" xyz2="4.1 3.8 -4.4" />
+                </primitive>
+
+                <primitive>
+                    <box xyz1="0.9 3.5 -2.7" xyz2="4.1 3.8 -3" />
+                </primitive>
+                <primitive>
+                    <box xyz1="0.9 0 -2.7" xyz2="4.1 2 -4" />
+                </primitive>
+
+                <primitive>
+                    <box xyz1="0.9 0 -2.7" xyz2="1.2 3.8 -3" />
+                </primitive>
+                <primitive>
+                    <box xyz1="3.8 0 -2.7" xyz2="4.1 3.8 -3" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="aquarium-lights">
+            <children>
+                <spotlight id="aql1" color="0.41 0.37 0.22 1" angle="20" position="1.2 2 -3" target= "1 0 4" intensity="200"/>
+            </children>
+        </node>
+
+        <node id="rubber-duck">
+            <children>
+                <primitive>
+                    <model3d filepath="scenes/entrega/texturas-entrega/object-3d/rubber-duck-2.gltf">
+
+                    </model3d>
+                </primitive>
+            </children>
+            <transforms>
+                <translate value3="-3.9 0.8 3.5" />
+                <rotate value3="-90 0 180" />
+                <scale value3="1.2 1.2 1.2" />
+
             </transforms>
         </node>
 

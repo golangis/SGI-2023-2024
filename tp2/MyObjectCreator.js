@@ -2,9 +2,11 @@ import * as THREE from "three";
 import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
 import { MyTriangle } from "./MyTriangle.js";
 import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 /**
-    This class customizes the gui interface for the app
+	This class customizes the gui interface for the app
 */
 class MyObjectCreator {
 	constructor(data, scene) {
@@ -18,15 +20,15 @@ class MyObjectCreator {
 	}
 
 	/**
-     * load an image and create a mipmap to be added to a texture at the defined level.
-     * In between, add the image some text and control squares. These items become part of the picture
-     * 
-     * @param {*} parentTexture the texture to which the mipmap is added
-     * @param {*} level the level of the mipmap
-     * @param {*} path the path for the mipmap image
-    // * @param {*} size if size not null inscribe the value in the mipmap. null by default
-    // * @param {*} color a color to be used for demo
-     */
+	 * load an image and create a mipmap to be added to a texture at the defined level.
+	 * In between, add the image some text and control squares. These items become part of the picture
+	 * 
+	 * @param {*} parentTexture the texture to which the mipmap is added
+	 * @param {*} level the level of the mipmap
+	 * @param {*} path the path for the mipmap image
+	// * @param {*} size if size not null inscribe the value in the mipmap. null by default
+	// * @param {*} color a color to be used for demo
+	 */
 	loadMipmap(parentTexture, level, path) {
 		// load texture. On loaded call the function to create the mipmap for the specified level
 		new THREE.TextureLoader().load(
@@ -53,10 +55,10 @@ class MyObjectCreator {
 			function (err) {
 				console.error(
 					"Unable to load the image " +
-						path +
-						" as mipmap level " +
-						level +
-						".",
+					path +
+					" as mipmap level " +
+					level +
+					".",
 					err
 				);
 			}
@@ -239,6 +241,26 @@ class MyObjectCreator {
 				);
 
 				return cylinderGeometry;
+			case "model3d":
+				const path = objectAttributes.filepath;
+				const loader = new GLTFLoader();
+				const tmpObj = new THREE.Object3D();
+
+				loader.load(path,
+					function (object) {
+						tmpObj.add(object.scene);
+					},
+					function (xhr) {
+
+						console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+					},
+					function (error) {
+
+						console.log('An error happened');
+
+					}
+				);
+				return tmpObj;
 
 			case "rectangle":
 				const xy1 = objectAttributes.xy1,
@@ -347,7 +369,7 @@ class MyObjectCreator {
 					(box_xyz2[1] + box_xyz1[1]) / 2,
 					(box_xyz2[2] + box_xyz1[2]) / 2
 				);
-				
+
 
 				return boxGeometry;
 
@@ -375,7 +397,7 @@ class MyObjectCreator {
 
 		const polygonGroup = new THREE.Group();
 
-		for (let theta = 0; theta <= 2 * Math.PI; ) {
+		for (let theta = 0; theta <= 2 * Math.PI;) {
 			const x0 = 0,
 				y0 = 0;
 			const x1 = Math.cos(theta) * stackLength,
@@ -398,7 +420,7 @@ class MyObjectCreator {
 
 			material = new THREE.MeshBasicMaterial({ color: color });
 
-			for (let theta = 0; theta <= 2 * Math.PI; ) {
+			for (let theta = 0; theta <= 2 * Math.PI;) {
 				const x0 = Math.cos(theta) * stackLength * stack,
 					y0 = Math.sin(theta) * stackLength * stack;
 
@@ -414,16 +436,16 @@ class MyObjectCreator {
 					y3 = Math.sin(theta) * stackLength * stack;
 
 				const triangleGeo1 = new MyTriangle(
-						x0,
-						y0,
-						0,
-						x1,
-						y1,
-						0,
-						x2,
-						y2,
-						0
-					),
+					x0,
+					y0,
+					0,
+					x1,
+					y1,
+					0,
+					x2,
+					y2,
+					0
+				),
 					triangleGeo2 = new MyTriangle(
 						x0,
 						y0,
@@ -450,67 +472,67 @@ class MyObjectCreator {
 	createPolygonGeometry(radius, stacks, slices, color_c, color_p) {
 		const angleIncrement = (2 * Math.PI) / slices;
 		const stackLength = radius / stacks;
-	
+
 		const geometry = new THREE.BufferGeometry();
 		const vertices = [];
 		const colors = [];
-	
+
 		for (let stack = 0; stack < stacks; stack++) {
-			for (let theta = 0; theta < 2 * Math.PI; ) {
+			for (let theta = 0; theta < 2 * Math.PI;) {
 				const x0 = Math.cos(theta) * stackLength * stack,
 					y0 = Math.sin(theta) * stackLength * stack;
-	
+
 				const x1 = Math.cos(theta) * stackLength * (stack + 1),
 					y1 = Math.sin(theta) * stackLength * (stack + 1);
-	
+
 				theta += angleIncrement;
-	
+
 				const x2 = Math.cos(theta) * stackLength * (stack + 1),
 					y2 = Math.sin(theta) * stackLength * (stack + 1);
-	
+
 				const x3 = Math.cos(theta) * stackLength * stack,
 					y3 = Math.sin(theta) * stackLength * stack;
-	
+
 				// Calculate the color for each vertex
 				const t1 = stack / stacks;
-				const t2 = (stack+1) / stacks;
+				const t2 = (stack + 1) / stacks;
 				const color1 = new THREE.Color().lerpColors(color_c, color_p, t1);
 				const color2 = new THREE.Color().lerpColors(color_c, color_p, t2);
-	
+
 				// Add vertices to the array
 				vertices.push(x0, y0, 0);
 				vertices.push(x1, y1, 0);
 				vertices.push(x2, y2, 0);
-	
+
 				vertices.push(x0, y0, 0);
 				vertices.push(x2, y2, 0);
 				vertices.push(x3, y3, 0);
-	
+
 				// Add colors to the array
 				colors.push(color1.r, color1.g, color1.b);
 				colors.push(color2.r, color2.g, color2.b);
 				colors.push(color2.r, color2.g, color2.b);
-	
+
 				colors.push(color1.r, color1.g, color1.b);
 				colors.push(color2.r, color2.g, color2.b);
 				colors.push(color1.r, color1.g, color1.b);
 			}
 		}
-	
+
 		// Set attributes for the geometry
 		geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
 		geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-	
+
 		// Create a single mesh with MeshBasicMaterial
 		const material = new THREE.MeshBasicMaterial({ vertexColors: true });
 		const polygonMesh = new THREE.Mesh(geometry, material);
-	
+
 		return polygonMesh;
 	}
-	
-	
 
-	
+
+
+
 	createLightObject(lightObject) {
 		switch (lightObject.type) {
 			// TODO atributo "enable"

@@ -189,6 +189,13 @@ class MyContents {
 			value
 		);
 	}
+
+	createTexture() {
+        const video = document.getElementById( 'some-video' );
+        this.planeTexture = new THREE.VideoTexture( video );
+        this.planeTexture.colorSpace = THREE.SRGBColorSpace;
+    }
+
 }
 
 export { MyContents };
