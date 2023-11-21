@@ -142,7 +142,6 @@ class MySceneBuilder {
 					object.translateZ(transformation.translate[2]);
 					break;
 				case "R":
-					// TODO trocar de graus para radianos (quando entregar)
 					object.rotation.x =
 						transformation.rotation[0];
 					object.rotation.y =

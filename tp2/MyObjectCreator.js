@@ -285,7 +285,6 @@ class MyObjectCreator {
 				return rectangleGeometry;
 
 			case "triangle":
-				// TODO testar Triangle -> nenhum objeto na Demo é um triangulo
 				const xyz1 = objectAttributes.xyz1,
 					xyz2 = objectAttributes.xyz2,
 					xyz3 = objectAttributes.xyz3;
@@ -294,9 +293,9 @@ class MyObjectCreator {
 					xyz1[0],
 					xyz1[1],
 					xyz1[2],
-					xyz1[0],
-					xyz3[1],
-					xyz4[2],
+					xyz2[0],
+					xyz2[1],
+					xyz2[2],
 					xyz3[0],
 					xyz3[1],
 					xyz3[2]
@@ -305,7 +304,6 @@ class MyObjectCreator {
 				return triangleGeometry;
 
 			case "sphere":
-				// TODO testar Sphere -> nenhum objeto na Demo é uma esfera
 				const sphereGeom = new THREE.SphereGeometry(
 					objectAttributes.radius,
 					objectAttributes.slices,

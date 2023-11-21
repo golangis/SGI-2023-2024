@@ -63,7 +63,7 @@
             filepath="scenes\entrega\texturas-entrega\shampoo-label-1.jpg" />
         <texture id="shampoo-label-texture-2"
             filepath="scenes\entrega\texturas-entrega\shampoo-label-2.jpg" />
-
+    
     </textures>
 
     <materials>
@@ -254,16 +254,16 @@
                 />
 
 
-                <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
+                <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="200"
                     position="4.98 4.9 4.98" target="0 0 0" intensity="25" />
 
-                <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
+                <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="200"
                     position="-4.98 4.9 -4.98" target="0 0 0" intensity="25" />
 
-                <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
+                <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="200"
                     position="4.98 4.9 -4.98" target="0 0 0" intensity="25" />
 
-                <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
+                <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="200"
                     position="-4.98 4.9 4.98" target="0 0 0" intensity="25" />
 
             </children>
