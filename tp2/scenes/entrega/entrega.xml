@@ -21,7 +21,7 @@
 
     <cameras initial="cam1">
         <perspective id="cam1"
-            angle="60"
+            angle="1.047"
             near="0.1"
             far="1000"
             location="15 15 15"
@@ -254,16 +254,16 @@
                 />
 
 
-                <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
                     position="4.98 4.9 4.98" target="0 0 0" intensity="25" />
 
-                <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
                     position="-4.98 4.9 -4.98" target="0 0 0" intensity="25" />
 
-                <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
                     position="4.98 4.9 -4.98" target="0 0 0" intensity="25" />
 
-                <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="200"
+                <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="3.491"
                     position="-4.98 4.9 4.98" target="0 0 0" intensity="25" />
 
             </children>
@@ -274,7 +274,7 @@
                 id="wallMaterial"
             />
             <transforms>
-                <rotate value3="0 -90.0 0.0" />
+                <rotate value3="0 -1.57 0" />
                 <translate value3="0 2.5 -5.0" />
             </transforms>
 
@@ -292,7 +292,7 @@
                 id="wallMaterial"
             />
             <transforms>
-                <rotate value3="0 90.0 0.0" />
+                <rotate value3="0 1.57 0.0" />
                 <translate value3="0 2.5 -5.0" />
             </transforms>
 
@@ -310,7 +310,7 @@
                 id="wallMaterial"
             />
             <transforms>
-                <rotate value3="360.0 0.0 0.0" />
+                <rotate value3="6.28 0.0 0.0" />
                 <translate value3="0.0 2.5 -5.0" />
             </transforms>
 
@@ -327,7 +327,7 @@
                 id="wallMaterial"
             />
             <transforms>
-                <rotate value3="180.0 0.0 180.0" />
+                <rotate value3="3.14 0.0 3.14" />
                 <translate value3="0.0 2.5 -5.0" />
             </transforms>
 
@@ -342,7 +342,7 @@
         <node id="floor" receiveshadows="true">
             <materialref id="black" />
             <transforms>
-                <rotate value3="-90.0 0 0.0" />
+                <rotate value3="-1.57 0 0" />
             </transforms>
 
             <children>
@@ -357,7 +357,7 @@
             <materialref id="ceilingMaterial" />
             <transforms>
                 <translate value3="0 5 0" />
-                <rotate value3="90.0 0 0.0" />
+                <rotate value3="1.57 0 0" />
             </transforms>
 
             <children>
@@ -378,7 +378,7 @@
             </children>
             <transforms>
                 <translate value3="-4.9 0 -2.5" />
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
             </transforms>
         </node>
 
@@ -407,7 +407,7 @@
             </children>
             <transforms>
                 <translate value3="0 3 4.97" />
-                <rotate value3="90 180 0" />
+                <rotate value3="1.57 3.14 0" />
             </transforms>
         </node>
         <node id="mirror-border">
@@ -436,7 +436,7 @@
             </children>
             <transforms>
                 <translate value3="-4.99 2 0" />
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
             </transforms>
         </node>
 
@@ -449,7 +449,7 @@
             </children>
             <transforms>
                 <translate value3="-4.99 2.5 2" />
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
             </transforms>
         </node>
 
@@ -465,7 +465,7 @@
             </children>
             <transforms>
                 <translate value3="4 0 1" />
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
             </transforms>
         </node>
 
@@ -678,7 +678,7 @@
             </children>
             <transforms>
                 <translate value3="0 1.5 0.35" />
-                <rotate value3="60 0 0" />
+                <rotate value3="1.047 0 0" />
             </transforms>
 
         </node>
@@ -704,7 +704,6 @@
             </children>
             <transforms>
                 <translate value3="-7.45 0 0.6" />
-                <rotate value3="0 0 0" />
             </transforms>
         </node>
 
@@ -725,7 +724,7 @@
             <transforms>
                 <scale value3="4 3 3" />
                 <translate value3="4 0 2" />
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
             </transforms>
         </node>
         <node id="bath-tub-water">
@@ -752,7 +751,7 @@
             </children>
             <transforms>
                 <translate value3="-0.42 0 0" />
-                <rotate value3="180 0 180" />
+                <rotate value3="3.14 0 3.14" />
                 <scale value3="0.3 0.1 0.7" />
             </transforms>
         </node>
@@ -764,7 +763,7 @@
                 </primitive>
             </children>
             <transforms>
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
                 <translate value3="-0.25 0.475 -0.42" />
             </transforms>
         </node>
@@ -790,7 +789,7 @@
                 <noderef id="bath-tub-body-base" />
             </children>
             <transforms>
-                <rotate value3="180 0 0" />
+                <rotate value3="3.14 0 0" />
                 <translate value3="0 -0.5 0" />
                 <scale value3="1 0.8 0.6" />
             </transforms>
@@ -839,7 +838,7 @@
             <transforms>
                 <scale value3="1 1 0.6" />
                 <translate value3="2.5 0 4.9" />
-                <rotate value3="0 90 0" />
+                <rotate value3="0 1.57 0" />
             </transforms>
         </node>
 
@@ -970,7 +969,7 @@
             </children>
             <transforms>
                 <scale value3="0.4 0.6 0.6" />
-                <rotate value3="0 0 90" />
+                <rotate value3="0 0 1.57" />
                 <translate value3="0.25 -0.3 0.5" />
             </transforms>
         </node>
@@ -1151,7 +1150,7 @@
                 <noderef id="aquarium-lights" />
             </children>
             <transforms>
-                <rotate value3="0 180 0" />
+                <rotate value3="0 3.14 0" />
                 <translate value3="-20 0 20" />
             </transforms>
         </node>
@@ -1191,11 +1190,11 @@
 
         <node id="aquarium-lights">
             <children>
-                <spotlight id="aql1" color="0.41 0.37 0.22 1" angle="20" position="1.2 2 -3" target= "1 0 4" intensity="200"/>
+                <spotlight id="aql1" color="0.41 0.37 0.22 1" angle="0.349" position="1.2 2 -3" target= "1 0 4" intensity="200"/>
             </children>
         </node>
 
-        <node id="rubber-duck">
+        <node id="rubber-duck"> 
             <children>
                 <primitive>
                     <model3d filepath="scenes/entrega/texturas-entrega/object-3d/rubber-duck-2.gltf">
@@ -1205,7 +1204,7 @@
             </children>
             <transforms>
                 <translate value3="-3.9 0.8 3.5" />
-                <rotate value3="-90 0 180" />
+                <rotate value3="-1.57 0 3.14" />
                 <scale value3="1.2 1.2 1.2" />
 
             </transforms>

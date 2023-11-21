@@ -195,7 +195,7 @@ class MyObjectCreator {
 
 				case "perspective":
 					cameraObject = new THREE.PerspectiveCamera(
-						camera.angle,
+						camera.angle * (180 / Math.PI),
 						undefined,
 						camera.near,
 						camera.far

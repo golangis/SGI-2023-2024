@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MyObjectCreator } from "./MyObjectCreator.js";
 
 /**
-    This class customizes the gui interface for the app
+	This class customizes the gui interface for the app
 */
 class MySceneBuilder {
 	constructor(data, app) {
@@ -81,7 +81,7 @@ class MySceneBuilder {
 					object.addLevel(childObj, element.mindist);
 				} else {
 					childObj = this.visitNodes(element, node, lastMaterial);
-	
+
 					childObj.castShadow = node.castShadows;
 					childObj.receiveShadow = node.receiveShadows;
 					object.add(childObj);
@@ -95,7 +95,7 @@ class MySceneBuilder {
 		if (node.type === "node") {
 			this.applyTransformations(node, object);
 		}
-		
+
 		return object;
 	}
 
@@ -143,15 +143,12 @@ class MySceneBuilder {
 					break;
 				case "R":
 					// TODO trocar de graus para radianos (quando entregar)
-					object.rotation.x = THREE.MathUtils.degToRad(
-						transformation.rotation[0]
-					);
-					object.rotation.y = THREE.MathUtils.degToRad(
-						transformation.rotation[1]
-					);
-					object.rotation.z = THREE.MathUtils.degToRad(
-						transformation.rotation[2]
-					);
+					object.rotation.x =
+						transformation.rotation[0];
+					object.rotation.y =
+						transformation.rotation[1];
+					object.rotation.z =
+						transformation.rotation[2];
 					break;
 				case "S":
 					object.scale.x = transformation.scale[0];
@@ -191,7 +188,7 @@ class MySceneBuilder {
 
 			try {
 				materialKey = this.data.nodes[ancestor.name].materialIds[0];
-			} catch {}
+			} catch { }
 		}
 
 		if (ancestor === null) {
