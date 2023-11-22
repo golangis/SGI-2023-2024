@@ -42,7 +42,6 @@ class MyGuiInterface {
 
 		const lightFolder = this.datgui.addFolder('Control Lights')
 		for (const light of this.contents.sceneBuilder.lights){
-			console.log(light.name)
 			lightFolder.add(light, 'visible').name(light.typeLight + '-' + light.name);
 			lightFolder.addColor(light, 'color').name('Change color')
 			

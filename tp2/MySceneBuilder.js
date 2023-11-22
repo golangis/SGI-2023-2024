@@ -116,7 +116,6 @@ class MySceneBuilder {
 				if (material !== undefined) {
 					const materialMap = this.myObjectCreator.getMaterialsMap();
 					const materialObject = materialMap.get(material);
-					console.log('potas', materialObject)
 					mesh.material = materialObject.clone();
 
 					if (node.subtype === "rectangle") {

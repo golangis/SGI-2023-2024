@@ -176,9 +176,6 @@ class MyContents {
 
 		this.app.scene.add(this.rootObject);
 
-		console.log(data.nodes);
-		console.log(this.rootObject);
-
 	}
 
 	update() { }
