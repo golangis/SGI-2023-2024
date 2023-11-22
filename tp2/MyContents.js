@@ -176,9 +176,6 @@ class MyContents {
 
 		this.app.scene.add(this.rootObject);
 
-		console.log(data.nodes);
-		console.log(this.rootObject);
-
 	}
 
 	update() { }
@@ -189,12 +186,6 @@ class MyContents {
 			value
 		);
 	}
-
-	createTexture() {
-        const video = document.getElementById( 'some-video' );
-        this.planeTexture = new THREE.VideoTexture( video );
-        this.planeTexture.colorSpace = THREE.SRGBColorSpace;
-    }
 
 }
 

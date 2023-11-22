@@ -164,8 +164,6 @@ class MyObjectCreator {
 			materialObject.texlength_s = material.texlength_s;
 			materialObject.texlength_t = material.texlength_t;
 
-			console.log(material, materialObject)
-
 			materialMap.set(material.id, materialObject);
 		}
 
