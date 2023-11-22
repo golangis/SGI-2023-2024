@@ -119,8 +119,9 @@ class MySceneBuilder {
 					mesh.material = materialObject.clone();
 
 					if (node.subtype === "rectangle") {
-						mesh.material.map?.repeat.set(geom.parameters.width / materialObject.texlength_s, geom.parameters.height / materialObject.texlength_t)
 						if (mesh.material.map != null) {
+							mesh.material.map = mesh.material.map.clone()
+							mesh.material.map.repeat.set(geom.parameters.width / materialObject.texlength_s, geom.parameters.height / materialObject.texlength_t)
 							mesh.material.map.wrapS = THREE.RepeatWrapping;
 							mesh.material.map.wrapT = THREE.RepeatWrapping;
 						}
@@ -132,6 +133,39 @@ class MySceneBuilder {
 						}
 						
 						mesh.material.specularMap?.repeat.set(geom.parameters.width / materialObject.texlength_s, geom.parameters.height / materialObject.texlength_t)
+						if (mesh.material.specularMap != null) {
+							mesh.material.specularMap.wrapS = THREE.RepeatWrapping;
+							mesh.material.specularMap.wrapT = THREE.RepeatWrapping;
+						}
+					}
+
+					if (node.subtype === "triangle") {
+						const point1 = node.representations[0].xyz1;
+						const point2 = node.representations[0].xyz2;
+						const point3 = node.representations[0].xyz3;
+
+						const a = Math.sqrt((point2[0] - point1[0])**2 + (point2[1] -point1[1])**2 + (point2[2] - point1[2])**2)
+						const b = Math.sqrt((point3[0] - point2[0])**2 + (point3[1] -point2[1])**2 + (point3[2] - point2[2])**2)
+						const c = Math.sqrt((point1[0] - point3[0])**2 + (point1[1] -point3[1])**2 + (point1[2] - point3[2])**2)
+
+						const sin_alpha = Math.sqrt(1 - ((a**2 - b**2 + c**2) / (2*a*c))**2)
+
+						const height = c * sin_alpha;
+						const width = a;
+
+						mesh.material.map?.repeat.set(width/ materialObject.texlength_s, height / materialObject.texlength_t)
+						if (mesh.material.map != null) {
+							mesh.material.map.wrapS = THREE.RepeatWrapping;
+							mesh.material.map.wrapT = THREE.RepeatWrapping;
+						}
+
+						mesh.material.bumpMap?.repeat.set(width / materialObject.texlength_s, height / materialObject.texlength_t)
+						if (mesh.material.bumpMap != null) {
+							mesh.material.bumpMap.wrapS = THREE.RepeatWrapping;
+							mesh.material.bumpMap.wrapT = THREE.RepeatWrapping;
+						}
+						
+						mesh.material.specularMap?.repeat.set(width / materialObject.texlength_s, height / materialObject.texlength_t)
 						if (mesh.material.specularMap != null) {
 							mesh.material.specularMap.wrapS = THREE.RepeatWrapping;
 							mesh.material.specularMap.wrapT = THREE.RepeatWrapping;

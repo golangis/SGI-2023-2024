@@ -303,7 +303,7 @@ class MyObjectCreator {
 					xyz3[0],
 					xyz3[1],
 					xyz3[2]
-				);
+				); 
 
 				return triangleGeometry;
 
