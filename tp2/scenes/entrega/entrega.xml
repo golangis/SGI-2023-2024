@@ -248,7 +248,6 @@
                 <noderef id="picture-wall-1" />
                 <noderef id="picture-wall-2" />
                 <noderef id="toilet" />
-                <noderef id="bath-tub" />
                 <noderef id="shelve-group" />
                 <noderef id="carpet" />
                 <noderef id="basket" />
@@ -707,6 +706,17 @@
         </node>
 
 
+        <node id="bath-tub-far">
+            <materialref id="white" />
+            <children>
+                <noderef id="bath-tub-body-nowater" />
+                <noderef id="bath-tub-handler" />
+            </children>
+            <transforms>
+                <translate value3="-7.45 0 0.6" />
+            </transforms>
+        </node>
+
         <node id="bath-tub">
             <materialref id="white" />
             <children>
@@ -731,6 +741,16 @@
                 <noderef id="bath-tub-bottom" />
                 <noderef id="bath-tub-body-base-cover" />
                 <noderef id="bath-tub-water" />
+            </children>
+            <transforms>
+                <scale value3="4 3 3" />
+                <translate value3="4 0 2" />
+                <rotate value3="0 1.57 0" />
+            </transforms>
+        </node>
+        <node id="bath-tub-body-nowater">
+            <children>
+                <noderef id="bath-tub-bottom" />
             </children>
             <transforms>
                 <scale value3="4 3 3" />
@@ -776,19 +796,6 @@
             <transforms>
                 <rotate value3="0 1.57 0" />
                 <translate value3="-0.25 0.475 -0.42" />
-            </transforms>
-        </node>
-
-        <node id="bath-tub-sides">
-            <children>
-                <noderef id="bath-tub-front" />
-                <noderef id="bath-tub-back" />
-                <noderef id="bath-tub-left" />
-                <noderef id="bath-tub-right" />
-            </children>
-
-            <transforms>
-                <scale value3="1 3 1" />
             </transforms>
         </node>
 
@@ -1178,15 +1185,21 @@
                 <lodref id="shampoo-2-lod" />
                 <lodref id="plant-lod" />
                 <lodref id="shower-handle-lod" />
+                <lodref id="bath-tub-lod" />
             </children>
         </node>
+
+        <lod id="bath-tub-lod">
+            <noderef id="bath-tub-far" mindist="15" />
+            <noderef id="bath-tub" mindist="0" />
+        </lod>
 
         <lod id="shower-handle-lod">
             <noderef id="nothing" mindist="20" />
             <noderef id="shower-handle-model" mindist="0" />
         </lod>
         <lod id="duck-lod">
-            <noderef id="nothing" mindist="20" />
+            <noderef id="nothing" mindist="15" />
             <noderef id="rubber-duck" mindist="0" />
         </lod>
         <lod id="plant-lod">
