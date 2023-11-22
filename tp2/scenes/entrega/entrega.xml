@@ -61,10 +61,21 @@
             filepath="scenes\entrega\texturas-entrega\shampoo-label-1.jpg" />
         <texture id="shampoo-label-texture-2"
             filepath="scenes\entrega\texturas-entrega\shampoo-label-2.jpg" />
+        <texture id="far-texture" filepath="scenes\entrega\texturas-entrega\far-text.jpg" />
 
     </textures>
 
     <materials>
+
+        
+        <material id="farMaterial"
+            textureref="far-texture"
+            color="1 1 1 1"
+            specular="0 0 0 1"
+            shininess="10"
+            emissive="0 0 0 1"
+        />
+
 
         <material id="white"
             color="1 1 1 1"
@@ -233,7 +244,26 @@
 
     </materials>
 
-    <graph rootid="scene">
+    <graph rootid="scene-real">
+    
+        <node id="scene-real">
+            <children>
+                <lodref id="scene-lod" />
+            </children>
+        </node>
+        <lod id="scene-lod">
+            <noderef id="scene" mindist="0" />
+            <noderef id="scene-far" mindist="50" />
+        </lod>
+
+        <node id="scene-far">
+            <materialref id="farMaterial" />
+            <children>
+                <primitive>
+                    <box xyz1="-5 0 -5" xyz2="5 5 5" />
+                </primitive>
+            </children>
+        </node>
 
         <node id="scene">
             <children>
