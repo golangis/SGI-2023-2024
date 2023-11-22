@@ -70,7 +70,7 @@
             color="1 1 1 1"
             specular="0.7 0.7 0.7 1"
             shininess="10"
-            emissive="0.1 0.1 0.1 1"
+            emissive="0 0 0 1"
             twosided="true"
         />
 
@@ -121,10 +121,10 @@
             emissive="0.0 0.0 0.0 1"
             specular="0 0 0 0"
             shininess="90"
-            textureref="door-texture" 
+            textureref="door-texture"
             texlength_s='2'
             texlength_t='4.5'
-            />
+        />
 
         <material id="mirrorMaterial"
             textureref="mirror-texture"
@@ -252,9 +252,8 @@
                 <noderef id="shelve-group" />
                 <noderef id="carpet" />
                 <noderef id="basket" />
-                <noderef id="rubber-duck" />
-                <noderef id="plant" />
                 <noderef id="shower-group" />
+                <noderef id="lods" />
 
                 <pointlight id="pl1" enabled="true"
                     color="0.41 0.37 0.22 1"
@@ -844,8 +843,6 @@
             <children>
                 <noderef id="shelves" />
                 <noderef id="shelve-support" />
-                <noderef id="shampoo-bottle-1" />
-                <noderef id="shampoo-bottle-2" />
             </children>
             <transforms>
                 <scale value3="1 1 0.6" />
@@ -1098,6 +1095,11 @@
             <children>
                 <noderef id="shampoo-bottle" />
             </children>
+            <transforms>
+                <scale value3="1 1 0.6" />
+                <translate value3="2.5 0 4.9" />
+                <rotate value3="0 1.57 0" />
+            </transforms>
         </node>
 
         <node id="shampoo-bottle-2">
@@ -1106,6 +1108,9 @@
                 <noderef id="shampoo-bottle" />
             </children>
             <transforms>
+                <scale value3="1 1 0.6" />
+                <translate value3="2.5 0 4.9" />
+                <rotate value3="0 1.57 0" />
                 <translate value3="0 0 -0.5" />
             </transforms>
         </node>
@@ -1160,9 +1165,47 @@
                 </primitive>
             </children>
             <transforms>
+                <translate value3="0.17 0 -0.85" />
                 <translate value3="4.7 3.2 -3" />
                 <rotate value3="0 -1.57 0" />
             </transforms>
+        </node>
+
+        <node id="lods">
+            <children>
+                <lodref id="duck-lod" />
+                <lodref id="shampoo-1-lod" />
+                <lodref id="shampoo-2-lod" />
+                <lodref id="plant-lod" />
+                <lodref id="shower-handle-lod" />
+            </children>
+        </node>
+
+        <lod id="shower-handle-lod">
+            <noderef id="nothing" mindist="20" />
+            <noderef id="shower-handle-model" mindist="0" />
+        </lod>
+        <lod id="duck-lod">
+            <noderef id="nothing" mindist="20" />
+            <noderef id="rubber-duck" mindist="0" />
+        </lod>
+        <lod id="plant-lod">
+            <noderef id="nothing" mindist="10" />
+            <noderef id="plant" mindist="0" />
+        </lod>
+
+        <lod id="shampoo-1-lod">
+            <noderef id="nothing" mindist="10" />
+            <noderef id="shampoo-bottle-1" mindist="0" />
+        </lod>
+
+        <lod id="shampoo-2-lod">
+            <noderef id="nothing" mindist="10" />
+            <noderef id="shampoo-bottle-2" mindist="0" />
+        </lod>
+
+        <node id="nothing">
+            <children></children>
         </node>
 
         <node id="plant">
@@ -1176,25 +1219,10 @@
             </transforms>
         </node>
 
-        <!-- <node id="shower">
-            <children>
-                <primitive>
-                    <model3d filepath="scenes/entrega/texturas-entrega/object-3d/shower2.gltf"></model3d>
-                </primitive>
-            </children>
-            <transforms>
-                <scale value3="0.01 0.01 0.01" />
-                <rotate value3="0 1.57 0" />
-                <translate value3="3.5 0.05 4" />
-            </transforms>
-        </node> -->
-
         <node id="rubber-duck">
             <children>
                 <primitive>
-                    <model3d filepath="scenes/entrega/texturas-entrega/object-3d/rubber-duck-2.gltf">
-
-                    </model3d>
+                    <model3d filepath="scenes/entrega/texturas-entrega/object-3d/rubber-duck-2.gltf"></model3d>
                 </primitive>
             </children>
             <transforms>
@@ -1211,7 +1239,6 @@
                 <noderef id="shower-base" />
                 <noderef id="shower-button" />
                 <noderef id="shower-handle" />
-                <noderef id="shower-handle-model" />
             </children>
             <transforms>
                 <translate value3="0.17 0 -0.85" />

@@ -40,11 +40,13 @@ class MyGuiInterface {
 		wireframeFolder.add(this, 'wireframeActivated').name('Activate Wireframes').onChange((value) => this.contents.activateWireframes(value));
 		wireframeFolder.open();
 
-		this.light1Enabled = false;
-
-		const lightControlsFolder = this.datgui.addFolder("Light Controls");
-		lightControlsFolder.add(this, 'light1Enabled').name('Light1').onChange((value) => this.light1Enabled)
-		
+		const lightFolder = this.datgui.addFolder('Control Lights')
+		for (const light of this.contents.sceneBuilder.lights){
+			console.log(light.name)
+			lightFolder.add(light, 'visible').name(light.typeLight + '-' + light.name);
+			lightFolder.addColor(light, 'color').name('Change color')
+			
+		}
 	}
 		
 

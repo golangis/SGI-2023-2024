@@ -11,6 +11,7 @@ class MySceneBuilder {
 		this.app = app;
 		this.myObjectCreator = new MyObjectCreator(data, this.app.scene);
 		this.rootObject = null;
+		this.lights = []
 	}
 
 	addGlobals() {
@@ -184,6 +185,8 @@ class MySceneBuilder {
 			const light = this.myObjectCreator.createLightObject(node);
 			nodeObj.name = node.id;
 			nodeObj.add(light);
+
+			this.lights.push(light)
 
 			return nodeObj;
 		}

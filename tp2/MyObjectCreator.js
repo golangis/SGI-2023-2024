@@ -133,7 +133,6 @@ class MyObjectCreator {
 
 		for (var key in this.sceneData.materials) {
 			let material = this.sceneData.materials[key];
-			// TODO atributos "texlength_s" e "texlength_t"
 			const materialObject = new THREE.MeshPhongMaterial({
 				color: material.color,
 				specular: material.specular,
@@ -303,7 +302,7 @@ class MyObjectCreator {
 					xyz3[0],
 					xyz3[1],
 					xyz3[2]
-				); 
+				);
 
 				return triangleGeometry;
 
@@ -537,7 +536,6 @@ class MyObjectCreator {
 
 	createLightObject(lightObject) {
 		switch (lightObject.type) {
-			// TODO atributo "enable"
 			case "spotlight":
 				const spotLight = new THREE.SpotLight(
 					lightObject.color,
@@ -547,6 +545,11 @@ class MyObjectCreator {
 					lightObject.penumbra,
 					lightObject.decay,
 				);
+
+				spotLight.typeLight = 'Spot Light'
+				spotLight.name = lightObject.id;
+
+				spotLight.visible = lightObject.enabled;
 
 				spotLight.position.set(
 					lightObject.position[0],
@@ -577,7 +580,6 @@ class MyObjectCreator {
 
 				return spotLight;
 
-			// TODO atributo "enable"
 			case "pointlight":
 				const pointLight = new THREE.PointLight(
 					lightObject.color,
@@ -585,6 +587,13 @@ class MyObjectCreator {
 					lightObject.distance,
 					lightObject.decay
 				);
+
+				pointLight.typeLight = 'Point Light'
+				pointLight.name = lightObject.id;
+
+
+				pointLight.visible = lightObject.enabled;
+
 
 				pointLight.position.set(
 					lightObject.position[0],
@@ -603,12 +612,15 @@ class MyObjectCreator {
 
 				return pointLight;
 
-			// TODO atributos "enable","shadowright", "shadowleft", "shadowbottom", "shadowtop"
 			case "directionallight":
 				const directionalLight = new THREE.DirectionalLight(
 					lightObject.color,
 					lightObject.intensity
 				);
+
+				lightObject.visible = lightObject.enabled;
+				directionalLight.name = lightObject.id;
+				directionalLight.typeLight = 'Directional Light';
 
 				directionalLight.position.set(
 					lightObject.position[0],
