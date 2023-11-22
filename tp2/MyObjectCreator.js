@@ -630,6 +630,10 @@ class MyObjectCreator {
 
 				directionalLight.castShadow = lightObject.castshadow;
 
+				directionalLight.shadow.camera.right = lightObject.shadowright;
+				directionalLight.shadow.camera.left = lightObject.shadowleft;
+				directionalLight.shadow.camera.bottom = lightObject.shadowbottom;
+				directionalLight.shadow.camera.top = lightObject.shadowtop;
 				directionalLight.shadow.camera.far = lightObject.shadowfar;
 
 				directionalLight.shadow.mapSize = new THREE.Vector2(

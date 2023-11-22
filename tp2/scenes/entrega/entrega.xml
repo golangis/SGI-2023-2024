@@ -62,12 +62,22 @@
         <texture id="shampoo-label-texture-2"
             filepath="scenes\entrega\texturas-entrega\shampoo-label-2.jpg" />
         <texture id="far-texture" filepath="scenes\entrega\texturas-entrega\far-text.jpg" />
+        <texture id="ikea-texture" filepath="scenes\entrega\texturas-entrega\ikea-logo.jpg" />
 
     </textures>
 
     <materials>
 
-        
+
+        <material id="ikeaMaterial"
+            textureref="ikea-texture"
+            color="1 1 1 1"
+            specular="0 0 0 1"
+            shininess="10"
+            emissive="0 0 0 1"
+            twosided="true"
+        />
+
         <material id="farMaterial"
             textureref="far-texture"
             color="1 1 1 1"
@@ -151,6 +161,8 @@
             specular="0 0 0 1"
             shininess="0"
             emissive="0 0 0 1"
+            texlength_s="1.2"
+            texlength_t="1.7"
         />
 
         <material id="pictureWall2Material"
@@ -159,6 +171,8 @@
             specular="0.01 0.01 0 1"
             shininess="0"
             emissive="0 0 0 1"
+            texlength_s="1.2"
+            texlength_t="1.7"
         />
 
         <material id="basketMaterial"
@@ -245,7 +259,7 @@
     </materials>
 
     <graph rootid="scene-real">
-    
+
         <node id="scene-real">
             <children>
                 <lodref id="scene-lod" />
@@ -259,6 +273,7 @@
         <node id="scene-far">
             <materialref id="farMaterial" />
             <children>
+                <noderef id="ikea-thing" />
                 <primitive>
                     <box xyz1="-5 0 -5" xyz2="5 5 5" />
                 </primitive>
@@ -292,7 +307,6 @@
                     castshadow="true"
                     position="0 4.9 0"
                 />
-
 
                 <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="200"
                     position="4.98 4.9 4.98" target="0 0 0" intensity="25" />
@@ -1219,8 +1233,27 @@
             </children>
         </node>
 
+        <node id="ikea-thing">
+            <materialref id="ikeaMaterial" />
+            <children>
+                <primitive>
+                    <cylinder base="5.64" top="5.64" height="3.17" slices="3" stacks="3" />
+                </primitive>
+                <spotlight id="sl-ikea" color="0.41 0.37 0.22 1" angle="200" position="0 15 0" target="0 5 0" enabled="true" intensity="1000"  />
+                <pointlight id="pl-ikea1" color="0.41 0.37 0.22 1" position="5 5 5" intensity="100" enabled="true" />
+                <pointlight id="pl-ikea2" color="0.41 0.37 0.22 1" position="5 5 -5" intensity="100" enabled="true"/>
+                <pointlight id="pl-ikea3" color="0.41 0.37 0.22 1" position="-5 5 5" intensity="100" enabled="true" />
+                <pointlight id="pl-ikea4" color="0.41 0.37 0.22 1" position="-5 5 -5" intensity="100" enabled="true"/>
+
+
+            </children>
+            <transforms>
+                <translate value3="0 6.5 0" />
+                <rotate value3="0 0.57 0" />
+            </transforms>
+        </node>
         <lod id="bath-tub-lod">
-            <noderef id="bath-tub-far" mindist="15" />
+            <noderef id="bath-tub-far" mindist="20" />
             <noderef id="bath-tub" mindist="0" />
         </lod>
 
@@ -1229,21 +1262,21 @@
             <noderef id="shower-handle-model" mindist="0" />
         </lod>
         <lod id="duck-lod">
-            <noderef id="nothing" mindist="15" />
+            <noderef id="nothing" mindist="20" />
             <noderef id="rubber-duck" mindist="0" />
         </lod>
         <lod id="plant-lod">
-            <noderef id="nothing" mindist="10" />
+            <noderef id="nothing" mindist="20" />
             <noderef id="plant" mindist="0" />
         </lod>
 
         <lod id="shampoo-1-lod">
-            <noderef id="nothing" mindist="10" />
+            <noderef id="nothing" mindist="20" />
             <noderef id="shampoo-bottle-1" mindist="0" />
         </lod>
 
         <lod id="shampoo-2-lod">
-            <noderef id="nothing" mindist="10" />
+            <noderef id="nothing" mindist="20" />
             <noderef id="shampoo-bottle-2" mindist="0" />
         </lod>
 
