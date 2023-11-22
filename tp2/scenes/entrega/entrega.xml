@@ -106,7 +106,7 @@
         <material id="black"
             color="0 0 0 1"
             specular="0.4 0.4 0.4 1"
-            shininess="15"
+            shininess="5"
             emissive="0 0 0 1"
             twosided="true"
         />
@@ -294,7 +294,7 @@
                 <primitive><box xyz1="5 0.2 -4" xyz2="5.05 4.5 4" /></primitive>
             </children>
         </node>
-        <node id="scene">
+        <node id="scene" castshadows="true" receiveshadows="true">
             <children>
                 <noderef id="frontWall" />
                 <noderef id="backWall" />
@@ -320,19 +320,20 @@
                     decay="2.0"
                     castshadow="true"
                     position="0 4.9 0"
+                    shadowfar="100"
                 />
 
                 <spotlight id="spl1" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="4.98 4.9 4.98" target="0 0 0" intensity="25" />
+                    position="4.98 4.9 4.98" target="0 0 0" intensity="25" castshadow="true"                     shadowfar="100" />
 
                 <spotlight id="spl2" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="-4.98 4.9 -4.98" target="0 0 0" intensity="25" />
+                    position="-4.98 4.9 -4.98" target="0 0 0" intensity="25" castshadow="true"                     shadowfar="100" />
 
                 <spotlight id="spl3" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="4.98 4.9 -4.98" target="0 0 0" intensity="25" />
+                    position="4.98 4.9 -4.98" target="0 0 0" intensity="25" castshadow="true"                     shadowfar="100" />
 
                 <spotlight id="spl4" enabled="true" color="0.41 0.37 0.22 1" angle="200"
-                    position="-4.98 4.9 4.98" target="0 0 0" intensity="25" />
+                    position="-4.98 4.9 4.98" target="0 0 0" intensity="25" castshadow="true"                     shadowfar="100"/>
 
             </children>
         </node>
@@ -352,7 +353,18 @@
                     <rectangle xy1="-5 -2.5" xy2="5 2.5" />
                 </primitive>
             </children>
+        </node>
 
+        <node id="polygon">
+            <children>
+                <primitive>
+                    <polygon radius="1" stacks="10" slices="10" color_c="0.15 0.20 0.20 1" color_p="0.05 0.05 0.05 1" />
+                </primitive>
+            </children>
+            <transforms>
+                <rotate value3="-1.57 0 0" />
+                <translate value3="-1.5 1.5 0.07" />
+            </transforms>
         </node>
 
         <node id="backWall" castshadows="true" receiveshadows="true">
@@ -462,7 +474,6 @@
         <node id="mirror-group">
             <children>
                 <noderef id="mirror" />
-                <!-- <noderef id="lights-mirror" /> -->
             </children>
         </node>
         <node id="mirror" castshadows="true">
@@ -486,15 +497,6 @@
                 </primitive>
             </children>
         </node>
-
-        <!-- <node id="lights-mirror">
-            <children>
-                <spotlight id="pl-mirror" color="0.41 0.37 0.22 1" position="0.5 3 4.99" target="0.5 3.1 5.5"
-        angle="210"
-                    intensity="50" enabled="false" castshadow="true" />
-            </children>
-        </node> -->
-
         <node id="picture-wall-1">
             <materialref id="pictureWall1Material" />
             <children>
@@ -1128,6 +1130,7 @@
         <node id="carpet">
             <materialref id="carpetMaterial" />
             <children>
+                <noderef id="polygon" />
                 <primitive>
                     <box xyz1="0 0 2" xyz2="5 0.05 5" />
                 </primitive>
@@ -1261,17 +1264,15 @@
                     <cylinder base="5.64" top="5.64" height="3.17" slices="3" stacks="3" />
                 </primitive>
                 <spotlight id="sl-ikea" color="0.41 0.37 0.22 1" angle="200" position="0 15 0"
-                    target="0 5 0" enabled="true" intensity="1000" />
+                    target="0 5 0" enabled="true" intensity="1000" castshadow="true" />
                 <pointlight id="pl-ikea1" color="0.41 0.37 0.22 1" position="5 5 5" intensity="100"
-                    enabled="true" />
+                    enabled="true" castshadow="true" />
                 <pointlight id="pl-ikea2" color="0.41 0.37 0.22 1" position="5 5 -5" intensity="100"
-                    enabled="true" />
+                    enabled="true" castshadow="true"/>
                 <pointlight id="pl-ikea3" color="0.41 0.37 0.22 1" position="-5 5 5" intensity="100"
-                    enabled="true" />
+                    enabled="true" castshadow="true"/>
                 <pointlight id="pl-ikea4" color="0.78 0.06 0.31 1" position="-5 5 -5"
-                    intensity="100" enabled="true" />
-
-
+                    intensity="100" enabled="true" castshadow="true" />
             </children>
             <transforms>
                 <translate value3="0 6.5 0" />

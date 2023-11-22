@@ -83,8 +83,8 @@ class MySceneBuilder {
 				} else {
 					childObj = this.visitNodes(element, node, lastMaterial);
 
-					childObj.castShadow = node.castShadows;
-					childObj.receiveShadow = node.receiveShadows;
+					childObj.castShadow ||= node.castShadows;
+					childObj.receiveShadow ||= node.receiveShadows;
 					object.add(childObj);
 				}
 
