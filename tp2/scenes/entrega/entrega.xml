@@ -63,11 +63,19 @@
             filepath="scenes\entrega\texturas-entrega\shampoo-label-2.jpg" />
         <texture id="far-texture" filepath="scenes\entrega\texturas-entrega\far-text.jpg" />
         <texture id="ikea-texture" filepath="scenes\entrega\texturas-entrega\ikea-logo.jpg" />
+        <texture id="garage-texture" filepath="scenes\entrega\texturas-entrega\garage-door.png" />
 
     </textures>
 
     <materials>
 
+        <material id="garageMaterial"
+            textureref="garage-texture"
+            color="1 1 1 1"
+            specular="0 0 0 1"
+            shininess="10"
+            emissive="0 0 0 1"
+        />
 
         <material id="ikeaMaterial"
             textureref="ikea-texture"
@@ -269,17 +277,23 @@
             <noderef id="scene" mindist="0" />
             <noderef id="scene-far" mindist="50" />
         </lod>
-
         <node id="scene-far">
             <materialref id="farMaterial" />
             <children>
                 <noderef id="ikea-thing" />
+                <noderef id="garage-door" />
                 <primitive>
                     <box xyz1="-5 0 -5" xyz2="5 5 5" />
                 </primitive>
             </children>
         </node>
-
+        <node id="garage-door">
+            <materialref id="garageMaterial" />
+            <children>
+                <primitive><box xyz1="-4 0.2 5" xyz2="4 4.5 5.05" /></primitive>
+                <primitive><box xyz1="5 0.2 -4" xyz2="5.05 4.5 4" /></primitive>
+            </children>
+        </node>
         <node id="scene">
             <children>
                 <noderef id="frontWall" />
@@ -1239,11 +1253,16 @@
                 <primitive>
                     <cylinder base="5.64" top="5.64" height="3.17" slices="3" stacks="3" />
                 </primitive>
-                <spotlight id="sl-ikea" color="0.41 0.37 0.22 1" angle="200" position="0 15 0" target="0 5 0" enabled="true" intensity="1000"  />
-                <pointlight id="pl-ikea1" color="0.41 0.37 0.22 1" position="5 5 5" intensity="100" enabled="true" />
-                <pointlight id="pl-ikea2" color="0.41 0.37 0.22 1" position="5 5 -5" intensity="100" enabled="true"/>
-                <pointlight id="pl-ikea3" color="0.41 0.37 0.22 1" position="-5 5 5" intensity="100" enabled="true" />
-                <pointlight id="pl-ikea4" color="0.78 0.06 0.31 1" position="-5 5 -5" intensity="100" enabled="true"/>
+                <spotlight id="sl-ikea" color="0.41 0.37 0.22 1" angle="200" position="0 15 0"
+                    target="0 5 0" enabled="true" intensity="1000" />
+                <pointlight id="pl-ikea1" color="0.41 0.37 0.22 1" position="5 5 5" intensity="100"
+                    enabled="true" />
+                <pointlight id="pl-ikea2" color="0.41 0.37 0.22 1" position="5 5 -5" intensity="100"
+                    enabled="true" />
+                <pointlight id="pl-ikea3" color="0.41 0.37 0.22 1" position="-5 5 5" intensity="100"
+                    enabled="true" />
+                <pointlight id="pl-ikea4" color="0.78 0.06 0.31 1" position="-5 5 -5"
+                    intensity="100" enabled="true" />
 
 
             </children>
