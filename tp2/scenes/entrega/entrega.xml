@@ -1243,7 +1243,7 @@
                 <pointlight id="pl-ikea1" color="0.41 0.37 0.22 1" position="5 5 5" intensity="100" enabled="true" />
                 <pointlight id="pl-ikea2" color="0.41 0.37 0.22 1" position="5 5 -5" intensity="100" enabled="true"/>
                 <pointlight id="pl-ikea3" color="0.41 0.37 0.22 1" position="-5 5 5" intensity="100" enabled="true" />
-                <pointlight id="pl-ikea4" color="0.41 0.37 0.22 1" position="-5 5 -5" intensity="100" enabled="true"/>
+                <pointlight id="pl-ikea4" color="0.78 0.06 0.31 1" position="-5 5 -5" intensity="100" enabled="true"/>
 
 
             </children>
