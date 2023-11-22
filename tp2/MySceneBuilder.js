@@ -65,6 +65,8 @@ class MySceneBuilder {
 		}
 
 		object.name = node.id;
+		object.castShadow = parent?.castShadow || node.castShadows
+		object.receiveShadow = parent?.receiveShadow || node.receiveShadows
 
 		if (node.children) {
 			node.children.forEach((element) => {
@@ -83,14 +85,16 @@ class MySceneBuilder {
 				} else {
 					childObj = this.visitNodes(element, node, lastMaterial);
 
-					childObj.castShadow ||= node.castShadows;
-					childObj.receiveShadow ||= node.receiveShadows;
+					childObj.castShadow ||= object.castShadow;
+					childObj.receiveShadow ||= object.receiveShadow;
 					object.add(childObj);
 				}
 
 			});
 		} else {
 			object = this.buildLeafNode(node, parent, lastMaterial);
+			object.castShadow ||= object.castShadow
+			object.receiveShadow ||= object.receiveShadow
 		}
 
 		if (node.type === "node") {
@@ -173,8 +177,8 @@ class MySceneBuilder {
 					}
 				}
 			}
-			mesh.castShadow = parent.castShadows;
-			mesh.receiveShadow = parent.receiveShadows;
+			mesh.castShadow = parent.castShadow;
+			mesh.receiveShadow = parent.receiveShadow;
 
 			nodeObj.add(mesh);
 

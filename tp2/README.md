@@ -1,60 +1,43 @@
-# sgi-tp2-base
-The starting point of the second assignment of SGI.
+# SGI 2023/2024 - TP2
+
+## Group T01 G05
+
+| Name             | Number    | E-Mail             |
+| ---------------- | --------- | ------------------ |
+| Mariana Rocha    | 202004656 | up202004656@up.pt  |
+| Matilde Silva    | 202007928 | up202007928@up.pt  |
 
 
-# Getting started
-
-Considering a code block (for instance class A.js), to load an xml file (in the defined structure) call:
-
-    let reader = new MyFileReader(app, this, *this.onSceneLoaded*);
-    reader.open("<path to xml file>");	
-
-The last argument in the MyFileReader object call is the name of the method that is to be called when the xml file is loaded and parsed.
-
-Hence, In the same code block (for instance class A.js) add a function method with the following signature: 
-
-    onSceneLoaded(data) {
-        // do something with the data object
-    }
-
-This method is called once the xml file is loaded and parsed successfully. This method single input argument, *data*, is an object containing the entire scene data object. This document can be traversed according to the rules defined in the section on MySceneData class
+## Nodes Parser
+Our parser uses a recursive approach to build the scene graph. The ``visitNodes()`` function starts at the root node and using a **Depth-First Search** approach visits each child node consecutively. It does not skip duplicates, since we would need to create clones of nodes with one or more parents, otherwise. Each time a new node is visited, we check if it has any information regarding its material. If it does, it is then passed on to its descendents, until one of them has material information, and so on. The stopping clause of the recursive function is hit when the node is of type ``primitive`` or ``spotlight``, ``directionallight``, ``pointlight``. 
 
 
+## Graphical User Interface
+Our GUI includes 3 sections **Camera , Wireframes and Lights**. The Camera folder allows the user to choose which of the XML specified camera is active. Additionally, generic camera angles and perspectives are also available.
 
-# MyFileServer
-File MyFileServer.js contains the class responsible for the XML parser general functionality. Most of the parsing process is derived from descriptors defined in MySceneData.js. A small part is hardcoded.
+The Wireframe folder contains a checkbox that reads Activate Wireframes. When clicked, all meshes in the scene will become wireframes. When unclicked, all meshes in the scene revert back to their original state.
 
-> <span style="color: red;">**DO NOT CHANGE MyFileServer.js FILE. IT WILL BE MODIFIED OR REPLACED DURING EVALUATION**</span>
+Lastly, the Lights folder displays all of the lights present in the scene, providing the option to change the light color or to enable/disable it.
 
-# MySceneData
-File MySceneData.js contains a class with metadata description and, in the end of parsing, contains the full set of objects loaded from the xml scene file. This class has several important object attributes:
-- options: contains the scene options, from the globals section
-- fog: contains the scene fog options, from the fog section
-- materials: associative array/list with the scene described materials
-- textures: associative array/list with the scene described textures
-- cameras: associative array/list with all the cameras in the scene
-- activeCameraId: the id of the active camera
-- nodes: associative array/list with all the scene nodes.
-- rootId: the id of the root node
+## Our scene
+Our scene illustrates an IKEA model bathroom. It includes all of the primitive types, along with LODs that show the hardware store when at the right distance. 
 
-NOTES: 
-1. for each entity type, there are no repeated ids. For instance, if there are two nodes with the same id, the parser will complain and the scene will not be loaded.
-2. For each loaded entity, the parser will check if all the required attributes are present. If not, the parser will complain and the scene will not be loaded.
-3. For each entity, a descriptor defined in the constructor defines the attribute's name, type, requiredness, default value.
-4. **DO NOT CHANGE MySceneData.js IT WILL BE MODIFIED OR REPLACED DURING EVALUATION**
+## Strong Points
+As an extra, we decided to implement the Model3D primitive to add a special friend to the scene: a rubber duck, floating on the bathtub! We also added 3D models of a shower head and a plant model to make the scene prettier.
 
-## Custom attributes
-Use  the custom attribute in the data objects to add further attributes:
+We made two implementations of the polygon primitive, but ultimately decided to showcase the one that blends colors smoothly between each stack.
+
+Our code does not cause the scene to lag or faulter.
 
 
-    let obj = {
-        id: "some id",
-        type: "some type",
-        custom: {
-            attr1: "value1",
-            attr2: "value2"
-        } 
-    }
+## Issues
+Our code is not cleanly divided, since some functions do have a large size and could be written to be more readable.
+We had some last minute problem with the shadows in our scene.
 
-in the previous object, attr1 and attr2 are custom attributes that were added to the object by the programmer (student), in light its program specific needs.
 
+![Alt text](screenshots/image.png)
+![Alt text](screenshots/image-1.png)
+![Alt text](screenshots/image-2.png)
+![Alt text](screenshots/image-3.png)
+![Alt text](screenshots/image-4.png)
+![Alt text](screenshots/image-5.png)
