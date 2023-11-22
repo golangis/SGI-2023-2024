@@ -114,7 +114,29 @@ class MySceneBuilder {
 				mesh = new THREE.Mesh(geom);
 				if (material !== undefined) {
 					const materialMap = this.myObjectCreator.getMaterialsMap();
-					mesh.material = materialMap.get(material).clone();
+					const materialObject = materialMap.get(material);
+					console.log('potas', materialObject)
+					mesh.material = materialObject.clone();
+
+					if (node.subtype === "rectangle") {
+						mesh.material.map?.repeat.set(geom.parameters.width / materialObject.texlength_s, geom.parameters.height / materialObject.texlength_t)
+						if (mesh.material.map != null) {
+							mesh.material.map.wrapS = THREE.RepeatWrapping;
+							mesh.material.map.wrapT = THREE.RepeatWrapping;
+						}
+
+						mesh.material.bumpMap?.repeat.set(geom.parameters.width / materialObject.texlength_s, geom.parameters.height / materialObject.texlength_t)
+						if (mesh.material.bumpMap != null) {
+							mesh.material.bumpMap.wrapS = THREE.RepeatWrapping;
+							mesh.material.bumpMap.wrapT = THREE.RepeatWrapping;
+						}
+						
+						mesh.material.specularMap?.repeat.set(geom.parameters.width / materialObject.texlength_s, geom.parameters.height / materialObject.texlength_t)
+						if (mesh.material.specularMap != null) {
+							mesh.material.specularMap.wrapS = THREE.RepeatWrapping;
+							mesh.material.specularMap.wrapT = THREE.RepeatWrapping;
+						}
+					}
 				}
 			}
 			mesh.castShadow = parent.castShadows;

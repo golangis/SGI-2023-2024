@@ -162,6 +162,10 @@ class MyObjectCreator {
 			});
 
 			materialObject.name = key;
+			materialObject.texlength_s = material.texlength_s;
+			materialObject.texlength_t = material.texlength_t;
+
+			console.log(material, materialObject)
 
 			materialMap.set(material.id, materialObject);
 		}
@@ -541,7 +545,7 @@ class MyObjectCreator {
 					lightObject.distance,
 					lightObject.angle,
 					lightObject.penumbra,
-					lightObject.decay
+					lightObject.decay,
 				);
 
 				spotLight.position.set(
