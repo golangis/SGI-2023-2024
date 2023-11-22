@@ -631,14 +631,21 @@
         </node>
 
         <node id="sink-base-wood">
-            <materialref id="woodMaterial" />
+            <materialref id="black" />
             <children>
+                <noderef id="sink-front-shelve" />
                 <primitive>
                     <box xyz1="-1.2 0 -0.7" xyz2="1.2 1 0.7" />
                 </primitive>
             </children>
-            <transforms>
-            </transforms>
+        </node>
+        <node id="sink-front-shelve">
+            <materialref id="woodMaterial" />
+            <children>
+                <primitive>
+                    <box xyz1="-1.2 0 -0.7" xyz2="1.2 1 -0.75" />
+                </primitive>
+            </children>
         </node>
 
         <node id="sink-actual-base">
