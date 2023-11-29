@@ -43,7 +43,7 @@
     <textures>
         <texture id="ceiling-texture" filepath="scenes/entrega/texturas-entrega/ceiling.jpg" />
         <texture id="tile-floor" filepath="scenes/entrega/texturas-entrega/tile-floor.jpg" />
-        <texture id="wall" filepath="scenes/entrega/texturas-entrega/wall.png" mipmap0="scenes/entrega/texturas-entrega/wall-half.png" mipmap1="cenes/entrega/texturas-entrega/wall-quarter.png"/>
+        <texture id="wall" filepath="scenes/entrega/texturas-entrega/wall.png" mipmap0="scenes/entrega/texturas-entrega/wall-half.png" mipmap1="scenes/entrega/texturas-entrega/wall-quarter.png"/>
         <texture id="door-texture" filepath="scenes/entrega/texturas-entrega/door.jpg" />
         <texture id="mirror-texture" filepath="scenes/entrega/texturas-entrega/mirror1.jpg" />
         <texture id="pic1" filepath="scenes/entrega/texturas-entrega/print1.png" />
