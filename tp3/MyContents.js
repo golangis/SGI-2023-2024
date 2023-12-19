@@ -176,7 +176,7 @@ class MyContents {
 
 		this.app.scene.add(this.rootObject); */
 
-		console.log(data)
+		console.log(data.track)
 
 	}
 

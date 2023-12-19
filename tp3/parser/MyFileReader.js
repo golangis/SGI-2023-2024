@@ -1269,7 +1269,8 @@ class MyFileReader {
         }
 
 		this.racetrack = racetrackObj;
-		console.log(racetrackObj)
+		this.data.track = racetrackObj
+		
     }
 }
 

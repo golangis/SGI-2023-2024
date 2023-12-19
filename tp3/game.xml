@@ -57,9 +57,11 @@
 		</points>
 		
 		<powerups>
+			<powerup value="0 0 0" radius="5"></powerup>
         </powerups>
 
         <obstacles>
+			<obstacle value="0 0 0" radius="5"></obstacle>
         </obstacles>
 	</track>
 
