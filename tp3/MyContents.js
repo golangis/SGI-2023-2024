@@ -3,6 +3,7 @@ import { MyAxis } from "./MyAxis.js";
 import { MyFileReader } from "./parser/MyFileReader.js";
 import { MySceneBuilder } from "./MySceneBuilder.js";
 import { MyObjectCreator } from "./MyObjectCreator.js";
+import { MyTrack } from "./MyTrack.js";
 /**
  *  This class contains the contents of out application
  */
@@ -175,8 +176,9 @@ class MyContents {
 		);
 
 		this.app.scene.add(this.rootObject); */
-
-		console.log(data.track)
+		
+		const trackObj = new MyTrack(this.app, data, null);
+		trackObj.buildTrackLine();
 
 	}
 
