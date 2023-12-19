@@ -1,4 +1,4 @@
-# SGI 2023/2024 - TP1
+# SGI 2023/2024
 
 ## Group: T01G05
 
@@ -17,8 +17,9 @@
 
 -----
 
-### [TP2 - ...](tp2)
-- (items briefly describing main strong points)
+### [TP2 - Scene Graphs and YASF](tp2)
+
+Our scene illustrates an IKEA model bathroom. It includes all of the primitive types, along with LODs that show the hardware store when at the right distance. 
 
 ----
 

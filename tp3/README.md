@@ -1,11 +1,11 @@
 # SGI 2023/2024 - TP3
 
-## Group: T0xG0y
+## Group T01 G05
 
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Mariana Rocha    | 202004656 | up202004656@up.pt  |
+| Matilde Silva    | 202007928 | up202007928@up.pt  |
 
 ----
 ## Project information
