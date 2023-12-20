@@ -7,15 +7,26 @@ import * as THREE from "three";
  */
 
 class MyTrack {
-	constructor(app, data, route, trackMaterial) {
+	constructor(app, data, route, trackWidth, trackMaterial) {
 		this.app = app;
 		this.data = data;
 		this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x808080 });
-		this.trackMaterial = trackMaterial || new THREE.MeshBasicMaterial({ color: 0x222222 });
+		this.trackMaterial =
+			trackMaterial || new THREE.MeshBasicMaterial({ color: 0x737373 });
 		this.numberOfSamples = 200;
 
 		this.trackCurve = route;
 		this.pointsCount = 100;
+		this.trackWidth = trackWidth;
+	}
+
+	getCenterPoint(mesh) {
+		var geometry = mesh.geometry;
+		geometry.computeBoundingBox();
+		var center = new THREE.Vector3();
+		geometry.boundingBox.getCenter(center);
+		mesh.localToWorld(center);
+		return center;
 	}
 
 	drawInnerTrackLine() {
@@ -53,7 +64,6 @@ class MyTrack {
 
 		let pts = curve.getPoints(this.pointsCount);
 
-		const width = 6;
 		const outerPoints = [];
 
 		const curveLength = this.trackCurve.getLength();
@@ -73,7 +83,7 @@ class MyTrack {
 
 			const Q = point
 				.clone()
-				.add(perpendicularToTangent.clone().multiplyScalar(width));
+				.add(perpendicularToTangent.clone().multiplyScalar(this.trackWidth));
 
 			outerPoints.push(Q);
 		}
@@ -128,6 +138,9 @@ class MyTrack {
 		const trackGeometry = this.createTrackGeometry();
 		const trackMesh = new THREE.Mesh(trackGeometry, this.trackMaterial);
 
+		const center = this.getCenterPoint(trackMesh);
+
+		trackMesh.position.sub(center);
 		this.app.scene.add(trackMesh);
 	}
 }

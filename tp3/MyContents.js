@@ -179,7 +179,7 @@ class MyContents {
 		this.app.scene.add(this.rootObject); */
 		
 		const routeObj = new MyRoute(this.app, data);
-		const trackObj = new MyTrack(this.app, data, routeObj.curve, null);
+		const trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
 
 		trackObj.drawTrack();
 	}
