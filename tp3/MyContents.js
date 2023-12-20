@@ -4,6 +4,7 @@ import { MyFileReader } from "./parser/MyFileReader.js";
 import { MySceneBuilder } from "./MySceneBuilder.js";
 import { MyObjectCreator } from "./MyObjectCreator.js";
 import { MyTrack } from "./MyTrack.js";
+import { MyRoute } from "./MyRoute.js";
 /**
  *  This class contains the contents of out application
  */
@@ -177,8 +178,8 @@ class MyContents {
 
 		this.app.scene.add(this.rootObject); */
 		
-		const trackObj = new MyTrack(this.app, data, null);
-		console.log(data.track)
+		const routeObj = new MyRoute(this.app, data);
+		const trackObj = new MyTrack(this.app, data, routeObj.curve, null);
 
 		trackObj.drawTrack();
 	}

@@ -7,22 +7,14 @@ import * as THREE from "three";
  */
 
 class MyTrack {
-	constructor(app, data, trackMaterial) {
+	constructor(app, data, route, trackMaterial) {
 		this.app = app;
 		this.data = data;
 		this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x808080 });
-		this.trackMaterial = trackMaterial;
+		this.trackMaterial = trackMaterial || new THREE.MeshBasicMaterial({ color: 0x222222 });
 		this.numberOfSamples = 200;
 
-		let vectors = this.data.track.points.map((point) => {
-			return new THREE.Vector3(point.value[0], 0, point.value[1]);
-		});
-
-		this.trackCurve = new THREE.CatmullRomCurve3(
-			vectors,
-			true,
-			"centripetal"
-		);
+		this.trackCurve = route;
 		this.pointsCount = 100;
 	}
 
@@ -44,7 +36,7 @@ class MyTrack {
 
 	drawOuterTrackLine() {
 		const outerPoints = this.calculateOuterTrackPoints();
-		
+
 		const tubeGeometry = new THREE.TubeGeometry(
 			new THREE.CatmullRomCurve3(outerPoints, true, "centripetal"),
 			this.numberOfSamples,
@@ -134,9 +126,7 @@ class MyTrack {
 
 	drawTrack() {
 		const trackGeometry = this.createTrackGeometry();
-
-		const trackMaterial = new THREE.MeshBasicMaterial({ color: 0x222222 });
-		const trackMesh = new THREE.Mesh(trackGeometry, trackMaterial);
+		const trackMesh = new THREE.Mesh(trackGeometry, this.trackMaterial);
 
 		this.app.scene.add(trackMesh);
 	}
