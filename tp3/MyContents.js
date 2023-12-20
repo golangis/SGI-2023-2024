@@ -179,7 +179,7 @@ class MyContents {
 		
 		const trackObj = new MyTrack(this.app, data, null);
 		trackObj.buildTrackLine();
-
+		trackObj.buildTrackFaces();
 	}
 
 	update() { }
