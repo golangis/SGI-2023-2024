@@ -5,6 +5,7 @@ import { MySceneBuilder } from "./MySceneBuilder.js";
 import { MyObjectCreator } from "./MyObjectCreator.js";
 import { MyTrack } from "./MyTrack.js";
 import { MyRoute } from "./MyRoute.js";
+import { MyCar } from "./MyCar.js";
 /**
  *  This class contains the contents of out application
  */
@@ -166,6 +167,12 @@ class MyContents {
 
 		this.sceneBuilder = new MySceneBuilder(data, this.app);
 
+		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white lightº
+		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
+
+		this.app.scene.add(light1);
+		this.app.scene.add(light2);
+		
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();
 		this.sceneBuilder.addSkybox();
@@ -177,23 +184,18 @@ class MyContents {
 		);
 
 		this.app.scene.add(this.rootObject); */
-		
+
 		const routeObj = new MyRoute(this.app, data);
 		const trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
-
 		trackObj.drawTrack();
+		trackObj.drawTrackFloor();
+
+		const carObj = new MyCar(this.app, "./object3D/sedan.glb");
+		carObj.loadCar();
 	}
 
-	update() { }
-	
-	activateWireframes(value) {
-		this.sceneBuilder.transformIntoWireframes(
-			this.rootObject,
-			value
-		);
-	}
+	update() {}
 
 }
 
 export { MyContents };
-

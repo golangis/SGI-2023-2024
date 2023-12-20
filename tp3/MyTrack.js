@@ -96,8 +96,7 @@ class MyTrack {
 
 		let pts = this.trackCurve.getPoints(this.pointsCount);
 
-		let vertices = [];
-		let indices = [];
+		let vertices = [], indices = [];
 
 		let addedPoints = 0;
 
@@ -142,6 +141,27 @@ class MyTrack {
 
 		trackMesh.position.sub(center);
 		this.app.scene.add(trackMesh);
+	}
+
+	drawTrackFloor() {
+		const geometry = new THREE.PlaneGeometry(200, 200);
+		
+		const texture = new THREE.TextureLoader().load('textures/grass.jpg');
+
+		texture.repeat.set(4, 4); // Repeat the texture 4 times in both horizontal and vertical directions
+
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+
+		const material = new THREE.MeshBasicMaterial({
+			color: 0x449654,
+			map: texture,
+		});
+
+		const floor = new THREE.Mesh(geometry, material);
+		floor.rotateX(-Math.PI/2)
+		floor.position.y = -0.1
+		this.app.scene.add(floor);
 	}
 }
 
