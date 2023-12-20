@@ -399,7 +399,7 @@ class MySceneData {
 			},
 		];
 
-        this.descriptors["point"] = [{ name: "value", type: "vector3" }];
+        this.descriptors["point"] = [{ name: "value", type: "vector2" }];
 
         this.descriptors["powerup"] = [
             { name: "value", type: "vector3" },

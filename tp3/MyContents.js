@@ -178,8 +178,9 @@ class MyContents {
 		this.app.scene.add(this.rootObject); */
 		
 		const trackObj = new MyTrack(this.app, data, null);
-		trackObj.buildTrackLine();
-		trackObj.buildTrackFaces();
+		console.log(data.track)
+
+		trackObj.drawTrack();
 	}
 
 	update() { }
