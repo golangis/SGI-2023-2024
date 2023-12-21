@@ -46,7 +46,44 @@ class MyContents {
 				data +
 				". visit MySceneData javascript class to check contents for each data item."
 		);
+
+		this.keys = { W: false, A: false, S: false, D: false };
+		
+		document.addEventListener("keydown", (event) => {
+			const key = event.key.toUpperCase();
+			if (this.keys.hasOwnProperty(key)) {
+				this.keys[key] = true;
+				this.handleKeyPress(key);
+			}
+		});
+
+		document.addEventListener("keyup", (event) => {
+			const key = event.key.toUpperCase();
+			if (this.keys.hasOwnProperty(key)) {
+				this.keys[key] = false;
+			}
+		});
+
 		this.onAfterSceneLoadedAndBeforeRender(data);
+	}
+
+	handleKeyPress() {
+		if (this.keys.W) {
+			console.log("W", this.delta);
+			this.carObj.accelerate(this.delta);
+		}
+		if (this.keys.A) {
+			console.log("A")
+			this.carObj.turnLeft(this.delta);
+		}
+		if (this.keys.S) {
+			console.log("S")
+			this.carObj.brake(this.delta);
+		}
+		if (this.keys.D) {
+			console.log("D")
+			this.carObj.turnRight(this.delta);
+		}
 	}
 
 	output(obj, indent = 0) {
@@ -172,7 +209,7 @@ class MyContents {
 
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
-		
+
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();
 		this.sceneBuilder.addSkybox();
@@ -190,12 +227,14 @@ class MyContents {
 		trackObj.drawTrack();
 		trackObj.drawTrackFloor();
 
-		const carObj = new MyCar(this.app, "./object3D/sedan.glb");
-		carObj.loadCar();
+		this.carObj = new MyCar(this.app, "./object3D/sedan.glb");
+		this.carObj.loadCar();
 	}
 
-	update() {}
-
+	update(delta) {
+		this.delta = delta
+		this.carObj.updateCarCoordinates(delta);
+	}
 }
 
 export { MyContents };

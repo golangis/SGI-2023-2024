@@ -34,11 +34,6 @@ class MyGuiInterface {
 			.name("Active camera");
 		cameraFolder.open();
 
-		this.wireframeActivated = false;
-		
-		const wireframeFolder = this.datgui.addFolder("Wireframe");
-		wireframeFolder.add(this, 'wireframeActivated').name('Activate Wireframes').onChange((value) => this.contents.activateWireframes(value));
-		wireframeFolder.open();
 	}
 		
 
