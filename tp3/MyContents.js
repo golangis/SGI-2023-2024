@@ -73,21 +73,17 @@ class MyContents {
 
 	handleKeyPress() {
 		if (this.keys.W) {
-			console.log("W");
 			this.drag = false;
 			this.carObj.accelerate(this.delta);
 		}
 		if (this.keys.A) {
-			console.log("A")
 			this.carObj.turnLeft(this.delta);
 		}
 		if (this.keys.S) {
-			console.log("S")
 			this.drag = false;
 			this.carObj.brake(this.delta);
 		}
 		if (this.keys.D) {
-			console.log("D")
 			this.carObj.turnRight(this.delta);
 		}
 	}
@@ -235,6 +231,7 @@ class MyContents {
 
 		this.carObj = new MyCar(this.app, "./object3D/sedan.glb");
 		this.carObj.loadCar();
+		this.carObj.createCarCamera();
 	}
 
 	update(delta) {

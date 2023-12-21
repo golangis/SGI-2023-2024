@@ -140,6 +140,11 @@ class MyApp {
 		this.setActiveCamera(defaultCamera);
 	}
 
+	addCamera(camKey, camName, camObj) {
+		this.cameraKeys.push(camKey);
+		this.cameras[camName] = camObj;
+	}
+
 	/**
 	 * sets the active camera by name
 	 * @param {String} cameraName
