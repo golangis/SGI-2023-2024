@@ -32,3 +32,15 @@ body {
     font-size: 20px; 
     z-index: 1000; 
 }
+
+.menu{
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bg-menu-card{
+    background-color: #c8c4c4;
+}
