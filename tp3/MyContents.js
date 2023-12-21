@@ -48,7 +48,8 @@ class MyContents {
 		);
 
 		this.keys = { W: false, A: false, S: false, D: false };
-		
+		this.drag = false;
+
 		document.addEventListener("keydown", (event) => {
 			const key = event.key.toUpperCase();
 			if (this.keys.hasOwnProperty(key)) {
@@ -61,6 +62,9 @@ class MyContents {
 			const key = event.key.toUpperCase();
 			if (this.keys.hasOwnProperty(key)) {
 				this.keys[key] = false;
+				if (key === "W" || key === "S") {
+					this.drag = true;
+				}
 			}
 		});
 
@@ -69,7 +73,8 @@ class MyContents {
 
 	handleKeyPress() {
 		if (this.keys.W) {
-			console.log("W", this.delta);
+			console.log("W");
+			this.drag = false;
 			this.carObj.accelerate(this.delta);
 		}
 		if (this.keys.A) {
@@ -78,6 +83,7 @@ class MyContents {
 		}
 		if (this.keys.S) {
 			console.log("S")
+			this.drag = false;
 			this.carObj.brake(this.delta);
 		}
 		if (this.keys.D) {
@@ -233,7 +239,13 @@ class MyContents {
 
 	update(delta) {
 		this.delta = delta
-		this.carObj.updateCarCoordinates(delta);
+
+		if (this.drag) {
+			this.carObj.decelerate(delta)
+		} else {
+			this.carObj.updateCarCoordinates(delta);
+		}
+
 	}
 }
 

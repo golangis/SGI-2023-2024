@@ -78,7 +78,20 @@ class MyCar {
 			this.acceleration -= 0.5
 		}
 		this.updateCarCoordinates(delta);
+	
+	}
 
+	// TODO if player outside track, reduce their velocity
+	decelerate(delta) {
+		if (this.velocity > 0 && this.acceleration > 0) {
+			this.acceleration -= 0.05;
+		} else if (this.velocity < 0 && this.acceleration < 0) {
+			this.acceleration += 0.05;
+		} else {
+			this.acceleration = 0;
+		}
+
+		this.updateCarCoordinates(delta);
 	}
 
 	turnLeft(delta) {
