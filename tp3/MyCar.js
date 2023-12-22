@@ -143,18 +143,24 @@ class MyCar {
 	}
 
 	turnLeft() {
-		if (this.velocity != 0) {
+		if (this.velocity > 0) {
 			this.orientation += Math.PI / 30;
+		} else if (this.velocity < 0) {
+			this.orientation -= Math.PI / 30;
 		}
+
 		if (this.wheelMeshes[0].rotation.y < 2 * (Math.PI / 20)) {
 			this.turnWheels(Math.PI / 10);
 		}
 	}
 
 	turnRight() {
-		if (this.velocity != 0) {
+		if (this.velocity > 0) {
 			this.orientation -= Math.PI / 30;
+		} else if (this.velocity < 0) {
+			this.orientation += Math.PI / 30;
 		}
+		
 		if (this.wheelMeshes[0].rotation.y > -2 * (Math.PI / 20)) {
 			this.turnWheels(-Math.PI / 10);
 		}
