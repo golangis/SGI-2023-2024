@@ -76,17 +76,17 @@ class MyContents {
 	handleKeyPress() {
 		if (this.keys.W) {
 			this.drag = false;
-			this.carObj.accelerate(this.delta);
+			this.carObj.accelerate();
 		}
 		if (this.keys.A) {
-			this.carObj.turnLeft(this.delta);
+			this.carObj.turnLeft();
 		}
 		if (this.keys.S) {
 			this.drag = false;
-			this.carObj.brake(this.delta);
+			this.carObj.brake();
 		}
 		if (this.keys.D) {
-			this.carObj.turnRight(this.delta);
+			this.carObj.turnRight();
 		}
 	}
 
@@ -241,11 +241,10 @@ class MyContents {
 		this.degree = 3 * Math.PI / 20;
 		
 		if (this.drag) {
-			this.carObj.decelerate(delta)
-		} else {
-			this.carObj.updateCarCoordinates(delta);
+			this.carObj.decelerate(0.05);
 		}
-
+		
+		this.carObj.updateCarCoordinates(delta);
 		this.carObj.updateWheels();
 	}
 }

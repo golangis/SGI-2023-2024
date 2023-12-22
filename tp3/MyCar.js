@@ -122,34 +122,30 @@ class MyCar {
 		this.updateCarCamera();
 	}
 
-	accelerate(delta) {
+	accelerate() {
 		if (this.acceleration < 18) {
 			this.acceleration += 0.5;
 		}
-		this.updateCarCoordinates(delta);
 	}
 
-	brake(delta) {
+	brake() {
 		if (this.acceleration > -18) {
 			this.acceleration -= 0.5;
 		}
-		this.updateCarCoordinates(delta);
 	}
 
 	// TODO if player outside track, reduce their velocity
-	decelerate(delta) {
+	decelerate(ratio) {
 		if (this.velocity > 0 && this.acceleration > 0) {
-			this.acceleration -= 0.05;
+			this.acceleration -= ratio;
 		} else if (this.velocity < 0 && this.acceleration < 0) {
-			this.acceleration += 0.05;
+			this.acceleration += ratio;
 		} else {
 			this.acceleration = 0;
 		}
-
-		this.updateCarCoordinates(delta);
 	}
 
-	turnLeft(delta) {
+	turnLeft() {
 		if (this.velocity != 0) {
 			this.orientation += Math.PI / 30;
 		}
@@ -158,7 +154,7 @@ class MyCar {
 		}
 	}
 
-	turnRight(delta) {
+	turnRight() {
 		if (this.velocity != 0) {
 			this.orientation -= Math.PI / 30;
 		}
