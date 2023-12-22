@@ -64,6 +64,8 @@ class MyContents {
 				this.keys[key] = false;
 				if (key === "W" || key === "S") {
 					this.drag = true;
+				} else if (key === "D" || key === "A") {
+					this.carObj.resetWheels();
 				}
 			}
 		});
@@ -235,14 +237,16 @@ class MyContents {
 	}
 
 	update(delta) {
-		this.delta = delta
-
+		this.delta = delta;
+		this.degree = 3 * Math.PI / 20;
+		
 		if (this.drag) {
 			this.carObj.decelerate(delta)
 		} else {
 			this.carObj.updateCarCoordinates(delta);
 		}
 
+		this.carObj.updateWheels();
 	}
 }
 
