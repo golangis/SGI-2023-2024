@@ -37,10 +37,12 @@ body {
     position: fixed;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#bg-menu-card{
-    background-color: #c8c4c4;
+.menu #credits-menu{
+    position: fixed;
+    bottom: 0;
 }
