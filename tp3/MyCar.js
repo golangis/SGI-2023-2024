@@ -62,10 +62,8 @@ class MyCar {
 				element.name.includes("wheel_front") &&
 				element.type === "Group"
 			) {
-				console.log("two", this.wheelMeshes);
 				this.wheelMeshes.push(element);
 			} else {
-				console.log("one");
 				this.findWheels(element);
 			}
 		});
@@ -73,7 +71,6 @@ class MyCar {
 		return;
 	}
 
-	// TODO car wheels also turn
 	// TODO camera following the car around
 	createCarCamera() {
 		// DEBUG
@@ -95,7 +92,7 @@ class MyCar {
 		this.app.camTarget = camTarget;
 		this.app.addCamera("Car", "Car", newCamera);
 
-		console.log(this.carMesh);
+		//console.log(this.carMesh);
 	}
 
 	updateCarCamera() {
