@@ -42,13 +42,17 @@ class MyCar {
 			}
 		);
 
-		mesh.scale.setScalar(1);
-		
-		mesh.rotation.y = (-Math.PI / 2);
-		mesh.position.set(this.x, 0, this.z);
+		this.carParent = new THREE.Object3D();
+		this.carParent.add(mesh);
 
-		this.carMesh = mesh;
-		this.app.scene.add(mesh);
+		this.carParent.scale.setScalar(1);
+
+		this.carParent.rotation.y = -Math.PI / 2;
+		this.carParent.position.set(this.x, 0, this.z);
+
+		mesh.position.set(0, 0, -0.65);
+
+		this.app.scene.add(this.carParent);
 		return mesh;
 	}
 
@@ -71,33 +75,26 @@ class MyCar {
 		return;
 	}
 
-	// TODO camera following the car around
 	createCarCamera() {
-		// DEBUG
 		const camTarget = new THREE.Object3D();
 		camTarget.add(new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2)));
 		camTarget.position.set(this.x, 2.2, this.z);
 
-		this.app.scene.add(camTarget);
-		////////
-
 		const aspect = window.innerWidth / window.innerHeight;
 		const newCamera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
 
-		newCamera.position.set(this.x + 5.5, 3, this.z + 3.5);
-		newCamera.lookAt(this.x, 2.2, this.z);
+		newCamera.position.set(0, 3, 4.5);
 
-		camTarget.add(newCamera);
+		this.carParent.add(newCamera);
 
-		this.app.camTarget = camTarget;
+		newCamera.camTarget = camTarget;
+		this.camTarget = camTarget;
+
 		this.app.addCamera("Car", "Car", newCamera);
-
-		//console.log(this.carMesh);
 	}
 
 	updateCarCamera() {
-		const targetPosition = new THREE.Vector3(this.x, 2.2, this.z);
-		this.app.camTarget.position.set(this.x, 2.2, this.z);
+		this.camTarget.position.set(this.x, 2.2, this.z);
 	}
 
 	updateCarCoordinates(delta) {
@@ -108,10 +105,10 @@ class MyCar {
 		this.z -=
 			((Math.cos(this.orientation) * Math.PI) / 180) * this.velocity;
 
-		this.carMesh.position.set(this.x, 0, this.z);
+		this.carParent.position.set(this.x, 0, this.z);
 
-		this.carMesh.rotation.y = THREE.MathUtils.lerp(
-			this.carMesh.rotation.y,
+		this.carParent.rotation.y = THREE.MathUtils.lerp(
+			this.carParent.rotation.y,
 			this.orientation,
 			0.05
 		);
@@ -160,7 +157,7 @@ class MyCar {
 		} else if (this.velocity < 0) {
 			this.orientation += Math.PI / 30;
 		}
-		
+
 		if (this.wheelMeshes[0].rotation.y > -2 * (Math.PI / 20)) {
 			this.turnWheels(-Math.PI / 10);
 		}
@@ -173,7 +170,6 @@ class MyCar {
 	resetWheels() {
 		this.carSteer = 0;
 	}
-
 
 	updateWheels() {
 		this.wheelMeshes.forEach((element) => {

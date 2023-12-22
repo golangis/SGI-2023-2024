@@ -208,7 +208,7 @@ class MyContents {
 
 		this.sceneBuilder = new MySceneBuilder(data, this.app);
 
-		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white lightº
+		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white light
 		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
 
 		this.app.scene.add(light1);

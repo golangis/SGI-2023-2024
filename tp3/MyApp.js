@@ -50,7 +50,7 @@ class MyApp {
 		this.renderer.setClearColor("#000000");
 
 		this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
+		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 		// Configure renderer size
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -62,7 +62,7 @@ class MyApp {
 		window.addEventListener("resize", this.onResize.bind(this), false);
 
 		// A clock to get DeltaTime
-        this.clock = new THREE.Clock(true);
+		this.clock = new THREE.Clock(true);
 	}
 
 	/**
@@ -182,6 +182,11 @@ class MyApp {
 				this.controls.update();
 			} else {
 				this.controls.object = this.activeCamera;
+				if (this.activeCamera.camTarget) {
+					this.controls.target = this.activeCamera.camTarget.position;
+				} else {
+					this.controls.target.copy(new THREE.Vector3(0, 0, 0));
+				}
 			}
 		}
 	}
