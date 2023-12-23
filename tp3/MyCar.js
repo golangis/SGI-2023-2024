@@ -33,6 +33,17 @@ class MyCar {
 			function (object) {
 				mesh.add(object.scene);
 				this.findWheels(mesh);
+
+				this.AABB = new THREE.Box3().setFromObject(this.carParent);
+
+				// TODO remove box outline
+				const boundingBoxHelper = new THREE.Box3Helper(
+					this.AABB,
+					0xffff00
+				);
+
+				this.app.scene.add(boundingBoxHelper);
+
 			}.bind(this),
 			function (xhr) {
 				console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -53,7 +64,7 @@ class MyCar {
 		mesh.position.set(0, 0, -0.65);
 
 		this.app.scene.add(this.carParent);
-		return mesh;
+		return this.carParent;
 	}
 
 	findWheels(currentMesh) {
