@@ -65,7 +65,7 @@ class MyContents {
 				if (key === "W" || key === "S") {
 					this.drag = true;
 				} else if (key === "D" || key === "A") {
-					this.carObj.resetWheels();
+					this.playerCar.resetWheels();
 				}
 			}
 		});
@@ -76,17 +76,17 @@ class MyContents {
 	handleKeyPress() {
 		if (this.keys.W) {
 			this.drag = false;
-			this.carObj.accelerate();
+			this.playerCar.accelerate();
 		}
 		if (this.keys.A) {
-			this.carObj.turnLeft();
+			this.playerCar.turnLeft();
 		}
 		if (this.keys.S) {
 			this.drag = false;
-			this.carObj.brake();
+			this.playerCar.brake();
 		}
 		if (this.keys.D) {
-			this.carObj.turnRight();
+			this.playerCar.turnRight();
 		}
 	}
 
@@ -218,34 +218,32 @@ class MyContents {
 		this.sceneBuilder.addCameras();
 		this.sceneBuilder.addSkybox();
 
-		/*this.rootObject = this.sceneBuilder.visitNodes(
-			data.nodes[data.rootId],
-			undefined,
-			undefined
-		);
+		
+		this.startGame(data, "./object3D/sedan.glb", "./object3D/suvLuxury.glb");
 
-		this.app.scene.add(this.rootObject); */
+	}
 
+	startGame(data, playerCarFilepath, opponentCarFilepath) {
 		const routeObj = new MyRoute(this.app, data);
 		const trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
 		trackObj.drawTrack();
 		trackObj.drawTrackFloor();
 
-		this.carObj = new MyCar(this.app, "./object3D/sedan.glb");
-		this.carObj.loadCar();
-		this.carObj.createCarCamera();
+		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
+		this.opponentCar = new MyCar(this.app, opponentCarFilepath, 7, 6, false);
+
 	}
+
 
 	update(delta) {
 		this.delta = delta;
 		this.degree = 3 * Math.PI / 20;
 		
 		if (this.drag) {
-			this.carObj.decelerate(0.05);
+			this.playerCar.decelerate(0.05);
 		}
 		
-		this.carObj.updateCarCoordinates(delta);
-		this.carObj.updateWheels();
+		this.playerCar.updateCar(delta);
 	}
 }
 

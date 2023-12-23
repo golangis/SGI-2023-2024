@@ -8,19 +8,26 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
  */
 
 class MyCar {
-	constructor(app, carFilepath) {
+	constructor(app, carFilepath, x, z, createCamera) {
 		this.app = app;
 		this.carFilepath = carFilepath;
 		this.velocity = 0;
 		this.orientation = 0;
 		this.acceleration = 0;
 
-		this.x = 7;
-		this.z = 5;
+		this.x = x;
+		this.z = z;
 		this.orientation = -Math.PI / 2;
 		this.wheelMeshes = [];
 
 		this.carSteer = 0;
+
+		// Function calls to render car and create camera
+		this.loadCar();
+		if (createCamera) {
+			this.createCarCamera();
+		}
+
 	}
 
 	loadCar() {
@@ -34,16 +41,7 @@ class MyCar {
 				mesh.add(object.scene);
 				this.findWheels(mesh);
 
-				this.AABB = new THREE.Box3().setFromObject(this.carParent);
-
-				// TODO remove box outline
-				const boundingBoxHelper = new THREE.Box3Helper(
-					this.AABB,
-					0xffff00
-				);
-
-				this.app.scene.add(boundingBoxHelper);
-
+				this.AABB = new THREE.Box3().setFromObject(this.carMesh);
 			}.bind(this),
 			function (xhr) {
 				console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -53,18 +51,18 @@ class MyCar {
 			}
 		);
 
-		this.carParent = new THREE.Object3D();
-		this.carParent.add(mesh);
+		this.carMesh = new THREE.Object3D();
+		this.carMesh.add(mesh);
 
-		this.carParent.scale.setScalar(1);
+		this.carMesh.scale.setScalar(1);
 
-		this.carParent.rotation.y = -Math.PI / 2;
-		this.carParent.position.set(this.x, 0, this.z);
+		this.carMesh.rotation.y = -Math.PI / 2;
+		this.carMesh.position.set(this.x, 0, this.z);
 
 		mesh.position.set(0, 0, -0.65);
 
-		this.app.scene.add(this.carParent);
-		return this.carParent;
+		this.app.scene.add(this.carMesh);
+		return this.carMesh;
 	}
 
 	findWheels(currentMesh) {
@@ -96,7 +94,7 @@ class MyCar {
 
 		newCamera.position.set(0, 3, 4.5);
 
-		this.carParent.add(newCamera);
+		this.carMesh.add(newCamera);
 
 		newCamera.camTarget = camTarget;
 		this.camTarget = camTarget;
@@ -108,7 +106,7 @@ class MyCar {
 		this.camTarget.position.set(this.x, 2.2, this.z);
 	}
 
-	updateCarCoordinates(delta) {
+	updateCar(delta) {
 		this.velocity = (this.acceleration * delta * 50).toFixed(2);
 
 		this.x -=
@@ -116,15 +114,16 @@ class MyCar {
 		this.z -=
 			((Math.cos(this.orientation) * Math.PI) / 180) * this.velocity;
 
-		this.carParent.position.set(this.x, 0, this.z);
+		this.carMesh.position.set(this.x, 0, this.z);
 
-		this.carParent.rotation.y = THREE.MathUtils.lerp(
-			this.carParent.rotation.y,
+		this.carMesh.rotation.y = THREE.MathUtils.lerp(
+			this.carMesh.rotation.y,
 			this.orientation,
 			0.05
 		);
 
 		this.updateCarCamera();
+		this.updateWheels();
 	}
 
 	accelerate() {
