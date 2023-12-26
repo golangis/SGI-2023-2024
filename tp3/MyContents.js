@@ -244,6 +244,16 @@ class MyContents {
 		}
 		
 		this.playerCar.updateCar(delta);
+
+		if (this.playerCar.AABB && this.opponentCar.AABB) {
+			const result = this.playerCar.AABB.intersectsBox(this.opponentCar.AABB);
+			//console.log(result)
+			if (result) {
+				
+				console.log(this.opponentCar.AABB, this.playerCar.AABB)
+				console.log("Collision!")
+			}
+		}
 	}
 }
 

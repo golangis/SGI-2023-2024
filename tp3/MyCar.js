@@ -34,6 +34,7 @@ class MyCar {
 		const path = this.carFilepath;
 		const loader = new GLTFLoader();
 		const mesh = new THREE.Object3D();
+		this.carMesh = new THREE.Object3D();
 
 		loader.load(
 			path,
@@ -51,7 +52,6 @@ class MyCar {
 			}
 		);
 
-		this.carMesh = new THREE.Object3D();
 		this.carMesh.add(mesh);
 
 		this.carMesh.scale.setScalar(1);
@@ -70,16 +70,30 @@ class MyCar {
 			return;
 		}
 
-		currentMesh.children.forEach((element) => {
-			if (
-				element.name.includes("wheel_front") &&
-				element.type === "Group"
-			) {
-				this.wheelMeshes.push(element);
-			} else {
-				this.findWheels(element);
-			}
-		});
+		let backlog = [];
+		backlog.push(currentMesh);
+
+		while (backlog.length != 0) {
+			
+			currentMesh = backlog[0];
+			backlog = backlog.slice(1);
+
+			currentMesh.children.forEach((element) => {
+				if (
+					element.name.includes("wheel") &&
+					element.name.includes("front") &&
+					element.type === "Group"
+				) {
+					this.wheelMeshes.push(element);
+				} else {
+					backlog.push(element);
+				}
+
+				if (this.wheelMeshes.length == 2) {
+					return;
+				}
+			});
+		}
 
 		return;
 	}
@@ -156,7 +170,7 @@ class MyCar {
 			this.orientation -= Math.PI / 30;
 		}
 
-		if (this.wheelMeshes[0].rotation.y < 2 * (Math.PI / 20)) {
+		if (this.wheelMeshes[0].rotation.y < 1.5 * (Math.PI / 20)) {
 			this.turnWheels(Math.PI / 10);
 		}
 	}
@@ -168,7 +182,7 @@ class MyCar {
 			this.orientation += Math.PI / 30;
 		}
 
-		if (this.wheelMeshes[0].rotation.y > -2 * (Math.PI / 20)) {
+		if (this.wheelMeshes[0].rotation.y > -1.5 * (Math.PI / 20)) {
 			this.turnWheels(-Math.PI / 10);
 		}
 	}
