@@ -21,7 +21,13 @@ class MyContents {
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
 		this.reader.open("./game.xml");
 
-		this.activateWireframe = false;
+		this.collision = false;
+		this.outOfBounds = false;
+		this.drag = false;
+		this.penalty = false;
+		this.penaltyActive = false;
+
+		this.first = true;
 	}
 
 	/**
@@ -76,14 +82,14 @@ class MyContents {
 	handleKeyPress() {
 		if (this.keys.W) {
 			this.drag = false;
-			this.playerCar.accelerate();
+			this.playerCar.accelerate(this.penaltyActive);
 		}
 		if (this.keys.A) {
 			this.playerCar.turnLeft();
 		}
 		if (this.keys.S) {
 			this.drag = false;
-			this.playerCar.brake();
+			this.playerCar.brake(this.penaltyActive);
 		}
 		if (this.keys.D) {
 			this.playerCar.turnRight();
@@ -228,7 +234,8 @@ class MyContents {
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
 		const routeObj = new MyRoute(this.app, data);
 		const trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
-		trackObj.drawTrack();
+
+		this.trackMesh = trackObj.drawTrack();
 		trackObj.drawTrackFloor();
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
@@ -249,8 +256,43 @@ class MyContents {
 
 			if (result) {
 				console.log("Collision!");
+				return result;
 			}
 		}
+		return false;
+	}
+
+	checkIfCarOnTrack(carPosition) {
+		return (
+			new THREE.Raycaster(
+				carPosition,
+				new THREE.Vector3(0, -1, 0),
+				0,
+				1
+			).intersectObject(this.trackMesh).length > 0
+		);
+	}
+
+	deductPenalties() {
+		if (!this.first) {
+			this.collision = this.checkForCollisionBetweenCars();
+			this.outOfBounds = !this.checkIfCarOnTrack(
+				this.playerCar.carMesh.position
+			);
+
+			this.penalty = this.collision || this.outOfBounds;
+			if (!this.penaltyActive && this.penalty) {
+				setTimeout(() => {
+					this.penaltyActive = false;
+					console.log("penalty finish");
+				}, 5000);
+
+				console.log("penalty initiated");
+				this.penaltyActive = true;
+			}
+		}
+
+		this.first = false;
 	}
 
 	update(delta) {
@@ -262,8 +304,10 @@ class MyContents {
 		}
 
 		this.playerCar.updateCar(delta);
-		this.checkForCollisionBetweenCars();
+		this.deductPenalties();
 	}
 }
+
+// TODO player track checkpoints 
 
 export { MyContents };

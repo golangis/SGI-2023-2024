@@ -141,6 +141,8 @@ class MyTrack {
 
 		trackMesh.position.sub(center);
 		this.app.scene.add(trackMesh);
+
+		return trackMesh;
 	}
 
 	drawTrackFloor() {

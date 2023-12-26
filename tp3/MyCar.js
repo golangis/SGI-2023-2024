@@ -21,13 +21,13 @@ class MyCar {
 		this.wheelMeshes = [];
 
 		this.carSteer = 0;
+		this.topSpeed = 8.5;
 
 		// Function calls to render car and create camera
 		this.loadCar();
 		if (createCamera) {
 			this.createCarCamera();
 		}
-
 	}
 
 	loadCar() {
@@ -74,7 +74,6 @@ class MyCar {
 		backlog.push(currentMesh);
 
 		while (backlog.length != 0) {
-			
 			currentMesh = backlog[0];
 			backlog = backlog.slice(1);
 
@@ -100,7 +99,7 @@ class MyCar {
 
 	createCarCamera() {
 		const camTarget = new THREE.Object3D();
-		camTarget.add(new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2)));
+		camTarget.add(new THREE.Mesh());
 		camTarget.position.set(this.x, 2.2, this.z);
 
 		const aspect = window.innerWidth / window.innerHeight;
@@ -121,7 +120,7 @@ class MyCar {
 	}
 
 	updateCar(delta) {
-		this.velocity = (this.acceleration * delta * 50).toFixed(2);
+		this.velocity = Math.min((this.acceleration * delta * 50).toFixed(2), this.topSpeed);
 
 		this.x -=
 			((Math.sin(this.orientation) * Math.PI) / 180) * this.velocity;
@@ -144,20 +143,40 @@ class MyCar {
 		}
 	}
 
-	accelerate() {
-		if (this.acceleration < 18) {
-			this.acceleration += 0.5;
+	accelerate(penalty) {
+		let ratio = 0.5,
+			topValue = 18;
+
+		if (this.acceleration < topValue) {
+			if (penalty) {
+				ratio = 0.7 * ratio;
+				topValue = 0.7 * topValue;
+				this.topSpeed = 5.0;
+			} else {
+				this.topSpeed = 8.5;
+			}
+
+			this.acceleration += ratio;
 		}
 	}
 
-	brake() {
-		if (this.acceleration > -18) {
-			this.acceleration -= 0.5;
+	brake(penalty) {
+		let ratio = 0.5,
+			topValue = -18;
+
+		if (this.acceleration > topValue) {
+			if (penalty) {
+				ratio = 0.7 * ratio;
+				topValue = 0.7 * topValue;
+				this.topSpeed = 5.0;
+			} else {
+				this.topSpeed = 8.5;
+			}
+
+			this.acceleration -= ratio;
 		}
 	}
 
-	// TODO if player collides, reduce their velocity
-	// TODO if player outside track, reduce their velocity
 	decelerate(ratio) {
 		if (this.velocity > 0 && this.acceleration > 0) {
 			this.acceleration -= ratio;
