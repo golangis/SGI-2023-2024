@@ -138,6 +138,10 @@ class MyCar {
 
 		this.updateCarCamera();
 		this.updateWheels();
+
+		if (this.AABB) {
+			this.AABB = this.AABB.setFromObject(this.carMesh);
+		}
 	}
 
 	accelerate() {
@@ -152,6 +156,7 @@ class MyCar {
 		}
 	}
 
+	// TODO if player collides, reduce their velocity
 	// TODO if player outside track, reduce their velocity
 	decelerate(ratio) {
 		if (this.velocity > 0 && this.acceleration > 0) {

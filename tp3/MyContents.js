@@ -218,9 +218,11 @@ class MyContents {
 		this.sceneBuilder.addCameras();
 		this.sceneBuilder.addSkybox();
 
-		
-		this.startGame(data, "./object3D/sedan.glb", "./object3D/suvLuxury.glb");
-
+		this.startGame(
+			data,
+			"./object3D/sedan.glb",
+			"./object3D/suvLuxury.glb"
+		);
 	}
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
@@ -230,30 +232,37 @@ class MyContents {
 		trackObj.drawTrackFloor();
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
-		this.opponentCar = new MyCar(this.app, opponentCarFilepath, 7, 6, false);
-
+		this.opponentCar = new MyCar(
+			this.app,
+			opponentCarFilepath,
+			7,
+			6,
+			false
+		);
 	}
 
+	checkForCollisionBetweenCars() {
+		if (this.playerCar.AABB && this.opponentCar.AABB) {
+			const result = this.playerCar.AABB.intersectsBox(
+				this.opponentCar.AABB
+			);
+
+			if (result) {
+				console.log("Collision!");
+			}
+		}
+	}
 
 	update(delta) {
 		this.delta = delta;
-		this.degree = 3 * Math.PI / 20;
-		
+		this.degree = (3 * Math.PI) / 20;
+
 		if (this.drag) {
 			this.playerCar.decelerate(0.05);
 		}
-		
-		this.playerCar.updateCar(delta);
 
-		if (this.playerCar.AABB && this.opponentCar.AABB) {
-			const result = this.playerCar.AABB.intersectsBox(this.opponentCar.AABB);
-			//console.log(result)
-			if (result) {
-				
-				console.log(this.opponentCar.AABB, this.playerCar.AABB)
-				console.log("Collision!")
-			}
-		}
+		this.playerCar.updateCar(delta);
+		this.checkForCollisionBetweenCars();
 	}
 }
 
