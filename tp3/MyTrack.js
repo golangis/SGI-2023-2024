@@ -192,14 +192,17 @@ class MyTrack {
 
 	changeFirstMarkers() {
 		const yellow = new THREE.MeshBasicMaterial({ color: 0xe0b002 });
-		this.changeColorOfMarker(this.innerMarkers[0], yellow)
-		this.changeColorOfMarker(this.outerMarkers[0], yellow)
+		this.changeColorOfMarker(this.innerMarkers[0], yellow);
+		this.changeColorOfMarker(this.outerMarkers[0], yellow);
 	}
 
 	createMarkerRays() {
 		let rays = [];
 
 		for (let i = 0; i < this.outerMarkers.length; i++) {
+			const distance = this.innerMarkers[i].position.distanceTo(
+				this.outerMarkers[i].position
+			);
 			const origin = this.outerMarkers[i].position.clone();
 
 			const direction = new THREE.Vector3()
@@ -208,10 +211,10 @@ class MyTrack {
 					this.outerMarkers[i].position
 				)
 				.normalize();
-			
+
 			origin.y += 0.5; // Raise ray a bit so it hits the middle of the car
 
-			const ray = new THREE.Raycaster(origin, direction);
+			const ray = new THREE.Raycaster(origin, direction, 0, distance);
 			rays.push(ray);
 
 			// TODO remove arrow helper
@@ -237,6 +240,15 @@ class MyTrack {
 		});
 	}
 
+	resetMarkers() {
+		const red = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+		this.innerMarkers.forEach((element) => {
+			this.changeColorOfMarker(element, red);
+		});
+		this.outerMarkers.forEach((element) => {
+			this.changeColorOfMarker(element, red);
+		});
+	}
 
 	checkThatMarkerWasPassed(carMesh) {
 		const yellow = new THREE.MeshBasicMaterial({ color: 0xe0b002 });
@@ -244,12 +256,10 @@ class MyTrack {
 
 		if (this.markerRays !== undefined) {
 			if (
-				this.markerRays[this.nextMarkerIndex].intersectObject(
-					carMesh
-				).length > 0
+				this.markerRays[this.nextMarkerIndex].intersectObject(carMesh)
+					.length > 0
 			) {
 				console.log("checkpoint!");
-				console.log(this.markerRays)
 
 				this.changeColorOfMarker(
 					this.outerMarkers[this.nextMarkerIndex],
@@ -261,8 +271,13 @@ class MyTrack {
 					green
 				);
 
-				// TODO reset markers when index reaches 0 again
-				this.nextMarkerIndex === (this.outerMarkers.length-1)? this.nextMarkerIndex = 0: this.nextMarkerIndex++;
+				if (this.nextMarkerIndex === this.outerMarkers.length - 1) {
+					this.resetMarkers();
+					console.log("reset")
+					this.nextMarkerIndex = 0;
+				} else {
+					this.nextMarkerIndex++;
+				}
 
 				this.changeColorOfMarker(
 					this.outerMarkers[this.nextMarkerIndex],

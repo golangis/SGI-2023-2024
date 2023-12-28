@@ -82,14 +82,14 @@ class MyContents {
 	handleKeyPress() {
 		if (this.keys.W) {
 			this.drag = false;
-			this.playerCar.accelerate(this.penaltyActive);
+			this.playerCar.accelerate();
 		}
 		if (this.keys.A) {
 			this.playerCar.turnLeft();
 		}
 		if (this.keys.S) {
 			this.drag = false;
-			this.playerCar.brake(this.penaltyActive);
+			this.playerCar.brake();
 		}
 		if (this.keys.D) {
 			this.playerCar.turnRight();
@@ -242,7 +242,6 @@ class MyContents {
 		this.markerRays = this.trackObj.createMarkerRays();
 		// TODO when countdown ends, call this function
 		this.trackObj.changeFirstMarkers();
-		
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
 		this.opponentCar = new MyCar(
@@ -290,11 +289,14 @@ class MyContents {
 			if (!this.penaltyActive && this.penalty) {
 				setTimeout(() => {
 					this.penaltyActive = false;
-					console.log("penalty finish", this.penaltyActive);
+					this.playerCar.penalty = this.penaltyActive;
+
+					console.log("penalty finish");
 				}, 5000);
 
 				this.penaltyActive = true;
-				console.log("penalty initiated", this.penaltyActive);
+				this.playerCar.penalty = this.penaltyActive;
+				console.log("penalty initiated");
 			}
 		}
 
@@ -315,7 +317,5 @@ class MyContents {
 		this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
 	}
 }
-
-// TODO player track checkpoints
 
 export { MyContents };

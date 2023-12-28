@@ -143,29 +143,29 @@ class MyCar {
 		}
 	}
 
-	accelerate(penalty) {
+	accelerate() {
 		let ratio = 0.5,
 			topValue = 18;
 
 		if (this.acceleration < topValue) {
-			if (penalty) {
+			if (this.penalty) {
 				ratio = 0.7 * ratio;
 				topValue = 0.7 * topValue;
 				this.topSpeed = 5.0;
 			} else {
 				this.topSpeed = 8.5;
 			}
-
+			console.log(this.velocity, this.topSpeed)
 			this.acceleration += ratio;
 		}
 	}
 
-	brake(penalty) {
+	brake() {
 		let ratio = 0.5,
 			topValue = -18;
 
 		if (this.acceleration > topValue) {
-			if (penalty) {
+			if (this.penalty) {
 				ratio = 0.7 * ratio;
 				topValue = 0.7 * topValue;
 				this.topSpeed = 5.0;
