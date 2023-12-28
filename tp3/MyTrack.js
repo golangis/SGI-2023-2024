@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { MyTriangle } from "./MyTriangle.js";
 
 /**
 
@@ -18,6 +19,10 @@ class MyTrack {
 		this.trackCurve = route;
 		this.pointsCount = 100;
 		this.trackWidth = trackWidth;
+		this.innerMarkers = [];
+		this.outerMarkers = [];
+
+		this.nextMarkerIndex = 0;
 	}
 
 	getCenterPoint(mesh) {
@@ -27,6 +32,31 @@ class MyTrack {
 		geometry.boundingBox.getCenter(center);
 		mesh.localToWorld(center);
 		return center;
+	}
+
+	createMarker() {
+		const base = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.08, 0.08, 0.05),
+			new THREE.MeshBasicMaterial({ color: 0x3d2b1d })
+		);
+
+		const pole = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.05, 0.05, 0.75),
+			new THREE.MeshBasicMaterial({ color: 0x3d2b1d })
+		);
+		const top = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.05, 0.05, 0.25),
+			new THREE.MeshBasicMaterial({ color: 0xff0000 })
+		);
+
+		pole.position.set(0, 0.35, 0);
+		top.position.set(0, 0.85, 0);
+		top.name = "top";
+
+		const marker = new THREE.Object3D();
+		marker.add(pole, top, base);
+
+		return marker;
 	}
 
 	drawInnerTrackLine() {
@@ -83,7 +113,11 @@ class MyTrack {
 
 			const Q = point
 				.clone()
-				.add(perpendicularToTangent.clone().multiplyScalar(this.trackWidth));
+				.add(
+					perpendicularToTangent
+						.clone()
+						.multiplyScalar(this.trackWidth)
+				);
 
 			outerPoints.push(Q);
 		}
@@ -91,12 +125,166 @@ class MyTrack {
 		return outerPoints;
 	}
 
+	createInnerMarkersArray(numOfMarkers) {
+		const marker = this.createMarker();
+		let pts = this.trackCurve.getSpacedPoints(numOfMarkers);
+		let clone = marker.clone();
+
+		for (let i = 0; i < pts.length - 1; i++) {
+			clone.position.set(...pts[i]);
+			clone.position.sub(this.offset);
+
+			this.innerMarkers.push(clone);
+
+			clone = marker.clone();
+		}
+
+		for (let i = 0; i < this.innerMarkers.length; i++) {
+			this.app.scene.add(this.innerMarkers[i]);
+		}
+
+		return this.innerMarkers;
+	}
+
+	createOuterMarkersArray(numOfMarkers) {
+		const marker = this.createMarker();
+		let pts = new THREE.CatmullRomCurve3(this.outerPoints).getSpacedPoints(
+			numOfMarkers
+		);
+		let clone = marker.clone();
+
+		for (let i = 0; i < pts.length - 1; i++) {
+			clone.position.set(...pts[i]);
+			clone.position.sub(this.offset);
+
+			this.outerMarkers.push(clone);
+
+			clone = marker.clone();
+		}
+
+		return this.outerMarkers;
+	}
+
+	addMarkersToTrack(numOfMarkers) {
+		this.createInnerMarkersArray(numOfMarkers);
+		this.createOuterMarkersArray(numOfMarkers);
+
+		const dummy1 = this.innerMarkers.slice(this.innerMarkers.length - 8);
+
+		dummy1.push(
+			...this.innerMarkers.slice(0, this.innerMarkers.length - 8)
+		);
+
+		const dummy2 = this.outerMarkers.slice(this.outerMarkers.length - 8);
+
+		dummy2.push(
+			...this.outerMarkers.slice(0, this.outerMarkers.length - 8)
+		);
+
+		this.innerMarkers = dummy1;
+		this.outerMarkers = dummy2;
+
+		for (let i = 0; i < numOfMarkers; i++) {
+			this.app.scene.add(this.innerMarkers[i]);
+			this.app.scene.add(this.outerMarkers[i]);
+		}
+	}
+
+	changeFirstMarkers() {
+		const yellow = new THREE.MeshBasicMaterial({ color: 0xe0b002 });
+		this.changeColorOfMarker(this.innerMarkers[0], yellow)
+		this.changeColorOfMarker(this.outerMarkers[0], yellow)
+	}
+
+	createMarkerRays() {
+		let rays = [];
+
+		for (let i = 0; i < this.outerMarkers.length; i++) {
+			const origin = this.outerMarkers[i].position.clone();
+
+			const direction = new THREE.Vector3()
+				.subVectors(
+					this.innerMarkers[i].position,
+					this.outerMarkers[i].position
+				)
+				.normalize();
+			
+			origin.y += 0.5; // Raise ray a bit so it hits the middle of the car
+
+			const ray = new THREE.Raycaster(origin, direction);
+			rays.push(ray);
+
+			// TODO remove arrow helper
+			const arrowHelper = new THREE.ArrowHelper(
+				direction,
+				origin,
+				5,
+				0xff0000
+			);
+
+			this.app.scene.add(arrowHelper);
+		}
+
+		this.markerRays = rays;
+		return rays;
+	}
+
+	changeColorOfMarker(marker, material) {
+		marker.children.forEach((element) => {
+			if (element.name === "top") {
+				element.material = material;
+			}
+		});
+	}
+
+
+	checkThatMarkerWasPassed(carMesh) {
+		const yellow = new THREE.MeshBasicMaterial({ color: 0xe0b002 });
+		const green = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+		if (this.markerRays !== undefined) {
+			if (
+				this.markerRays[this.nextMarkerIndex].intersectObject(
+					carMesh
+				).length > 0
+			) {
+				console.log("checkpoint!");
+				console.log(this.markerRays)
+
+				this.changeColorOfMarker(
+					this.outerMarkers[this.nextMarkerIndex],
+					green
+				);
+
+				this.changeColorOfMarker(
+					this.innerMarkers[this.nextMarkerIndex],
+					green
+				);
+
+				// TODO reset markers when index reaches 0 again
+				this.nextMarkerIndex === (this.outerMarkers.length-1)? this.nextMarkerIndex = 0: this.nextMarkerIndex++;
+
+				this.changeColorOfMarker(
+					this.outerMarkers[this.nextMarkerIndex],
+					yellow
+				);
+
+				this.changeColorOfMarker(
+					this.innerMarkers[this.nextMarkerIndex],
+					yellow
+				);
+			}
+		}
+	}
+
 	createTrackGeometry() {
 		const outerPoints = this.calculateOuterTrackPoints();
+		this.outerPoints = outerPoints;
 
 		let pts = this.trackCurve.getPoints(this.pointsCount);
 
-		let vertices = [], indices = [];
+		let vertices = [],
+			indices = [];
 
 		let addedPoints = 0;
 
@@ -140,6 +328,7 @@ class MyTrack {
 		const center = this.getCenterPoint(trackMesh);
 
 		trackMesh.position.sub(center);
+		this.offset = center;
 		this.app.scene.add(trackMesh);
 
 		return trackMesh;
@@ -147,8 +336,8 @@ class MyTrack {
 
 	drawTrackFloor() {
 		const geometry = new THREE.PlaneGeometry(200, 200);
-		
-		const texture = new THREE.TextureLoader().load('textures/grass.jpg');
+
+		const texture = new THREE.TextureLoader().load("textures/grass.jpg");
 
 		texture.repeat.set(4, 4); // Repeat the texture 4 times in both horizontal and vertical directions
 
@@ -161,8 +350,8 @@ class MyTrack {
 		});
 
 		const floor = new THREE.Mesh(geometry, material);
-		floor.rotateX(-Math.PI/2)
-		floor.position.y = -0.1
+		floor.rotateX(-Math.PI / 2);
+		floor.position.y = -0.05;
 		this.app.scene.add(floor);
 	}
 }

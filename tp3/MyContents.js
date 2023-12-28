@@ -233,10 +233,16 @@ class MyContents {
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
 		const routeObj = new MyRoute(this.app, data);
-		const trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
+		this.trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
 
-		this.trackMesh = trackObj.drawTrack();
-		trackObj.drawTrackFloor();
+		this.trackMesh = this.trackObj.drawTrack();
+
+		this.trackObj.drawTrackFloor();
+		this.markerObjs = this.trackObj.addMarkersToTrack(30);
+		this.markerRays = this.trackObj.createMarkerRays();
+		// TODO when countdown ends, call this function
+		this.trackObj.changeFirstMarkers();
+		
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
 		this.opponentCar = new MyCar(
@@ -284,11 +290,11 @@ class MyContents {
 			if (!this.penaltyActive && this.penalty) {
 				setTimeout(() => {
 					this.penaltyActive = false;
-					console.log("penalty finish");
+					console.log("penalty finish", this.penaltyActive);
 				}, 5000);
 
-				console.log("penalty initiated");
 				this.penaltyActive = true;
+				console.log("penalty initiated", this.penaltyActive);
 			}
 		}
 
@@ -305,9 +311,11 @@ class MyContents {
 
 		this.playerCar.updateCar(delta);
 		this.deductPenalties();
+
+		this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
 	}
 }
 
-// TODO player track checkpoints 
+// TODO player track checkpoints
 
 export { MyContents };
