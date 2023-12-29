@@ -99,7 +99,6 @@ class MyCar {
 
 	createCarCamera() {
 		const camTarget = new THREE.Object3D();
-		camTarget.add(new THREE.Mesh());
 		camTarget.position.set(this.x, 2.2, this.z);
 
 		const aspect = window.innerWidth / window.innerHeight;
