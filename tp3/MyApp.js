@@ -84,6 +84,15 @@ class MyApp {
 		const near = -this.frustumSize / 2;
 		const far = this.frustumSize;
 
+		
+        const menuPickCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
+        menuPickCamera.position.set(0, 509, 20); 
+		const camTarget = new THREE.Object3D();
+		camTarget.position.set(0, 509, 0);
+		menuPickCamera.camTarget = camTarget;
+        this.camTarget = camTarget;
+        this.cameras['Pick Car Menu'] = menuPickCamera
+
 		// create a left view orthographic camera
 		const orthoLeft = new THREE.OrthographicCamera(
 			left,

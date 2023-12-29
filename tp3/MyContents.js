@@ -6,6 +6,7 @@ import { MyObjectCreator } from "./MyObjectCreator.js";
 import { MyTrack } from "./MyTrack.js";
 import { MyRoute } from "./MyRoute.js";
 import { MyCar } from "./MyCar.js";
+import { MyMenuPickCar } from "./MyMenuPickCar.js";
 /**
  *  This class contains the contents of out application
  */
@@ -32,7 +33,7 @@ class MyContents {
 
 		this.raycaster = new THREE.Raycaster()
 		this.raycaster.near = 1
-		this.raycaster.far = 20
+		this.raycaster.far = 30
 
 		this.pointer = new THREE.Vector2()
 		this.intersectedObj = null
@@ -79,7 +80,7 @@ class MyContents {
 		//console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
 
 		//2. set the picking ray from the camera position and mouse coordinates
-		this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
+		this.raycaster.setFromCamera(this.pointer, this.app.getActivemenu());
 
 		//3. compute intersections
 		var intersects = this.raycaster.intersectObjects(this.app.scene.children);
@@ -312,10 +313,12 @@ class MyContents {
 
 		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white light
 		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
+		const menuPickCar = new MyMenuPickCar().buildPickMenu();
 
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
 
+		this.app.scene.add(menuPickCar);
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();
 		this.sceneBuilder.addSkybox();
@@ -335,6 +338,7 @@ class MyContents {
 		trackObj.drawTrackFloor();
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
+		
 		this.opponentCar = new MyCar(
 			this.app,
 			opponentCarFilepath,

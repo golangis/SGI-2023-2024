@@ -12,6 +12,7 @@ class MySceneBuilder {
 		this.myObjectCreator = new MyObjectCreator(data, this.app.scene);
 		this.rootObject = null;
 		this.lights = []
+		
 	}
 
 	addGlobals() {
