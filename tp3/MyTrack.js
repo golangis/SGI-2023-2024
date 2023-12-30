@@ -139,22 +139,34 @@ class MyTrack {
 			clone = marker.clone();
 		}
 
-		for (let i = 0; i < this.innerMarkers.length; i++) {
-			this.app.scene.add(this.innerMarkers[i]);
-		}
-
 		return this.innerMarkers;
 	}
 
 	createOuterMarkersArray(numOfMarkers) {
 		const marker = this.createMarker();
-		let pts = new THREE.CatmullRomCurve3(this.outerPoints).getSpacedPoints(
-			numOfMarkers
-		);
 		let clone = marker.clone();
 
-		for (let i = 0; i < pts.length - 1; i++) {
-			clone.position.set(...pts[i]);
+		for (let i = 0; i < numOfMarkers; i++) {
+			
+			let at = (i / numOfMarkers);
+
+			const point = this.trackCurve.getPointAt(at);
+			const tangent = this.trackCurve.getTangentAt(at);
+
+			const perpendicularToTangent = tangent
+				.clone()
+				.cross(new THREE.Vector3(0, 1, 0))
+				.normalize();
+
+			const Q = point
+				.clone()
+				.add(
+					perpendicularToTangent
+						.clone()
+						.multiplyScalar(this.trackWidth)
+				);
+
+			clone.position.set(...Q);
 			clone.position.sub(this.offset);
 
 			this.outerMarkers.push(clone);
@@ -217,15 +229,6 @@ class MyTrack {
 			const ray = new THREE.Raycaster(origin, direction, 0, distance);
 			rays.push(ray);
 
-			// TODO remove arrow helper
-			const arrowHelper = new THREE.ArrowHelper(
-				direction,
-				origin,
-				5,
-				0xff0000
-			);
-
-			this.app.scene.add(arrowHelper);
 		}
 
 		this.markerRays = rays;
