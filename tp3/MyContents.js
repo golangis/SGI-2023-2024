@@ -240,8 +240,6 @@ class MyContents {
 		this.trackObj.drawTrackFloor();
 		this.markerObjs = this.trackObj.addMarkersToTrack(30);
 		this.markerRays = this.trackObj.createMarkerRays();
-		// TODO when countdown ends, call this function
-		this.trackObj.changeFirstMarkers();
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
 		this.opponentCar = new MyCar(
@@ -253,7 +251,8 @@ class MyContents {
 			this.trackObj.calculateAutonomousTrack(4)
 		);
 
-		// TODO only call when the countdown is done
+		// TODO when countdown ends, call these functions
+		this.trackObj.changeFirstMarkers();
 		this.mixer = this.opponentCar.animateAutonomousCar(
 			this.opponentCar.getKeyframes()
 		);

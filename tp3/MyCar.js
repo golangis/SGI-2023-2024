@@ -46,7 +46,7 @@ class MyCar {
 		const lapTime = 60;
 		const keyFrames = [];
 
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i <= 100; i++) {
 			const prog = ((i + 71.3) / 100) % 1;
 
 			const tangent = this.curve.getTangentAt(prog);
