@@ -233,7 +233,7 @@ class MyContents {
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
 		const routeObj = new MyRoute(this.app, data);
-		this.trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
+		this.trackObj = new MyTrack(this.app, routeObj.curve, 5, null);
 
 		this.trackMesh = this.trackObj.drawTrack();
 
@@ -249,7 +249,13 @@ class MyContents {
 			opponentCarFilepath,
 			7,
 			6,
-			false
+			false,
+			this.trackObj.calculateAutonomousTrack(4)
+		);
+
+		// TODO only call when the countdown is done
+		this.mixer = this.opponentCar.animateAutonomousCar(
+			this.opponentCar.getKeyframes()
 		);
 	}
 
@@ -315,6 +321,7 @@ class MyContents {
 		this.deductPenalties();
 
 		this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
+		this.mixer.update(delta);
 	}
 }
 
