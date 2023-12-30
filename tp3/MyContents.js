@@ -53,7 +53,7 @@ class MyContents {
 				". visit MySceneData javascript class to check contents for each data item."
 		);
 
-		this.keys = { W: false, A: false, S: false, D: false };
+		this.keys = { W: false, A: false, S: false, D: false, P: false };
 		this.drag = false;
 
 		document.addEventListener("keydown", (event) => {
@@ -93,6 +93,19 @@ class MyContents {
 		}
 		if (this.keys.D) {
 			this.playerCar.turnRight();
+		}
+		if (this.keys.P) {
+			console.log(
+				"position: new THREE.Vector3(",
+				this.playerCar.carMesh.position.x,
+				", ",
+				this.playerCar.carMesh.position.y,
+				", ",
+				this.playerCar.carMesh.position.z,
+				"), quaternion: new THREE.Quaternion().setFromEuler(new THREE.Euler(0, ",
+				this.playerCar.carMesh.rotation.y,
+				", 0)),"
+			);
 		}
 	}
 
@@ -233,7 +246,7 @@ class MyContents {
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
 		const routeObj = new MyRoute(this.app, data);
-		const trackObj = new MyTrack(this.app, data, routeObj.curve, 5, null);
+		const trackObj = new MyTrack(this.app, routeObj.curve, 5, null);
 
 		this.trackMesh = trackObj.drawTrack();
 		trackObj.drawTrackFloor();
@@ -244,8 +257,12 @@ class MyContents {
 			opponentCarFilepath,
 			7,
 			6,
-			false
+			false,
+			trackObj.calculateAutonomousTrack(4)
 		);
+
+		const keyframes = this.opponentCar.getKeyframes();
+		this.mixer = this.opponentCar.animateAutonomousCar(keyframes);
 	}
 
 	checkForCollisionBetweenCars() {
@@ -305,9 +322,10 @@ class MyContents {
 
 		this.playerCar.updateCar(delta);
 		this.deductPenalties();
+		this.mixer.update(delta);
 	}
 }
 
-// TODO player track checkpoints 
+// TODO player track checkpoints
 
 export { MyContents };

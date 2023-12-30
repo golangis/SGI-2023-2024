@@ -15,13 +15,8 @@ class MyRoute {
 			return new THREE.Vector3(point.value[0], 0, point.value[1]);
 		});
 
-		this.curve = new THREE.CatmullRomCurve3(
-			vectors,
-			true,
-			"centripetal"
-		);
+		this.curve = new THREE.CatmullRomCurve3(vectors, true, "centripetal");
 	}
-
 }
 
 export { MyRoute };

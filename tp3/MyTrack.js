@@ -7,9 +7,8 @@ import * as THREE from "three";
  */
 
 class MyTrack {
-	constructor(app, data, route, trackWidth, trackMaterial) {
+	constructor(app, route, trackWidth, trackMaterial) {
 		this.app = app;
-		this.data = data;
 		this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x808080 });
 		this.trackMaterial =
 			trackMaterial || new THREE.MeshBasicMaterial({ color: 0x737373 });
@@ -26,6 +25,7 @@ class MyTrack {
 		var center = new THREE.Vector3();
 		geometry.boundingBox.getCenter(center);
 		mesh.localToWorld(center);
+		this.trackCurve.center = center;
 		return center;
 	}
 
@@ -90,6 +90,42 @@ class MyTrack {
 
 		return outerPoints;
 	}
+
+
+	calculateAutonomousTrack(scalar) {
+		const curve = this.trackCurve;
+
+		let pts = curve.getPoints(this.pointsCount);
+
+		const outerPoints = [];
+
+		const curveLength = this.trackCurve.getLength();
+
+		const spacedLengths = this.trackCurve.getLengths(pts.length);
+
+		for (let i = 0; i < pts.length; i++) {
+			const at = spacedLengths[i] / curveLength;
+
+			const point = curve.getPointAt(at);
+			const tangent = curve.getTangentAt(at);
+
+			const perpendicularToTangent = tangent
+				.clone()
+				.cross(new THREE.Vector3(0, 1, 0))
+				.normalize();
+
+			const Q = point
+				.clone()
+				.add(perpendicularToTangent.clone().multiplyScalar(scalar));
+
+			outerPoints.push(Q);
+		}
+
+		outerPoints.center = this.trackCurve.center;
+
+		return outerPoints;
+	}
+
 
 	createTrackGeometry() {
 		const outerPoints = this.calculateOuterTrackPoints();
