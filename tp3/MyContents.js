@@ -2,11 +2,11 @@ import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyFileReader } from "./parser/MyFileReader.js";
 import { MySceneBuilder } from "./MySceneBuilder.js";
-import { MyObjectCreator } from "./MyObjectCreator.js";
 import { MyTrack } from "./MyTrack.js";
 import { MyRoute } from "./MyRoute.js";
 import { MyCar } from "./MyCar.js";
 import { MyPowerUp } from "./MyPowerUp.js";
+import { MyTimer } from "./MyTimer.js";
 /**
  *  This class contains the contents of out application
  */
@@ -54,7 +54,7 @@ class MyContents {
 				". visit MySceneData javascript class to check contents for each data item."
 		);
 
-		this.keys = { W: false, A: false, S: false, D: false };
+		this.keys = { W: false, A: false, S: false, D: false, P: false };
 		this.drag = false;
 
 		document.addEventListener("keydown", (event) => {
@@ -94,6 +94,16 @@ class MyContents {
 		}
 		if (this.keys.D) {
 			this.playerCar.turnRight();
+		}
+
+		if (this.keys.P) {
+			this.autonomousCarMixer.paused = !this.autonomousCarMixer.paused;
+			
+			if (this.timer.isRunning) {
+				this.timer.pause();
+			} else {
+				this.timer.resume();
+			}
 		}
 	}
 
@@ -213,7 +223,9 @@ class MyContents {
 			"-------------------------------------------------------------"
 		);
 
-		this.sceneBuilder = new MySceneBuilder(data, this.app);
+		this.timer = new MyTimer();
+
+		const sceneBuilder = new MySceneBuilder(data, this.app);
 
 		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white light
 		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
@@ -221,9 +233,9 @@ class MyContents {
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
 
-		this.sceneBuilder.addGlobals();
-		this.sceneBuilder.addCameras();
-		this.sceneBuilder.addSkybox();
+		sceneBuilder.addGlobals();
+		sceneBuilder.addCameras();
+		sceneBuilder.addSkybox();
 
 		this.startGame(
 			data,
@@ -240,6 +252,7 @@ class MyContents {
 	}
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
+
 		const routeObj = new MyRoute(this.app, data);
 		this.trackObj = new MyTrack(this.app, routeObj.curve, 5, null);
 
@@ -266,6 +279,7 @@ class MyContents {
 		// TODO when countdown ends, call these functions
 		this.trackObj.changeFirstMarkers();
 		this.opponentCar.action.play();
+		this.timer.start();
 	}
 
 	checkForCollisionBetweenCars() {
@@ -330,7 +344,10 @@ class MyContents {
 		this.deductPenalties();
 
 		this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
-		this.autonomousCarMixer.update(delta);
+
+		if (!this.autonomousCarMixer.paused) {
+			this.autonomousCarMixer.update(delta);
+		}
 	}
 }
 
