@@ -147,8 +147,7 @@ class MyTrack {
 		let clone = marker.clone();
 
 		for (let i = 0; i < numOfMarkers; i++) {
-			
-			let at = (i / numOfMarkers);
+			let at = i / numOfMarkers;
 
 			const point = this.trackCurve.getPointAt(at);
 			const tangent = this.trackCurve.getTangentAt(at);
@@ -228,7 +227,6 @@ class MyTrack {
 
 			const ray = new THREE.Raycaster(origin, direction, 0, distance);
 			rays.push(ray);
-
 		}
 
 		this.markerRays = rays;
@@ -275,8 +273,9 @@ class MyTrack {
 				);
 
 				if (this.nextMarkerIndex === this.outerMarkers.length - 1) {
+					// TODO upon 3 resets end game
 					this.resetMarkers();
-					console.log("reset")
+					console.log("reset");
 					this.nextMarkerIndex = 0;
 				} else {
 					this.nextMarkerIndex++;
@@ -294,7 +293,6 @@ class MyTrack {
 			}
 		}
 	}
-
 
 	calculateAutonomousTrack(scalar) {
 		const curve = this.trackCurve;
@@ -329,7 +327,6 @@ class MyTrack {
 
 		return outerPoints;
 	}
-
 
 	createTrackGeometry() {
 		const outerPoints = this.calculateOuterTrackPoints();

@@ -6,6 +6,7 @@ import { MyObjectCreator } from "./MyObjectCreator.js";
 import { MyTrack } from "./MyTrack.js";
 import { MyRoute } from "./MyRoute.js";
 import { MyCar } from "./MyCar.js";
+import { MyPowerUp } from "./MyPowerUp.js";
 /**
  *  This class contains the contents of out application
  */
@@ -229,6 +230,13 @@ class MyContents {
 			"./object3D/sedan.glb",
 			"./object3D/suvLuxury.glb"
 		);
+
+		const pw = new MyPowerUp(this.app);
+
+		pw.buildCube(40, 1, 5.5);
+		pw.buildCube(10, 1, -29.5);
+		pw.buildCube(-63, 1, 19);
+		pw.buildCube(-30, 1, 13);
 	}
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
@@ -238,8 +246,8 @@ class MyContents {
 		this.trackMesh = this.trackObj.drawTrack();
 
 		this.trackObj.drawTrackFloor();
-		this.markerObjs = this.trackObj.addMarkersToTrack(30);
-		this.markerRays = this.trackObj.createMarkerRays();
+		this.trackObj.addMarkersToTrack(30);
+		this.trackObj.createMarkerRays();
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
 		this.opponentCar = new MyCar(
@@ -251,11 +259,13 @@ class MyContents {
 			this.trackObj.calculateAutonomousTrack(4)
 		);
 
+		const keyFrames = this.opponentCar.getKeyframes();
+		this.autonomousCarMixer =
+			this.opponentCar.animateAutonomousCar(keyFrames);
+
 		// TODO when countdown ends, call these functions
 		this.trackObj.changeFirstMarkers();
-		this.mixer = this.opponentCar.animateAutonomousCar(
-			this.opponentCar.getKeyframes()
-		);
+		this.opponentCar.action.play();
 	}
 
 	checkForCollisionBetweenCars() {
@@ -320,8 +330,10 @@ class MyContents {
 		this.deductPenalties();
 
 		this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
-		this.mixer.update(delta);
+		this.autonomousCarMixer.update(delta);
 	}
 }
+
+// aumentar velocidade e meter um obstaculo na pista
 
 export { MyContents };

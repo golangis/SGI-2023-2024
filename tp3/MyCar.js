@@ -55,7 +55,7 @@ class MyCar {
 
 			const carRot = Math.atan2(tangent.x, tangent.z) + Math.PI;
 
-			const time = lapTime * (i/100);
+			const time = lapTime * (i / 100);
 
 			const quat = new THREE.Quaternion().setFromEuler(
 				new THREE.Euler(0, carRot, 0)
@@ -131,8 +131,14 @@ class MyCar {
 			[positionTrack, quaternionRotationTrack]
 		);
 
-		let action = mixer.clipAction(clip);
-		action.play();
+		this.action = mixer.clipAction(clip);
+		this.action.loop = THREE.LoopRepeat;
+		this.action.repetitions = 2; // 0-based index, so 2 repetitions will make it play 3 times
+
+		// TODO when car ends, check if game ongoing, kill it if so
+		mixer.addEventListener("finished", () => {
+			console.log("over");
+		});
 
 		return mixer;
 	}
