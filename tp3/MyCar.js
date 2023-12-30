@@ -47,7 +47,7 @@ class MyCar {
 		const keyFrames = [];
 
 		for (let i = 0; i < 100; i++) {
-			const prog = i / 100;
+			const prog = ((i + 71.3) / 100) % 1;
 
 			const tangent = this.curve.getTangentAt(prog);
 			const carPos = this.curve.getPointAt(prog);
@@ -55,7 +55,7 @@ class MyCar {
 
 			const carRot = Math.atan2(tangent.x, tangent.z) + Math.PI;
 
-			const time = lapTime * prog;
+			const time = lapTime * (i/100);
 
 			const quat = new THREE.Quaternion().setFromEuler(
 				new THREE.Euler(0, carRot, 0)

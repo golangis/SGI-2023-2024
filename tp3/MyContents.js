@@ -261,8 +261,10 @@ class MyContents {
 			trackObj.calculateAutonomousTrack(4)
 		);
 
-		const keyframes = this.opponentCar.getKeyframes();
-		this.mixer = this.opponentCar.animateAutonomousCar(keyframes);
+		// TODO only call when the countdown is done
+		this.mixer = this.opponentCar.animateAutonomousCar(
+			this.opponentCar.getKeyframes()
+		);
 	}
 
 	checkForCollisionBetweenCars() {
