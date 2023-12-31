@@ -246,12 +246,15 @@ class MyContents {
 			"./object3D/suvLuxury.glb"
 		);
 
+		this.powerUps = [];
 		const pw = new MyPowerUp(this.app);
 
-		pw.buildCube(40, 1, 5.5);
-		pw.buildCube(10, 1, -29.5);
-		pw.buildCube(-63, 1, 19);
-		pw.buildCube(-30, 1, 13);
+		this.powerUps.push(
+			pw.buildCube(40, 1, 5.5),
+			pw.buildCube(10, 1, -29.5),
+			pw.buildCube(-63, 1, 19),
+			pw.buildCube(-30, 1, 13)
+		);
 	}
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
@@ -296,6 +299,22 @@ class MyContents {
 			}
 		}
 		return false;
+	}
+
+	checkPowerupsCollision() {
+		if (this.playerCar.AABB) {
+			this.powerUps.forEach((powerup) => {
+				if (this.playerCar.AABB.intersectsBox(powerup)) {
+					// 	TODO call powerup sequence
+					// 1 - mudar camara para a skybox 2
+					// 2 - meter os model3d dos obstaculos
+					// em vez de fazer o picking for now, meter hardcoded, mas fazer o codigo como se desse o picking
+					// mostrar vista aerea da skybox da pista e com o rato o user decide o sitio onde colocar (hardcoded for now)
+					// countdown resume!
+					console.log("powerup!")
+				}
+			});
+		}
 	}
 
 	checkIfCarOnTrack(carPosition) {
@@ -350,10 +369,13 @@ class MyContents {
 			this.deductPenalties();
 
 			this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
+			
+			this.checkPowerupsCollision();
 
 			if (!this.autonomousCarMixer.paused) {
 				this.autonomousCarMixer.update(delta);
 			}
+
 		}
 	}
 }

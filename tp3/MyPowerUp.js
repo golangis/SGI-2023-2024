@@ -21,7 +21,10 @@ class MyPowerUp {
 
 		cube.rotation.set(Math.PI / 30, Math.PI / 40, 0);
 		cube.position.set(x, y, z);
+
 		this.app.scene.add(cube);
+
+		return new THREE.Box3().setFromObject(cube);
 	}
 }
 
