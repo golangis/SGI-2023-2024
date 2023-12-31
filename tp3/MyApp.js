@@ -185,11 +185,16 @@ class MyApp {
 				if (this.activeCamera.camTarget) {
 					this.controls.target = this.activeCamera.camTarget.position;
 				} else {
-					this.controls.target.copy(new THREE.Vector3(0, 0, 0));
+					this.controls.target = (new THREE.Vector3(0, 0, 0));
 				}
 			}
 		}
 	}
+
+	changeCamera(camName) {
+		this.setActiveCamera(camName);
+		this.updateCameraIfRequired();
+	}	
 
 	/**
 	 * the window resize handler

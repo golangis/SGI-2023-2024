@@ -385,6 +385,14 @@ class MyTrack {
 		return trackMesh;
 	}
 
+	createTrackCamera() {
+		const aspect = window.innerWidth / window.innerHeight;
+		const camObj = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+		camObj.position.set(0, 80, 0);
+		
+		this.app.addCamera("Game Lot Birdseye", "Game Lot Birdseye", camObj);
+	}
+
 	drawTrackFloor() {
 		const geometry = new THREE.PlaneGeometry(200, 200);
 

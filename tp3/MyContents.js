@@ -7,6 +7,7 @@ import { MyRoute } from "./MyRoute.js";
 import { MyCar } from "./MyCar.js";
 import { MyPowerUp } from "./MyPowerUp.js";
 import { MyTimer } from "./MyTimer.js";
+import { MyObstacle } from "./MyObstacle.js";
 /**
  *  This class contains the contents of out application
  */
@@ -239,6 +240,8 @@ class MyContents {
 		sceneBuilder.addGlobals();
 		sceneBuilder.addCameras();
 		sceneBuilder.addSkybox();
+		
+		new MyObstacle(this.app).buildObstacleLot();
 
 		this.startGame(
 			data,
@@ -266,6 +269,7 @@ class MyContents {
 		this.trackObj.drawTrackFloor();
 		this.trackObj.addMarkersToTrack(30);
 		this.trackObj.createMarkerRays();
+		this.trackObj.createTrackCamera();
 
 		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
 		this.opponentCar = new MyCar(
@@ -305,13 +309,20 @@ class MyContents {
 		if (this.playerCar.AABB) {
 			this.powerUps.forEach((powerup) => {
 				if (this.playerCar.AABB.intersectsBox(powerup)) {
-					// 	TODO call powerup sequence
-					// 1 - mudar camara para a skybox 2
-					// 2 - meter os model3d dos obstaculos
-					// em vez de fazer o picking for now, meter hardcoded, mas fazer o codigo como se desse o picking
-					// mostrar vista aerea da skybox da pista e com o rato o user decide o sitio onde colocar (hardcoded for now)
-					// countdown resume!
-					console.log("powerup!")
+					console.log("powerup!");
+
+					// TODO start obstacle picking sequence
+					// 1 - change camera to obstacle lot
+					// 2 - let user pick obstacle
+					// 3 - change camera to birds eye of track
+					// 4 - let user place obstacle on track (add it to the scene, make sure its functional)
+					// 5 - change camera back to car
+					// 6 - countdown the game restart
+					// 7 - put into effect the powerup
+					this.app.changeCamera("Game Lot Birdseye");
+
+					// TODO put powerup into effect.
+
 				}
 			});
 		}
@@ -369,17 +380,27 @@ class MyContents {
 			this.deductPenalties();
 
 			this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
-			
+
 			this.checkPowerupsCollision();
 
 			if (!this.autonomousCarMixer.paused) {
 				this.autonomousCarMixer.update(delta);
 			}
-
 		}
 	}
 }
 
-// aumentar velocidade e meter um obstaculo na pista
+/**
+ * Powerups 
+ * 		superspeed
+ * 		slow speed for opponnent
+ * 		?
+ * 
+ * Obstacles
+ * 		slow speed for player
+ * 		change A and D keys
+ * 		superspeed for opponnent
+ * 
+ */
 
 export { MyContents };
