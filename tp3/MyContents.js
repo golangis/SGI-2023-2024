@@ -26,7 +26,6 @@ class MyContents {
 		this.outOfBounds = false;
 		this.drag = false;
 		this.penalty = false;
-		this.penaltyActive = false;
 
 		this.first = true;
 	}
@@ -81,28 +80,32 @@ class MyContents {
 	}
 
 	handleKeyPress() {
-		if (this.keys.W) {
-			this.drag = false;
-			this.playerCar.accelerate();
-		}
-		if (this.keys.A) {
-			this.playerCar.turnLeft();
-		}
-		if (this.keys.S) {
-			this.drag = false;
-			this.playerCar.brake();
-		}
-		if (this.keys.D) {
-			this.playerCar.turnRight();
+		if (this.gameTimer.isRunning) {
+			if (this.keys.W) {
+				this.drag = false;
+				this.playerCar.accelerate();
+			}
+			if (this.keys.A) {
+				this.playerCar.turnLeft();
+			}
+			if (this.keys.S) {
+				this.drag = false;
+				this.playerCar.brake();
+			}
+			if (this.keys.D) {
+				this.playerCar.turnRight();
+			}
 		}
 
 		if (this.keys.P) {
 			this.autonomousCarMixer.paused = !this.autonomousCarMixer.paused;
-			
-			if (this.timer.isRunning) {
-				this.timer.pause();
+
+			if (this.gameTimer.isRunning) {
+				this.gameTimer.pause();
+				console.log(this.gameTimer.checkTheTime());
 			} else {
-				this.timer.resume();
+				this.gameTimer.resume();
+				console.log(this.gameTimer.checkTheTime());
 			}
 		}
 	}
@@ -223,7 +226,7 @@ class MyContents {
 			"-------------------------------------------------------------"
 		);
 
-		this.timer = new MyTimer();
+		this.gameTimer = new MyTimer();
 
 		const sceneBuilder = new MySceneBuilder(data, this.app);
 
@@ -252,7 +255,6 @@ class MyContents {
 	}
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
-
 		const routeObj = new MyRoute(this.app, data);
 		this.trackObj = new MyTrack(this.app, routeObj.curve, 5, null);
 
@@ -279,7 +281,7 @@ class MyContents {
 		// TODO when countdown ends, call these functions
 		this.trackObj.changeFirstMarkers();
 		this.opponentCar.action.play();
-		this.timer.start();
+		this.gameTimer.start();
 	}
 
 	checkForCollisionBetweenCars() {
@@ -334,19 +336,24 @@ class MyContents {
 
 	update(delta) {
 		this.delta = delta;
-		this.degree = (3 * Math.PI) / 20;
 
-		if (this.drag) {
-			this.playerCar.decelerate(0.05);
-		}
+		if (this.gameTimer.isRunning) {
+			this.degree = (3 * Math.PI) / 20;
 
-		this.playerCar.updateCar(delta);
-		this.deductPenalties();
+			if (this.drag) {
+				this.playerCar.decelerate(0.05);
+			}
 
-		this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
+			this.playerCar.updateCar(delta);
+			this.opponentCar.updateAABB();
 
-		if (!this.autonomousCarMixer.paused) {
-			this.autonomousCarMixer.update(delta);
+			this.deductPenalties();
+
+			this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
+
+			if (!this.autonomousCarMixer.paused) {
+				this.autonomousCarMixer.update(delta);
+			}
 		}
 	}
 }

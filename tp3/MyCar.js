@@ -217,7 +217,10 @@ class MyCar {
 
 		this.updateCarCamera();
 		this.updateWheels();
+		this.updateAABB();
+	}
 
+	updateAABB() {
 		if (this.AABB) {
 			this.AABB = this.AABB.setFromObject(this.carMesh);
 		}

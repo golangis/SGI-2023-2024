@@ -1,4 +1,3 @@
-
 class MyTimer {
 	constructor() {
 		this.startTime = null;
