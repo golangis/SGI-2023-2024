@@ -18,24 +18,42 @@ class MyMenuPickCar {
             shininess: 30,
             color: "#909090"
         });
+
+        this.opa = new THREE.MeshPhongMaterial({
+            specular: "#FFFFFF",
+            emissive: "#101010",
+            shininess: 30,
+            color: "#909090"
+        });
     }
 
     buildPickMenu() {
+
+        const carStand = new THREE.CylinderGeometry(3,3,5);
+        this.carStandMesh = new THREE.Mesh(carStand, this.backgroundMaterial);
+
         const backgroundGeometry = new THREE.BoxGeometry(
             this.width,
             this.height,
             this.thickness
         );
+
         this.menuBack = new THREE.Mesh(backgroundGeometry, this.backgroundMaterial);
 
         this.menu.add(this.menuBack);
-
+        this.menu.add(this.carStandMesh);
         this.menu.position.set(0, this.height / 2 + 500, 0);
 
-        let car1= this.loadCars("./object3D/van.glb");
+        let car1 = this.loadCars("./object3D/van.glb");
         car1.position.set(2, 0, 5)
+
         let car2 = this.loadCars("./object3D/taxi.glb");
         car2.position.set(-10, 0, 5)
+
+        let car3 = this.loadCars("./object3D/police.glb");
+        car3.position.set(7, 0, 5)
+
+        
         return this.menu;
     }
 
@@ -61,8 +79,8 @@ class MyMenuPickCar {
         );
 
         this.carMesh.add(mesh);
-        this.carMesh.rotateY(Math.PI + Math.PI/6)
-        this.carMesh.scale.set(2,2,2)
+        this.carMesh.rotateY(Math.PI);
+        this.carMesh.scale.set(2,2,2);
         this.menu.add(this.carMesh);
 
         return this.carMesh

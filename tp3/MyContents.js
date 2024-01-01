@@ -313,7 +313,7 @@ class MyContents {
 
 		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white light
 		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
-		const light_menu_car = new THREE.DirectionalLight(0xffffff, 0.5); // soft white light
+		const light_menu_car = new THREE.PointLight(0xffffff, 3, 10); // soft white light
 		
 		const menuPickCar = new MyMenuPickCar(this.app).buildPickMenu();
 
@@ -322,10 +322,10 @@ class MyContents {
 		light_menu_car.position.set(0,509,40);
 		light_menu_car.target = menuPickCar;
 
-        const spotlightHelper = new THREE.DirectionalLightHelper(light_menu_car);
+        const menu_light_helper = new THREE.PointLightHelper(light_menu_car);
 
 		this.app.scene.add(light_menu_car);
-		this.app.scene.add(spotlightHelper);
+		this.app.scene.add(menu_light_helper);
 		this.app.scene.add(menuPickCar);
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();
