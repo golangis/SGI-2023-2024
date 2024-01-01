@@ -87,15 +87,12 @@ class MyApp {
 		//-------------------------------- CAMERA MENU PICK CAR ----------------------------------
 
 		const menuPickCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
-		menuPickCamera.position.set(0, 509, 27);
+		menuPickCamera.position.set(0, 515, 35);
 		const camTarget = new THREE.Object3D();
-		camTarget.position.set(0, 509, 0);
+		camTarget.position.set;
 
-		var controlsMenuPick = new OrbitControls(menuPickCamera, this.renderer.domElement);
-		controlsMenuPick.enabled = false;
+		menuPickCamera.lookAt(new THREE.Vector3(0, 509, 0))
 
-		menuPickCamera.camTarget = camTarget;
-		this.camTarget = camTarget;
 
 		this.cameras['Pick Car Menu'] = menuPickCamera
 
@@ -198,7 +195,11 @@ class MyApp {
 				);
 				this.controls.enableZoom = true;
 				this.controls.update();
-			} else {
+			} 
+			else if (this.activeCameraName == "Pick Car Menu" ){
+				// no controls in here
+			}
+			else {
 				this.controls.object = this.activeCamera;
 				if (this.activeCamera.camTarget) {
 					this.controls.target = this.activeCamera.camTarget.position;

@@ -77,10 +77,10 @@ class MyContents {
 		this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
 		this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-		//console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
+		console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
 
 		//2. set the picking ray from the camera position and mouse coordinates
-		this.raycaster.setFromCamera(this.pointer, this.app.getActivemenu());
+		//this.raycaster.setFromCamera(this.pointer, this.app.getActivemenu());
 
 		//3. compute intersections
 		var intersects = this.raycaster.intersectObjects(this.app.scene.children);
@@ -313,19 +313,15 @@ class MyContents {
 
 		const light1 = new THREE.AmbientLight(0xffffff, 2.5); // soft white light
 		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
-		const light_menu_car = new THREE.PointLight(0xffffff, 3, 10); // soft white light
+		const light_menu_car = new THREE.PointLight(0xffffff, 100, 10, 0); // soft white light
 		
 		const menuPickCar = new MyMenuPickCar(this.app).buildPickMenu();
 
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
 		light_menu_car.position.set(0,509,40);
-		light_menu_car.target = menuPickCar;
-
-        const menu_light_helper = new THREE.PointLightHelper(light_menu_car);
 
 		this.app.scene.add(light_menu_car);
-		this.app.scene.add(menu_light_helper);
 		this.app.scene.add(menuPickCar);
 		this.sceneBuilder.addGlobals();
 		this.sceneBuilder.addCameras();

@@ -29,8 +29,30 @@ class MyMenuPickCar {
 
     buildPickMenu() {
 
-        const carStand = new THREE.CylinderGeometry(3,3,5);
-        this.carStandMesh = new THREE.Mesh(carStand, this.backgroundMaterial);
+        // Lights
+        const pointLightMenuPick = new THREE.PointLight(
+            0xfbdd9a,
+            50,
+            0,
+            Math.PI / 2,
+            0.2
+        );
+
+        pointLightMenuPick.position.set(-2, 4, 20);
+        pointLightMenuPick.castShadow = true;
+
+        this.menu.add(pointLightMenuPick)
+
+        // Car Stands
+        const carStand = new THREE.CylinderGeometry(3, 4, 15);
+        this.carStandMesh1 = new THREE.Mesh(carStand, this.backgroundMaterial);
+        this.carStandMesh1.position.set(0,-7.5, 10)
+
+        this.carStandMesh2 = new THREE.Mesh(carStand, this.backgroundMaterial);
+        this.carStandMesh2.position.set(-7,-7.5, 5)
+
+        this.carStandMesh3 = new THREE.Mesh(carStand, this.backgroundMaterial);
+        this.carStandMesh3.position.set(7,-7.5, 5)
 
         const backgroundGeometry = new THREE.BoxGeometry(
             this.width,
@@ -38,22 +60,23 @@ class MyMenuPickCar {
             this.thickness
         );
 
-        this.menuBack = new THREE.Mesh(backgroundGeometry, this.backgroundMaterial);
 
-        this.menu.add(this.menuBack);
-        this.menu.add(this.carStandMesh);
+        this.menu.add(this.carStandMesh1);
+        this.menu.add(this.carStandMesh2);
+        this.menu.add(this.carStandMesh3);
+
         this.menu.position.set(0, this.height / 2 + 500, 0);
 
-        let car1 = this.loadCars("./object3D/van.glb");
-        car1.position.set(2, 0, 5)
+        let car1 = this.loadCars("./object3D/deliveryFlat.glb");
+        car1.position.set(0, 0, 10)
 
         let car2 = this.loadCars("./object3D/taxi.glb");
-        car2.position.set(-10, 0, 5)
+        car2.position.set(-7, 0, 5)
 
         let car3 = this.loadCars("./object3D/police.glb");
         car3.position.set(7, 0, 5)
 
-        
+
         return this.menu;
     }
 
@@ -80,7 +103,7 @@ class MyMenuPickCar {
 
         this.carMesh.add(mesh);
         this.carMesh.rotateY(Math.PI);
-        this.carMesh.scale.set(2,2,2);
+        this.carMesh.scale.set(2, 2, 2);
         this.menu.add(this.carMesh);
 
         return this.carMesh
