@@ -4,6 +4,7 @@ import { MyContents } from "./MyContents.js";
 import { MyGuiInterface } from "./MyGuiInterface.js";
 import Stats from "three/addons/libs/stats.module.js";
 
+
 /**
  * This class contains the application object
  */
@@ -41,9 +42,6 @@ class MyApp {
 		this.stats.showPanel(1); // 0: fps, 1: ms, 2: mb, 3+: custom
 		document.body.appendChild(this.stats.dom);
 
-		this.initCameras();
-		this.setActiveCamera("Perspective");
-
 		// Create a renderer with Antialiasing
 		this.renderer = new THREE.WebGLRenderer({ antialias: true });
 		this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -52,6 +50,8 @@ class MyApp {
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+		this.initCameras();
+		this.setActiveCamera("Perspective");
 		// Configure renderer size
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -84,14 +84,20 @@ class MyApp {
 		const near = -this.frustumSize / 2;
 		const far = this.frustumSize;
 
-		
-        const menuPickCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
-        menuPickCamera.position.set(0, 509, 20); 
+		//-------------------------------- CAMERA MENU PICK CAR ----------------------------------
+
+		const menuPickCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
+		menuPickCamera.position.set(0, 509, 27);
 		const camTarget = new THREE.Object3D();
 		camTarget.position.set(0, 509, 0);
+
+		var controlsMenuPick = new OrbitControls(menuPickCamera, this.renderer.domElement);
+		controlsMenuPick.enabled = false;
+
 		menuPickCamera.camTarget = camTarget;
-        this.camTarget = camTarget;
-        this.cameras['Pick Car Menu'] = menuPickCamera
+		this.camTarget = camTarget;
+
+		this.cameras['Pick Car Menu'] = menuPickCamera
 
 		// create a left view orthographic camera
 		const orthoLeft = new THREE.OrthographicCamera(
@@ -162,10 +168,10 @@ class MyApp {
 		this.activeCameraName = cameraName;
 		this.activeCamera = this.cameras[this.activeCameraName];
 	}
-	
-    getActiveCamera() {
-        return this.cameras[this.activeCameraName]
-    }
+
+	getActiveCamera() {
+		return this.cameras[this.activeCameraName]
+	}
 	/**
 	 * updates the active camera if required
 	 * this function is called in the render loop
