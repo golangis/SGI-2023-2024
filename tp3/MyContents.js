@@ -29,6 +29,10 @@ class MyContents {
 		this.penalty = false;
 
 		this.first = true;
+		this.firecrackerPenalty = false;
+		this.speedPenalty = false;
+
+		this.slowPowerup = false;
 	}
 
 	/**
@@ -87,26 +91,30 @@ class MyContents {
 				this.playerCar.accelerate();
 			}
 			if (this.keys.A) {
-				this.playerCar.turnLeft();
+				if (this.firecrackerPenalty) {
+					this.playerCar.turnRight();
+				} else {
+					this.playerCar.turnLeft();
+				}
 			}
 			if (this.keys.S) {
 				this.drag = false;
 				this.playerCar.brake();
 			}
 			if (this.keys.D) {
-				this.playerCar.turnRight();
+				if (this.firecrackerPenalty) {
+					this.playerCar.turnLeft();
+				} else {
+					this.playerCar.turnRight();
+				}
 			}
 		}
 
 		if (this.keys.P) {
-			this.autonomousCarMixer.paused = !this.autonomousCarMixer.paused;
-
 			if (this.gameTimer.isRunning) {
-				this.gameTimer.pause();
-				console.log(this.gameTimer.checkTheTime());
+				this.pauseGame();
 			} else {
-				this.gameTimer.resume();
-				console.log(this.gameTimer.checkTheTime());
+				this.resumeGame();
 			}
 		}
 	}
@@ -240,8 +248,9 @@ class MyContents {
 		sceneBuilder.addGlobals();
 		sceneBuilder.addCameras();
 		sceneBuilder.addSkybox();
-		
-		new MyObstacle(this.app).buildObstacleLot();
+
+		this.obstacleObj = new MyObstacle(this.app);
+		this.obstacleObj.buildObstacleLot();
 
 		this.startGame(
 			data,
@@ -250,6 +259,8 @@ class MyContents {
 		);
 
 		this.powerUps = [];
+		this.obstacles = [];
+
 		const pw = new MyPowerUp(this.app);
 
 		this.powerUps.push(
@@ -281,11 +292,12 @@ class MyContents {
 			this.trackObj.calculateAutonomousTrack(4)
 		);
 
-		const keyFrames = this.opponentCar.getKeyframes();
+		// TODO change this value for autonomous car difficulty (60, 50, 40) (easy, medium, hard)
+		const keyFrames = this.opponentCar.getKeyframes(40);
 		this.autonomousCarMixer =
 			this.opponentCar.animateAutonomousCar(keyFrames);
 
-		// TODO when countdown ends, call these functions
+		// TODO when game begin countdown ends, call these functions
 		this.trackObj.changeFirstMarkers();
 		this.opponentCar.action.play();
 		this.gameTimer.start();
@@ -305,24 +317,127 @@ class MyContents {
 		return false;
 	}
 
+	waitForObstacleType() {
+		// TODO fazer a parte em que o user de facto faz o picking
+
+		// obstacle type => "firecracker" ou "speed" ou "slow"
+		return "firecracker";
+	}
+
+	waitForPositionSelection(obstacleType) {
+		// TODO fazer a parte em que o user de facto escolhe onde cai o obstaculo
+		const position = new THREE.Vector3(-20, 1, 30);
+
+		return this.obstacleObj.buildObstacle(obstacleType, position);
+	}
+
+	executePowerupSequence() {
+		this.pauseGame();
+
+		this.app.changeCamera("Obstacle Lot");
+
+		const obstacleType = this.waitForObstacleType();
+
+		this.app.changeCamera("Game Lot Birdseye");
+
+		const obstacleObj = this.waitForPositionSelection(obstacleType);
+
+		this.obstacles.push(obstacleObj);
+		this.app.scene.add(obstacleObj);
+
+		this.app.changeCamera("Car");
+
+		// Put powerup into effect
+		const pw = Math.floor(Math.random() * 2);
+		if (pw == 0) {
+			//make player faster
+			console.log("fast player powerup initiate");
+			this.playerCar.superSpeed = true;
+			setTimeout(() => {
+				this.playerCar.superSpeed = false;
+				console.log("fast player powerup over");
+			}, 5000);
+		} else {
+			//make opponent slower
+			console.log("slow opponnent powerup initiate");
+			this.slowPowerup = true;
+			setTimeout(() => {
+				this.slowPowerup = false;
+				console.log("slow opponnent powerup over");
+			}, 5000);
+		}
+
+		// TODO maybe countdown for before game restart?
+		this.resumeGame();
+	}
+
 	checkPowerupsCollision() {
 		if (this.playerCar.AABB) {
 			this.powerUps.forEach((powerup) => {
-				if (this.playerCar.AABB.intersectsBox(powerup)) {
+				if (this.playerCar.AABB.intersectsBox(powerup.AABB)) {
+					const index = this.powerUps.indexOf(powerup);
+					if (index > -1) {
+						this.powerUps.splice(index, 1);
+						setTimeout(() => {
+							this.powerUps.push(powerup);
+						}, 3000);
+					}
+
 					console.log("powerup!");
 
-					// TODO start obstacle picking sequence
-					// 1 - change camera to obstacle lot
-					// 2 - let user pick obstacle
-					// 3 - change camera to birds eye of track
-					// 4 - let user place obstacle on track (add it to the scene, make sure its functional)
-					// 5 - change camera back to car
-					// 6 - countdown the game restart
-					// 7 - put into effect the powerup
-					this.app.changeCamera("Game Lot Birdseye");
+					this.executePowerupSequence();
+				}
+			});
+		}
+	}
 
-					// TODO put powerup into effect.
+	checkObstaclesCollision() {
+		if (this.playerCar.AABB) {
+			this.obstacles.forEach((obstacle) => {
+				if (this.playerCar.AABB.intersectsBox(obstacle.AABB)) {
+					console.log("obstacle!", obstacle.obstacleType);
 
+					switch (obstacle.obstacleType) {
+						case "firecracker":
+							setTimeout(() => {
+								this.firecrackerPenalty = false;
+								console.log("firecracker finish");
+							}, 5000);
+
+							console.log("firecracker active");
+							this.firecrackerPenalty = true;
+							break;
+						case "speed":
+							setTimeout(() => {
+								this.speedPenalty = false;
+								console.log("opponnent speed finish");
+							}, 5000);
+
+							console.log("opponnent speed active");
+							this.speedPenalty = true;
+							break;
+
+						case "slow":
+							setTimeout(() => {
+								this.penaltyActive = false;
+								this.playerCar.penalty = this.penaltyActive;
+
+								console.log("player slow speed finish");
+							}, 5000);
+
+							console.log("player slow speed active");
+							this.penaltyActive = true;
+							this.playerCar.penalty = this.penaltyActive;
+							break;
+					}
+
+					const index = this.obstacles.indexOf(obstacle);
+					if (index > -1) {
+						this.obstacles.splice(index, 1);
+						setTimeout(() => {
+							this.obstacles.push(obstacle);
+						}, 3000);
+					}
 				}
 			});
 		}
@@ -337,6 +452,16 @@ class MyContents {
 				1
 			).intersectObject(this.trackMesh).length > 0
 		);
+	}
+
+	pauseGame() {
+		this.gameTimer.pause();
+		this.autonomousCarMixer.paused = true;
+	}
+
+	resumeGame() {
+		this.gameTimer.resume();
+		this.autonomousCarMixer.paused = false;
 	}
 
 	deductPenalties() {
@@ -368,8 +493,6 @@ class MyContents {
 		this.delta = delta;
 
 		if (this.gameTimer.isRunning) {
-			this.degree = (3 * Math.PI) / 20;
-
 			if (this.drag) {
 				this.playerCar.decelerate(0.05);
 			}
@@ -382,25 +505,32 @@ class MyContents {
 			this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
 
 			this.checkPowerupsCollision();
+			this.checkObstaclesCollision();
 
 			if (!this.autonomousCarMixer.paused) {
-				this.autonomousCarMixer.update(delta);
+				if (this.speedPenalty) {
+					this.autonomousCarMixer.update(delta * 1.2);
+				} else if (this.slowPowerup) {
+					this.autonomousCarMixer.update(delta * 0.7);
+				} else {
+					this.autonomousCarMixer.update(delta);
+				}
 			}
 		}
 	}
 }
 
 /**
- * Powerups 
+ * Powerups
  * 		superspeed
  * 		slow speed for opponnent
  * 		?
- * 
+ *
  * Obstacles
  * 		slow speed for player
  * 		change A and D keys
  * 		superspeed for opponnent
- * 
+ *
  */
 
 export { MyContents };

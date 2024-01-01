@@ -23,8 +23,8 @@ class MyPowerUp {
 		cube.position.set(x, y, z);
 
 		this.app.scene.add(cube);
-
-		return new THREE.Box3().setFromObject(cube);
+		cube.AABB = new THREE.Box3().setFromObject(cube);
+		return cube;
 	}
 }
 

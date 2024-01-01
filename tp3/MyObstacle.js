@@ -22,6 +22,7 @@ class MyObstacle {
 			})
 		);
 
+		slowCube.obstacleType = "slow";
 		slowCube.rotation.set(0, 0, 0);
 		slowCube.position.set(0, 3, 250);
 
@@ -35,6 +36,7 @@ class MyObstacle {
 			})
 		);
 
+		firecrackerCube.obstacleType = "firecracker";
 		firecrackerCube.rotation.set(0, 0, 0);
 		firecrackerCube.position.set(20, 3, 250);
 
@@ -48,6 +50,7 @@ class MyObstacle {
 			})
 		);
 
+		speedCube.obstacleType = "speed";
 		speedCube.rotation.set(0, 0, 0);
 		speedCube.position.set(-20, 3, 250);
 
@@ -55,6 +58,60 @@ class MyObstacle {
 		this.app.scene.add(slowCube);
 		this.app.scene.add(firecrackerCube);
 		this.app.scene.add(speedCube);
+	}
+
+	buildObstacle(type, position) {
+		const boxGeom = new THREE.BoxGeometry(1, 1, 1);
+
+		switch (type) {
+			case "firecracker":
+				const firecrackerCube = new THREE.Mesh(
+					boxGeom,
+					new THREE.MeshBasicMaterial({
+						map: new THREE.TextureLoader().load(
+							"./textures/firecracker_obstacle.png"
+						),
+					})
+				);
+
+				firecrackerCube.obstacleType = "firecracker";
+				firecrackerCube.position.set(...position);
+				firecrackerCube.AABB = new THREE.Box3().setFromObject(
+					firecrackerCube
+				);
+
+				return firecrackerCube;
+			case "speed":
+				const speedCube = new THREE.Mesh(
+					boxGeom,
+					new THREE.MeshBasicMaterial({
+						map: new THREE.TextureLoader().load(
+							"./textures/speed_obstacle.png"
+						),
+					})
+				);
+
+				speedCube.obstacleType = "speed";
+				speedCube.position.set(...position);
+				speedCube.AABB = new THREE.Box3().setFromObject(speedCube);
+
+				return speedCube;
+			case "slow":
+				const slowCube = new THREE.Mesh(
+					boxGeom,
+					new THREE.MeshBasicMaterial({
+						map: new THREE.TextureLoader().load(
+							"./textures/slow_obstacle.png"
+						),
+					})
+				);
+
+				slowCube.obstacleType = "slow";
+				slowCube.position.set(...position);
+				slowCube.AABB = new THREE.Box3().setFromObject(slowCube);
+
+				return slowCube;
+		}
 	}
 
 	buildObstacleLotFloor() {

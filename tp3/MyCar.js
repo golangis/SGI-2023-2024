@@ -23,6 +23,9 @@ class MyCar {
 		this.carSteer = 0;
 		this.topSpeed = 8.5;
 
+		this.penalty = false;
+		this.superSpeed = false;
+
 		// Function calls to render car and create camera
 		this.loadCar();
 		if (createCamera) {
@@ -42,8 +45,7 @@ class MyCar {
 		}
 	}
 
-	getKeyframes() {
-		const lapTime = 60;
+	getKeyframes(lapTime) {
 		const keyFrames = [];
 
 		for (let i = 0; i <= 100; i++) {
@@ -71,6 +73,10 @@ class MyCar {
 		}
 
 		return keyFrames;
+	}
+
+	changeTopSpeed(newTopSpeed) {
+		this.topSpeed = newTopSpeed;
 	}
 
 	loadCar() {
@@ -197,6 +203,14 @@ class MyCar {
 	}
 
 	updateCar(delta) {
+		if (this.penalty && !this.superSpeed) {
+			this.topSpeed = 5.0;
+		} else if (!this.penalty && this.superSpeed) {
+			this.topSpeed = 10;
+		} else {
+			this.topSpeed = 8.5;
+		}
+
 		this.velocity = Math.min(
 			(this.acceleration * delta * 50).toFixed(2),
 			this.topSpeed
@@ -231,13 +245,6 @@ class MyCar {
 			topValue = 18;
 
 		if (this.acceleration < topValue) {
-			if (this.penalty) {
-				ratio = 0.7 * ratio;
-				topValue = 0.7 * topValue;
-				this.topSpeed = 5.0;
-			} else {
-				this.topSpeed = 8.5;
-			}
 			this.acceleration += ratio;
 		}
 	}
@@ -247,14 +254,6 @@ class MyCar {
 			topValue = -18;
 
 		if (this.acceleration > topValue) {
-			if (this.penalty) {
-				ratio = 0.7 * ratio;
-				topValue = 0.7 * topValue;
-				this.topSpeed = 5.0;
-			} else {
-				this.topSpeed = 8.5;
-			}
-
 			this.acceleration -= ratio;
 		}
 	}
