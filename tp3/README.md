@@ -17,4 +17,4 @@
 ----
 ## Issues/Problems
 
-- (items describing unimplemented features, bugs, problems, etc.)
+- The start of the track is hard-coded, meaning the cars will start always in the same position, regardless of the provided track.

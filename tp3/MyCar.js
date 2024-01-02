@@ -8,7 +8,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
  */
 
 class MyCar {
-	constructor(app, carFilepath, x, z, createCamera) {
+	constructor(app, carFilepath, x, z, createCamera, routePoints) {
 		this.app = app;
 		this.carFilepath = carFilepath;
 		this.velocity = 0;
@@ -23,11 +23,60 @@ class MyCar {
 		this.carSteer = 0;
 		this.topSpeed = 8.5;
 
+		this.penalty = false;
+		this.superSpeed = false;
+
 		// Function calls to render car and create camera
 		this.loadCar();
 		if (createCamera) {
 			this.createCarCamera();
 		}
+
+		if (routePoints) {
+			this.autonomousCurvePoints = routePoints;
+
+			this.curve = new THREE.CatmullRomCurve3(
+				this.autonomousCurvePoints,
+				true,
+				"centripetal"
+			);
+
+			this.curve.center = routePoints.center;
+		}
+	}
+
+	getKeyframes(lapTime) {
+		const keyFrames = [];
+
+		for (let i = 0; i <= 100; i++) {
+			const prog = ((i + 71.3) / 100) % 1;
+
+			const tangent = this.curve.getTangentAt(prog);
+			const carPos = this.curve.getPointAt(prog);
+			carPos.sub(this.curve.center);
+
+			const carRot = Math.atan2(tangent.x, tangent.z) + Math.PI;
+
+			const time = lapTime * (i / 100);
+
+			const quat = new THREE.Quaternion().setFromEuler(
+				new THREE.Euler(0, carRot, 0)
+			);
+
+			const frame = {
+				time: time,
+				position: carPos,
+				quaternion: quat,
+			};
+
+			keyFrames.push(frame);
+		}
+
+		return keyFrames;
+	}
+
+	changeTopSpeed(newTopSpeed) {
+		this.topSpeed = newTopSpeed;
 	}
 
 	loadCar() {
@@ -65,6 +114,41 @@ class MyCar {
 		return this.carMesh;
 	}
 
+	animateAutonomousCar(keyframes) {
+		let mixer = new THREE.AnimationMixer(this.carMesh);
+
+		let quaternionRotationTrack = new THREE.QuaternionKeyframeTrack(
+			".quaternion",
+			keyframes.map((kf) => kf.time),
+			keyframes.flatMap((kf) => {
+				return kf.quaternion.toArray();
+			})
+		);
+
+		let positionTrack = new THREE.VectorKeyframeTrack(
+			".position",
+			keyframes.map((kf) => kf.time),
+			keyframes.flatMap((kf) => kf.position.toArray())
+		);
+
+		let clip = new THREE.AnimationClip(
+			"carAnimation",
+			Math.max(...keyframes.map((kf) => kf.time)),
+			[positionTrack, quaternionRotationTrack]
+		);
+
+		this.action = mixer.clipAction(clip);
+		this.action.loop = THREE.LoopRepeat;
+		this.action.repetitions = 2; // 0-based index, so 2 repetitions will make it play 3 times
+
+		// TODO when car ends, check if game ongoing, kill it if so
+		mixer.addEventListener("finished", () => {
+			console.log("over");
+		});
+
+		return mixer;
+	}
+
 	findWheels(currentMesh) {
 		if (this.wheelMeshes.length == 2) {
 			return;
@@ -99,7 +183,6 @@ class MyCar {
 
 	createCarCamera() {
 		const camTarget = new THREE.Object3D();
-		camTarget.add(new THREE.Mesh());
 		camTarget.position.set(this.x, 2.2, this.z);
 
 		const aspect = window.innerWidth / window.innerHeight;
@@ -120,7 +203,18 @@ class MyCar {
 	}
 
 	updateCar(delta) {
-		this.velocity = Math.min((this.acceleration * delta * 50).toFixed(2), this.topSpeed);
+		if (this.penalty && !this.superSpeed) {
+			this.topSpeed = 5.0;
+		} else if (!this.penalty && this.superSpeed) {
+			this.topSpeed = 10;
+		} else {
+			this.topSpeed = 8.5;
+		}
+
+		this.velocity = Math.min(
+			(this.acceleration * delta * 50).toFixed(2),
+			this.topSpeed
+		);
 
 		this.x -=
 			((Math.sin(this.orientation) * Math.PI) / 180) * this.velocity;
@@ -137,42 +231,29 @@ class MyCar {
 
 		this.updateCarCamera();
 		this.updateWheels();
+		this.updateAABB();
+	}
 
+	updateAABB() {
 		if (this.AABB) {
 			this.AABB = this.AABB.setFromObject(this.carMesh);
 		}
 	}
 
-	accelerate(penalty) {
+	accelerate() {
 		let ratio = 0.5,
 			topValue = 18;
 
 		if (this.acceleration < topValue) {
-			if (penalty) {
-				ratio = 0.7 * ratio;
-				topValue = 0.7 * topValue;
-				this.topSpeed = 5.0;
-			} else {
-				this.topSpeed = 8.5;
-			}
-
 			this.acceleration += ratio;
 		}
 	}
 
-	brake(penalty) {
+	brake() {
 		let ratio = 0.5,
 			topValue = -18;
 
 		if (this.acceleration > topValue) {
-			if (penalty) {
-				ratio = 0.7 * ratio;
-				topValue = 0.7 * topValue;
-				this.topSpeed = 5.0;
-			} else {
-				this.topSpeed = 8.5;
-			}
-
 			this.acceleration -= ratio;
 		}
 	}
