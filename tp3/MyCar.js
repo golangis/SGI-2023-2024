@@ -15,6 +15,8 @@ class MyCar {
 		this.orientation = 0;
 		this.acceleration = 0;
 
+		this.rotationATM = 0;
+
 		this.x = x;
 		this.z = z;
 		this.orientation = -Math.PI / 2;
@@ -211,6 +213,14 @@ class MyCar {
 			this.topSpeed = 8.5;
 		}
 
+		if (this.velocity > 0) {
+			this.orientation += this.rotationATM * delta;
+		} else if (this.velocity < 0) {
+			this.orientation -= this.rotationATM/3 * delta;
+		}
+
+
+
 		this.velocity = Math.min(
 			(this.acceleration * delta * 50).toFixed(2),
 			this.topSpeed
@@ -226,7 +236,7 @@ class MyCar {
 		this.carMesh.rotation.y = THREE.MathUtils.lerp(
 			this.carMesh.rotation.y,
 			this.orientation,
-			0.05
+			0.1
 		);
 
 		this.updateCarCamera();
@@ -270,9 +280,7 @@ class MyCar {
 
 	turnLeft() {
 		if (this.velocity > 0) {
-			this.orientation += Math.PI / 30;
-		} else if (this.velocity < 0) {
-			this.orientation -= Math.PI / 30;
+			this.rotationATM = Math.PI / 10;
 		}
 
 		if (this.wheelMeshes[0].rotation.y < 1.5 * (Math.PI / 20)) {
@@ -282,9 +290,7 @@ class MyCar {
 
 	turnRight() {
 		if (this.velocity > 0) {
-			this.orientation -= Math.PI / 30;
-		} else if (this.velocity < 0) {
-			this.orientation += Math.PI / 30;
+			this.rotationATM = - Math.PI / 10;
 		}
 
 		if (this.wheelMeshes[0].rotation.y > -1.5 * (Math.PI / 20)) {
@@ -294,6 +300,10 @@ class MyCar {
 
 	turnWheels(degree) {
 		this.carSteer += degree;
+	}
+
+	resetRotation() {
+		this.rotationATM = 0;
 	}
 
 	resetWheels() {

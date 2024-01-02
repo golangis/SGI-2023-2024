@@ -3,16 +3,20 @@ import { MyTriangle } from "./MyTriangle.js";
 
 /**
 
- *  This class contains the contents of out application
+ *  This class contains the contents of the track for the racing game
 
  */
 
 class MyTrack {
 	constructor(app, route, trackWidth, trackMaterial) {
 		this.app = app;
-		this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x808080 });
-		this.trackMaterial =
-			trackMaterial || new THREE.MeshBasicMaterial({ color: 0x737373 });
+		this.lineMaterial = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('textures/road.jpg') })
+		|| new THREE.MeshBasicMaterial({ color: 0xff0000 });
+		
+
+		this.trackMaterial = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('textures/road.jpg') })
+		|| new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
 		this.numberOfSamples = 200;
 
 		this.trackCurve = route;
@@ -389,7 +393,7 @@ class MyTrack {
 		const aspect = window.innerWidth / window.innerHeight;
 		const camObj = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
 		camObj.position.set(0, 80, 0);
-		
+
 		this.app.addCamera("Game Lot Birdseye", "Game Lot Birdseye", camObj);
 	}
 
@@ -398,7 +402,7 @@ class MyTrack {
 
 		const texture = new THREE.TextureLoader().load("textures/grass.jpg");
 
-		texture.repeat.set(4, 4); // Repeat the texture 4 times in both horizontal and vertical directions
+		texture.repeat.set(8, 8); // Repeat the texture 4 times in both horizontal and vertical directions
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;

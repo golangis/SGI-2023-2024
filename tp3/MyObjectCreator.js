@@ -657,9 +657,10 @@ class MyObjectCreator {
 			const materialObject = new THREE.MeshPhongMaterial({
 				emissive: node.emissive,
 				emissiveIntensity: node.intensity,
-				map: texObject,
+				map: new THREE.TextureLoader().load('textures/night-sky.png'),
 				side: THREE.BackSide,
 				emissiveMap: texObject,
+
 			});
 
 			materialObjects.push(materialObject);

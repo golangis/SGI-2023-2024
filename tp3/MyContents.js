@@ -80,6 +80,7 @@ class MyContents {
 					this.drag = true;
 				} else if (key === "D" || key === "A") {
 					this.playerCar.resetWheels();
+					this.playerCar.resetRotation();
 				}
 			}
 		});
@@ -282,7 +283,7 @@ class MyContents {
 
 	startGame(data, playerCarFilepath, opponentCarFilepath) {
 		const routeObj = new MyRoute(this.app, data);
-		this.trackObj = new MyTrack(this.app, routeObj.curve, 5, null);
+		this.trackObj = new MyTrack(this.app, routeObj.curve, 5);
 
 		this.trackMesh = this.trackObj.drawTrack();
 

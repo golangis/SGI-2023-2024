@@ -119,7 +119,7 @@ class MyObstacle {
 
 		const texture = new THREE.TextureLoader().load("textures/grass.jpg");
 
-		texture.repeat.set(4, 4); // Repeat the texture 4 times in both horizontal and vertical directions
+		texture.repeat.set(8, 8); // Repeat the texture 4 times in both horizontal and vertical directions
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
