@@ -249,7 +249,7 @@ class MyContents {
 			this.playerCar.superSpeed = false;
 			this.slowPowerup = false;
 			console.log("powerup over");
-		})
+		});
 
 		this.obstacleTimer = new MyCountdownTimer(5, () => {
 			this.firecrackerPenalty = false;
@@ -257,7 +257,7 @@ class MyContents {
 			this.penaltyActive = false;
 			this.playerCar.penalty = this.penaltyActive;
 			console.log("obstacle over");
-		})
+		});
 
 		const sceneBuilder = new MySceneBuilder(data, this.app);
 
@@ -373,24 +373,16 @@ class MyContents {
 		const pw = Math.floor(Math.random() * 2);
 		if (pw == 0) {
 			//make player faster
-			if (this.powerupTimer.start()) {	
+			if (this.powerupTimer.start()) {
 				console.log("fast player powerup initiate");
 				this.playerCar.superSpeed = true;
 			}
-			/*setTimeout(() => {
-				this.playerCar.superSpeed = false;
-				console.log("fast player powerup over");
-			}, 5000);*/
 		} else {
 			//make opponent slower
-			if (this.powerupTimer.start()) {	
+			if (this.powerupTimer.start()) {
 				console.log("slow opponnent powerup initiate");
 				this.slowPowerup = true;
 			}
-			/*setTimeout(() => {
-				this.slowPowerup = false;
-				console.log("slow opponnent powerup over");
-			}, 5000);*/
 		}
 
 		// TODO maybe countdown for before game restart?
@@ -425,36 +417,20 @@ class MyContents {
 
 					switch (obstacle.obstacleType) {
 						case "firecracker":
-							/*setTimeout(() => {
-								this.firecrackerPenalty = false;
-								console.log("firecracker finish");
-							}, 5000);*/
-							
-							if (this.obstacleTimer.start()) {	
+							if (this.obstacleTimer.start()) {
 								console.log("firecracker active");
 								this.firecrackerPenalty = true;
 							}
 							break;
 						case "speed":
-							/*setTimeout(() => {
-								this.speedPenalty = false;
-								console.log("opponnent speed finish");
-							}, 5000);*/
-							if (this.obstacleTimer.start()) {	
+							if (this.obstacleTimer.start()) {
 								console.log("opponnent speed active");
 								this.speedPenalty = true;
 							}
 							break;
 
 						case "slow":
-							/*setTimeout(() => {
-								this.penaltyActive = false;
-								this.playerCar.penalty = this.penaltyActive;
-
-								console.log("player slow speed finish");
-							}, 5000);*/
-
-							if (this.obstacleTimer.start()) {	
+							if (this.obstacleTimer.start()) {
 								this.penaltyActive = true;
 								this.playerCar.penalty = this.penaltyActive;
 								console.log("player slow speed active");
@@ -510,20 +486,12 @@ class MyContents {
 
 			this.penalty = this.collision || this.outOfBounds;
 			if (!this.penaltyActive && this.penalty) {
-				/*setTimeout(() => {
-					this.penaltyActive = false;
-					this.playerCar.penalty = this.penaltyActive;
-
-					console.log("penalty finish");
-				}, 5000);*/
-
 				if (this.penaltyTimer.start()) {
 					this.penaltyActive = true;
 					this.playerCar.penalty = this.penaltyActive;
-	
+
 					console.log("penalty initiated");
 				}
-
 			}
 		}
 
