@@ -87,7 +87,7 @@ class MyApp {
 		//-------------------------------- CAMERA MENU PICK CAR ----------------------------------
 
 		const menuPickCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
-		menuPickCamera.position.set(0, 515, 35);
+		menuPickCamera.position.set(0, 515, 30);
 		const camTarget = new THREE.Object3D();
 		camTarget.position.set;
 

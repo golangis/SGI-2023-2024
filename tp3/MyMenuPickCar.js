@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 /**
- * This class customizes the gui interface for the app
+ * This class customizes the gui interface for the menu of picking the car to use on the game
  */
 class MyMenuPickCar {
     constructor(app) {
@@ -41,6 +41,43 @@ class MyMenuPickCar {
         pointLightMenuPick.position.set(-2, 4, 20);
         pointLightMenuPick.castShadow = true;
 
+        const lightMenuPick1 = new THREE.SpotLight(
+            0xff0000,
+            100,
+            0,
+            Math.PI 
+        );
+
+
+        lightMenuPick1.position.set(0, 4, 10);
+        lightMenuPick1.castShadow = true;
+
+        const lightMenuPick2 = new THREE.SpotLight(
+            0x0000ff,
+            100,
+            0,
+            Math.PI 
+        );
+
+
+        lightMenuPick2.position.set(7, 4,5);
+        lightMenuPick2.castShadow = true;
+
+
+        const lightMenuPick3 = new THREE.SpotLight(
+            0xffff00,
+            100,
+            0,
+            Math.PI 
+        );
+
+
+        lightMenuPick3.position.set(-7, 4,5);
+        lightMenuPick3.castShadow = true;
+
+        this.menu.add(lightMenuPick1)
+        this.menu.add(lightMenuPick2)
+        this.menu.add(lightMenuPick3)
         this.menu.add(pointLightMenuPick)
 
         // Car Stands
@@ -67,6 +104,7 @@ class MyMenuPickCar {
 
         this.menu.position.set(0, this.height / 2 + 500, 0);
 
+        // Cars 
         let car1 = this.loadCars("./object3D/deliveryFlat.glb");
         car1.position.set(0, 0, 10)
 
