@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { My3DText } from "./My3DText.js";
 
 /**
  * This class customizes the gui interface for the menu of picking the car to use on the game
@@ -28,6 +29,7 @@ class MyMenuPickCar {
     }
 
     buildPickMenu() {
+        // Background
 
         // Lights
         const pointLightMenuPick = new THREE.PointLight(
@@ -45,7 +47,7 @@ class MyMenuPickCar {
             0xff0000,
             100,
             0,
-            Math.PI 
+            Math.PI
         );
 
 
@@ -56,11 +58,11 @@ class MyMenuPickCar {
             0x0000ff,
             100,
             0,
-            Math.PI 
+            Math.PI
         );
 
 
-        lightMenuPick2.position.set(7, 4,5);
+        lightMenuPick2.position.set(7, 4, 5);
         lightMenuPick2.castShadow = true;
 
 
@@ -68,11 +70,11 @@ class MyMenuPickCar {
             0xffff00,
             100,
             0,
-            Math.PI 
+            Math.PI
         );
 
 
-        lightMenuPick3.position.set(-7, 4,5);
+        lightMenuPick3.position.set(-7, 4, 5);
         lightMenuPick3.castShadow = true;
 
         this.menu.add(lightMenuPick1)
@@ -80,16 +82,34 @@ class MyMenuPickCar {
         this.menu.add(lightMenuPick3)
         this.menu.add(pointLightMenuPick)
 
+        // Text
+        this.textMaterial = new THREE.MeshPhongMaterial({
+            specular: "#000FFF",
+            shininess: 30,
+            color: "#909090"
+        });
+        let textGenerator = new My3DText(this.app, "Pick Your Car", this.textMaterial);
+        let text_desc = textGenerator.buildText();
+        text_desc.rotateX(Math.PI / 15)
+        text_desc.position.set(-4, 7, 8)
+
+        this.menu.add(text_desc);
+
+        this.shineParams = {
+            time: 0
+        };
+
+
         // Car Stands
         const carStand = new THREE.CylinderGeometry(3, 4, 15);
         this.carStandMesh1 = new THREE.Mesh(carStand, this.backgroundMaterial);
-        this.carStandMesh1.position.set(0,-7.5, 10)
+        this.carStandMesh1.position.set(0, -7.5, 10)
 
         this.carStandMesh2 = new THREE.Mesh(carStand, this.backgroundMaterial);
-        this.carStandMesh2.position.set(-7,-7.5, 5)
+        this.carStandMesh2.position.set(-7, -7.5, 5)
 
         this.carStandMesh3 = new THREE.Mesh(carStand, this.backgroundMaterial);
-        this.carStandMesh3.position.set(7,-7.5, 5)
+        this.carStandMesh3.position.set(7, -7.5, 5)
 
         const backgroundGeometry = new THREE.BoxGeometry(
             this.width,
@@ -148,6 +168,11 @@ class MyMenuPickCar {
     }
 
 
-}
+    updateMenuPicker() {
+        this.shineParams.time += 0.03;
 
+        const shineIntensity = Math.abs(Math.sin(this.shineParams.time)) * 0.3 + 0.5; // Adjust the intensity as needed
+        this.textMaterial.emissive.setRGB((Math.cos(shineIntensity)* 0.7)**2, 0.1,  Math.sin(shineIntensity));
+    };
+}
 export { MyMenuPickCar };

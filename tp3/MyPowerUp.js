@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 /**
 
- *  This class contains the contents of out application
+ *  This class contains the contents of thr game power ups
 
  */
 

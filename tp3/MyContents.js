@@ -9,6 +9,8 @@ import { MyPowerUp } from "./MyPowerUp.js";
 import { MyTimer } from "./MyTimer.js";
 import { MyObstacle } from "./MyObstacle.js";
 import { MyMenuPickCar } from "./MyMenuPickCar.js";
+import { MyMainMenu } from "./MyMainMenu.js";
+
 /**
  *  This class contains the contents of out application
  */
@@ -247,7 +249,10 @@ class MyContents {
 		const light2 = new THREE.DirectionalLight(0xffffff, 2.5); // soft white light
 		const light_menu_car = new THREE.PointLight(0xffffff, 100, 10, 0); // soft white light
 
-		const menuPickCar = new MyMenuPickCar(this.app).buildPickMenu();
+		this.menuPicker = new MyMenuPickCar(this.app)
+		const menuPickCar = this.menuPicker.buildPickMenu();
+		const mainMenu = new MyMainMenu(this.app).buildMainMenu();
+
 
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
@@ -255,6 +260,7 @@ class MyContents {
 
 		this.app.scene.add(light_menu_car);
 		this.app.scene.add(menuPickCar);
+		this.app.scene.add(mainMenu);
 		sceneBuilder.addGlobals();
 		sceneBuilder.addCameras();
 		sceneBuilder.addSkybox();
@@ -508,6 +514,7 @@ class MyContents {
 				this.playerCar.decelerate(0.05);
 			}
 
+			this.menuPicker.updateMenuPicker();
 			this.playerCar.updateCar(delta);
 			this.opponentCar.updateAABB();
 
