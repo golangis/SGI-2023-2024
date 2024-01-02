@@ -194,7 +194,7 @@ class MyApp {
 	changeCamera(camName) {
 		this.setActiveCamera(camName);
 		this.updateCameraIfRequired();
-	}	
+	}
 
 	/**
 	 * the window resize handler

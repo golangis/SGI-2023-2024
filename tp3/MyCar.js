@@ -26,6 +26,8 @@ class MyCar {
 		this.penalty = false;
 		this.superSpeed = false;
 
+		this.numberOfLaps = 0;
+
 		// Function calls to render car and create camera
 		this.loadCar();
 		if (createCamera) {
@@ -139,12 +141,7 @@ class MyCar {
 
 		this.action = mixer.clipAction(clip);
 		this.action.loop = THREE.LoopRepeat;
-		this.action.repetitions = 2; // 0-based index, so 2 repetitions will make it play 3 times
-
-		// TODO when car ends, check if game ongoing, kill it if so
-		mixer.addEventListener("finished", () => {
-			console.log("over");
-		});
+		this.action.repetitions = 3;
 
 		return mixer;
 	}

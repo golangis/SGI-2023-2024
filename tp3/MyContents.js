@@ -274,10 +274,12 @@ class MyContents {
 		this.obstacleObj = new MyObstacle(this.app);
 		this.obstacleObj.buildObstacleLot();
 
+		// TODO change this value for autonomous car difficulty (60, 50, 40) (easy, medium, hard)
 		this.startGame(
 			data,
 			"./object3D/sedan.glb",
-			"./object3D/suvLuxury.glb"
+			"./object3D/suvLuxury.glb",
+			50
 		);
 
 		this.powerUps = [];
@@ -293,7 +295,7 @@ class MyContents {
 		);
 	}
 
-	startGame(data, playerCarFilepath, opponentCarFilepath) {
+	startGame(data, playerCarFilepath, opponentCarFilepath, difficulty) {
 		const routeObj = new MyRoute(this.app, data);
 		this.trackObj = new MyTrack(this.app, routeObj.curve, 5, null);
 
@@ -314,10 +316,17 @@ class MyContents {
 			this.trackObj.calculateAutonomousTrack(4)
 		);
 
-		// TODO change this value for autonomous car difficulty (60, 50, 40) (easy, medium, hard)
-		const keyFrames = this.opponentCar.getKeyframes(40);
+		const keyFrames = this.opponentCar.getKeyframes(difficulty);
 		this.autonomousCarMixer =
 			this.opponentCar.animateAutonomousCar(keyFrames);
+		
+		// TODO when car ends, check if game ongoing, kill it if so
+		this.autonomousCarMixer.addEventListener("finished", () => {
+			this.opponentCar.finalTime = this.gameTimer.checkTheTime();
+			if (this.playerCar.finalTime) {
+				this.gameTimer.pause();
+			}
+		});
 
 		// TODO when game begin countdown ends, call these functions
 		this.trackObj.changeFirstMarkers();
@@ -450,6 +459,14 @@ class MyContents {
 		}
 	}
 
+	checkIfGameOver(){
+		if (this.playerCar.finalTime && this.opponentCar.finalTime) {
+			console.log("game ended with times: ", this.playerCar.finalTime, this.opponentCar.finalTime);
+			this.pauseGame();
+			// TODO implementar game ending sequence
+		}
+	}
+
 	checkIfCarOnTrack(carPosition) {
 		return (
 			new THREE.Raycaster(
@@ -466,7 +483,6 @@ class MyContents {
 		this.autonomousCarMixer.paused = true;
 		this.penaltyTimer.pause();
 		this.powerupTimer.pause();
-		console.log(this.powerupTimer.getTimeLeft());
 	}
 
 	resumeGame() {
@@ -474,7 +490,6 @@ class MyContents {
 		this.autonomousCarMixer.paused = false;
 		this.penaltyTimer.resume();
 		this.powerupTimer.resume();
-		console.log(this.powerupTimer.getTimeLeft());
 	}
 
 	deductPenalties() {
@@ -511,7 +526,7 @@ class MyContents {
 
 			this.deductPenalties();
 
-			this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
+			this.trackObj.checkThatMarkerWasPassed(this.playerCar);
 
 			this.checkPowerupsCollision();
 			this.checkObstaclesCollision();
@@ -525,8 +540,16 @@ class MyContents {
 					this.autonomousCarMixer.update(delta);
 				}
 			}
+
+			if (this.playerCar.numberOfLaps === 3 && !this.playerCar.finalTime) {
+				this.playerCar.finalTime = this.gameTimer.checkTheTime();
+			}
+
+			this.checkIfGameOver();
 		}
 	}
+
+	
 }
 
 /**
