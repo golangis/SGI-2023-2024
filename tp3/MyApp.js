@@ -228,6 +228,11 @@ class MyApp {
 					this.activeCamera,
 					this.renderer.domElement
 				);
+				if (this.activeCamera.camTarget) {
+					this.controls.target = this.activeCamera.camTarget.position;
+				} else {
+					this.controls.target = (new THREE.Vector3(0, 0, 0));
+				}
 				this.controls.enableZoom = true;
 				this.controls.update();
 				
