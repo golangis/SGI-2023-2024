@@ -72,15 +72,15 @@ class MyPicker {
             this.app.setActiveCamera("Pick Car Op Menu")
         }
         else if (buttonCar2) {
-            this.app.contents.myCar = "./object3D/taxi.glb";
-            this.app.setActiveCamera("Pick Car Op Menu")
-        }
-        else if (buttonCar3) {
             this.app.contents.myCar = "./object3D/police.glb";
             this.app.setActiveCamera("Pick Car Op Menu")
         }
+        else if (buttonCar3) {
+            this.app.contents.myCar = "./object3D/taxi.glb";
+            this.app.setActiveCamera("Pick Car Op Menu")
+        }
 
-        //Oponent Car
+        // Opponent Car
         if (buttonCar4) {
             this.app.contents.opponentCar = "./object3D/deliveryFlat.glb";
             this.app.contents.startGame(
@@ -91,7 +91,7 @@ class MyPicker {
             );
         }
         else if (buttonCar5) {
-            this.app.contents.opponentCar = "./object3D/taxi.glb";
+            this.app.contents.opponentCar = "./object3D/police.glb";
             this.app.contents.startGame(
                 this.app.contents.data,
                 this.app.contents.myCar,
@@ -100,7 +100,7 @@ class MyPicker {
             );
         }
         else if (buttonCar6) {
-            this.app.contents.opponentCar = "./object3D/police.glb";
+            this.app.contents.opponentCar = "./object3D/taxi.glb";
             this.app.contents.startGame(
                 this.app.contents.data,
                 this.app.contents.myCar,
