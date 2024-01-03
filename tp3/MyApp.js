@@ -34,7 +34,7 @@ class MyApp {
 	 * initializes the application
 	 */
 	init() {
-		// Create an empty scene
+		// Create an empty scene~4
 		this.scene = new THREE.Scene();
 		this.scene.background = new THREE.Color(0x101010);
 
@@ -100,6 +100,8 @@ class MyApp {
 		
 		const menuStartCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
 		menuStartCamera.position.set(200, 310, 30);
+		menuStartCamera.camTarget = new THREE.Object3D();
+		menuStartCamera.camTarget.position.set(new THREE.Vector3(200, 300, 0))
 		menuStartCamera.lookAt(new THREE.Vector3(200, 300, 0))
 
 		this.cameras['Start Menu'] = menuStartCamera
@@ -196,7 +198,10 @@ class MyApp {
 			this.onResize();
 
 			// are the controls yet?
-			if (this.controls === null) {
+			if (this.activeCameraName == "Pick Car Menu" || this.activeCameraName == "Start Menu"  ){
+				// no controls in here
+			}
+			else if (this.controls === null) {
 				// Orbit controls allow the camera to orbit around a target.
 				this.controls = new OrbitControls(
 					this.activeCamera,
@@ -205,9 +210,6 @@ class MyApp {
 				this.controls.enableZoom = true;
 				this.controls.update();
 			} 
-			else if (this.activeCameraName == "Pick Car Menu" || this.activeCameraName == "Start Menu"  ){
-				// no controls in here
-			}
 			else {
 				this.controls.object = this.activeCamera;
 				if (this.activeCamera.camTarget) {
@@ -262,7 +264,7 @@ class MyApp {
 		}
 
 		// required if controls.enableDamping or controls.autoRotate are set to true
-		this.controls.update();
+		this.controls?.update();
 
 		// render the scene
 		this.renderer.render(this.scene, this.activeCamera);

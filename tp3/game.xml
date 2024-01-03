@@ -2,145 +2,145 @@
 
 <yaf>
 
-    <globals background="0 0 0 1" ambient="0.1 0.1 0.1 1" />
+	<globals background="0 0 0 1" ambient="0.1 0.1 0.1 1" />
 
-    <fog color="1.0 1.0 1.0 1.0" near="1000.0" far="10000.0" />
+	<fog color="1.0 1.0 1.0 1.0" near="1000.0" far="10000.0" />
 
-    <skybox
-        size="200 200 200"
-        center="0 49.9 0"
-        emissive="0 0 0 1"
-        intensity="5"
-        front="textures/white.png"
-        back="textures/white.png"
-        up="textures/white.png"
-        down="textures/white.png"
-        left="textures/white.png"
-        right="textures/white.png"
+	<skybox
+		size="200 200 200"
+		center="0 49.9 0"
+		emissive="0 0 0 1"
+		intensity="5"
+		front="textures/white.png"
+		back="textures/white.png"
+		up="textures/white.png"
+		down="textures/white.png"
+		left="textures/white.png"
+		right="textures/white.png"
 	/>
 
-    <cameras initial="cam1">
-        <perspective id="cam1"
-            angle="1.047"
-            near="0.1"
-            far="1000"
-            location="-15 10 10"
-            target="0 0.0 0" />
+	<cameras initial="cam1">
+		<perspective id="cam1"
+			angle="1.047"
+			near="0.1"
+			far="1000"
+			location="-15 10 10"
+			target="0 0.0 0" />
 
-        <orthogonal id="cam2"
-            near="0.1"
-            far="1000"
-            location="0 15 15"
-            target="0.0 15 0.0"
-            left="-5"
-            right="5"
-            bottom="-5"
-            top="5" />
+		<orthogonal id="cam2"
+			near="0.1"
+			far="1000"
+			location="0 15 15"
+			target="0.0 15 0.0"
+			left="-5"
+			right="5"
+			bottom="-5"
+			top="5" />
 
-			
-    </cameras>
 
-    <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas
+	</cameras>
+
+	<!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas
     texturas -->
-    <textures>
-    </textures>
+	<textures>
+	</textures>
 
-    <materials>
+	<materials>
 
-    </materials>
+	</materials>
 
-    <track>
+	<track>
 		<points id="race1">
-			<point value="46.07 90.21"/>
-			<point value="35.79 88.35"/>
-			<point value="10.33 83.65"/>
-			<point value="8.58 83.56"/>
-			<point value="7.41 84.28"/>
-			<point value="5.44 86.87"/>
-			<point value="-0.8 92.59"/>
-			<point value="-7.57 99.13"/>
-			<point value="-12.89 104.89"/>
-			<point value="-17.74 110.58"/>
-			<point value="-25.68 122.34"/>
-			<point value="-27.86 125.47"/>
-			<point value="-31.22 129.16"/>
-			<point value="-36.39 133.45"/>
-			<point value="-44.96 139.3"/>
-			<point value="-52.9 144.69"/>
-			<point value="-53.38 145.41"/>
-			<point value="-53.32 146.18"/>
-			<point value="-52.42 146.56"/>
-			<point value="-50.34 146.81"/>
-			<point value="-43.84 147.32"/>
-			<point value="-37.34 147.49"/>
-			<point value="-30.63 147.45"/>
-			<point value="-24.24 147.02"/>
-			<point value="-16.83 146.21"/>
-			<point value="5.81 143.24"/>
-			<point value="16.14 142.32"/>
-			<point value="38.46 141.68"/>
-			<point value="40.27 141.26"/>
-			<point value="41.39 140.41"/>
-			<point value="41.81 139.47"/>
-			<point value="41.71 138.49"/>
-			<point value="41.12 137.56"/>
-			<point value="38.89 135.4"/>
-			<point value="37.13 133.96"/>
-			<point value="33.88 132.0"/>
-			<point value="30.31 130.69"/>
-			<point value="25.99 129.72"/>
-			<point value="21.3 129.2"/>
-			<point value="16.41 129.42"/>
-			<point value="-2.61 131.5"/>
-			<point value="-5.17 131.28"/>
-			<point value="-7.24 130.78"/>
-			<point value="-9.05 129.92"/>
-			<point value="-10.66 128.78"/>
-			<point value="-11.66 127.42"/>
-			<point value="-12.2 125.94"/>
-			<point value="-12.3 124.58"/>
-			<point value="-11.99 123.09"/>
-			<point value="-11.4 121.99"/>
-			<point value="-2.19 111.05"/>
-			<point value="-0.64 109.9"/>
-			<point value="1.81 108.85"/>
-			<point value="4.64 108.41"/>
-			<point value="7.35 108.58"/>
-			<point value="10.22 109.39"/>
-			<point value="11.99 110.37"/>
-			<point value="13.8 111.9"/>
-			<point value="15.5 113.38"/>
-			<point value="17.32 114.65"/>
-			<point value="19.49 115.67"/>
-			<point value="22.05 116.69"/>
-			<point value="25.62 117.58"/>
-			<point value="29.35 118.13"/>
-			<point value="58.86 118.56"/>
-			<point value="81.56 118.94"/>
-			<point value="83.95 118.9"/>
-			<point value="86.29 118.34"/>
-			<point value="88.22 117.37"/>
-			<point value="89.76 116.06"/>
-			<point value="90.93 114.32"/>
-			<point value="95.56 103.71"/>
-			<point value="95.83 102.73"/>
-			<point value="95.56 102.02"/>
-			<point value="95.03 101.46"/>
-			<point value="93.22 100.48"/>
-			<point value="90.83 99.51"/>
-			<point value="87.73 98.45"/>
-			<point value="84.22 97.43"/>
-			<point value="80.06 96.5"/>
-			<point value="46.07 90.21"/>
+			<point value="46.07 90.21" />
+			<point value="35.79 88.35" />
+			<point value="10.33 83.65" />
+			<point value="8.58 83.56" />
+			<point value="7.41 84.28" />
+			<point value="5.44 86.87" />
+			<point value="-0.8 92.59" />
+			<point value="-7.57 99.13" />
+			<point value="-12.89 104.89" />
+			<point value="-17.74 110.58" />
+			<point value="-25.68 122.34" />
+			<point value="-27.86 125.47" />
+			<point value="-31.22 129.16" />
+			<point value="-36.39 133.45" />
+			<point value="-44.96 139.3" />
+			<point value="-52.9 144.69" />
+			<point value="-53.38 145.41" />
+			<point value="-53.32 146.18" />
+			<point value="-52.42 146.56" />
+			<point value="-50.34 146.81" />
+			<point value="-43.84 147.32" />
+			<point value="-37.34 147.49" />
+			<point value="-30.63 147.45" />
+			<point value="-24.24 147.02" />
+			<point value="-16.83 146.21" />
+			<point value="5.81 143.24" />
+			<point value="16.14 142.32" />
+			<point value="38.46 141.68" />
+			<point value="40.27 141.26" />
+			<point value="41.39 140.41" />
+			<point value="41.81 139.47" />
+			<point value="41.71 138.49" />
+			<point value="41.12 137.56" />
+			<point value="38.89 135.4" />
+			<point value="37.13 133.96" />
+			<point value="33.88 132.0" />
+			<point value="30.31 130.69" />
+			<point value="25.99 129.72" />
+			<point value="21.3 129.2" />
+			<point value="16.41 129.42" />
+			<point value="-2.61 131.5" />
+			<point value="-5.17 131.28" />
+			<point value="-7.24 130.78" />
+			<point value="-9.05 129.92" />
+			<point value="-10.66 128.78" />
+			<point value="-11.66 127.42" />
+			<point value="-12.2 125.94" />
+			<point value="-12.3 124.58" />
+			<point value="-11.99 123.09" />
+			<point value="-11.4 121.99" />
+			<point value="-2.19 111.05" />
+			<point value="-0.64 109.9" />
+			<point value="1.81 108.85" />
+			<point value="4.64 108.41" />
+			<point value="7.35 108.58" />
+			<point value="10.22 109.39" />
+			<point value="11.99 110.37" />
+			<point value="13.8 111.9" />
+			<point value="15.5 113.38" />
+			<point value="17.32 114.65" />
+			<point value="19.49 115.67" />
+			<point value="22.05 116.69" />
+			<point value="25.62 117.58" />
+			<point value="29.35 118.13" />
+			<point value="58.86 118.56" />
+			<point value="81.56 118.94" />
+			<point value="83.95 118.9" />
+			<point value="86.29 118.34" />
+			<point value="88.22 117.37" />
+			<point value="89.76 116.06" />
+			<point value="90.93 114.32" />
+			<point value="95.56 103.71" />
+			<point value="95.83 102.73" />
+			<point value="95.56 102.02" />
+			<point value="95.03 101.46" />
+			<point value="93.22 100.48" />
+			<point value="90.83 99.51" />
+			<point value="87.73 98.45" />
+			<point value="84.22 97.43" />
+			<point value="80.06 96.5" />
+			<point value="46.07 90.21" />
 		</points>
-		
+
 		<powerups>
 			<powerup value="0 0 0" radius="5"></powerup>
-        </powerups>
+		</powerups>
 
-        <obstacles>
+		<obstacles>
 			<obstacle value="0 0 0" radius="5"></obstacle>
-        </obstacles>
+		</obstacles>
 	</track>
 
 </yaf>

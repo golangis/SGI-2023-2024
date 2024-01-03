@@ -31,6 +31,7 @@ class MyContents {
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
 		this.reader.open("./game.xml");
 
+		this.app.setActiveCamera("Start Menu")
 		this.collision = false;
 		this.outOfBounds = false;
 		this.drag = false;
