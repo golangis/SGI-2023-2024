@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
+import { My3DText } from "./My3DText.js";
 
 /**
  *  This class contains the contents of out application

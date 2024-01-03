@@ -34,5 +34,7 @@ body {
 }
 
 #nameInputReal{
-    display: none;
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
 }
