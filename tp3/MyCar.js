@@ -277,21 +277,21 @@ class MyCar {
 
 	turnLeft() {
 		if (this.velocity > 0) {
-			this.rotationATM = Math.PI / 10;
+			this.rotationATM = Math.PI / 6;
 		}
 
 		if (this.wheelMeshes[0].rotation.y < 1.5 * (Math.PI / 20)) {
-			this.turnWheels(Math.PI / 10);
+			this.turnWheels(Math.PI / 6);
 		}
 	}
 
 	turnRight() {
 		if (this.velocity > 0) {
-			this.rotationATM = - Math.PI / 10;
+			this.rotationATM = - Math.PI / 6;
 		}
 
 		if (this.wheelMeshes[0].rotation.y > -1.5 * (Math.PI / 20)) {
-			this.turnWheels(-Math.PI / 10);
+			this.turnWheels(-Math.PI / 6);
 		}
 	}
 

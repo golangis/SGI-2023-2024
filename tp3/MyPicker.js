@@ -78,16 +78,16 @@ class MyPicker {
             console.log(intersects)
         // Difficulty Menu
         if (buttonEasy) {
-            this.app.contents.difficulty = 40
+            this.app.contents.difficulty = 100
             this.app.setActiveCamera("Pick Car Menu")
         }
         else if (buttonMedium) {
-            this.app.contents.difficulty = 50
+            this.app.contents.difficulty = 60
             this.app.setActiveCamera("Pick Car Menu")
 
         }
         else if (buttonHard) {
-            this.app.contents.difficulty = 60
+            this.app.contents.difficulty = 40
             this.app.setActiveCamera("Pick Car Menu")
 
         }
@@ -113,7 +113,7 @@ class MyPicker {
                 this.app.contents.data,
                 this.app.contents.myCar,
                 this.app.contents.opponentCar,
-                50
+                this.app.contents.difficulty
             );
         }
         else if (buttonCar5) {
@@ -122,7 +122,7 @@ class MyPicker {
                 this.app.contents.data,
                 this.app.contents.myCar,
                 this.app.contents.opponentCar,
-                50
+                this.app.contents.difficulty
             );
         }
         else if (buttonCar6) {
@@ -131,7 +131,7 @@ class MyPicker {
                 this.app.contents.data,
                 this.app.contents.myCar,
                 this.app.contents.opponentCar,
-                50
+                this.app.contents.difficulty
             );
         }
 
