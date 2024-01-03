@@ -96,6 +96,15 @@ class MyApp {
 
 		this.cameras['Pick Car Menu'] = menuPickCamera
 
+		//------------------------------ MENU START ---------------------------------------------
+		
+		const menuStartCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
+		menuStartCamera.position.set(200, 310, 30);
+		menuStartCamera.lookAt(new THREE.Vector3(200, 300, 0))
+
+		this.cameras['Start Menu'] = menuStartCamera
+
+
 		// create a left view orthographic camera
 		const orthoLeft = new THREE.OrthographicCamera(
 			left,
@@ -196,7 +205,7 @@ class MyApp {
 				this.controls.enableZoom = true;
 				this.controls.update();
 			} 
-			else if (this.activeCameraName == "Pick Car Menu" ){
+			else if (this.activeCameraName == "Pick Car Menu" || this.activeCameraName == "Start Menu"  ){
 				// no controls in here
 			}
 			else {

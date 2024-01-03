@@ -6,10 +6,12 @@ import { MyAxis } from "./MyAxis.js";
  */
 class MyPicker {
 
-    constructor() {
+    constructor(app) {
+        this.app = app;
         this.raycaster = new THREE.Raycaster()
         this.raycaster.near = 1
-        this.raycaster.far = 20
+        this.raycaster.far = 40
+        this.raycaster.layers.set(21)
 
         this.pointer = new THREE.Vector2()
         this.intersectedObj = null
@@ -40,20 +42,24 @@ class MyPicker {
 
     onPointerMove(event) {
 
-        // calculate pointer position in normalized device coordinates
-        // (-1 to +1) for both components
-
-        //of the screen is the origin
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-        //console.log("Position x: " + this.pointer.x + " y: " + this.pointer.y);
-
-        //2. set the picking ray from the camera position and mouse coordinates
         this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
 
         //3. compute intersections
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
+
+
+
+        // Check if any object with the name "InputBoxStart" is intersected
+        console.log(intersects[0])
+        const inputBoxStartObject = intersects.find(obj => obj.object.name === "InputBoxStart");
+
+        if (inputBoxStartObject) {
+            document.getElementById("nameInputReal").focus();
+            console.log("InputBoxStart is intersected!");
+        }
 
         this.pickingHelper(intersects)
 
@@ -81,16 +87,6 @@ class MyPicker {
         for (var i = 0; i < intersects.length; i++) {
 
             console.log(intersects[i]);
-
-            /*
-            An intersection has the following properties :
-                - object : intersected object (THREE.Mesh)
-                - distance : distance from camera to intersection (number)
-                - face : intersected face (THREE.Face3)
-                - faceIndex : intersected face index (number)
-                - point : intersection point (THREE.Vector3)
-                - uv : intersection point in the object's UV coordinates (THREE.Vector2)
-            */
         }
     }
 
@@ -108,6 +104,8 @@ class MyPicker {
             this.restoreColorOfFirstPickedObj()
         }
     }
+
+
 }
 
 export { MyPicker };
