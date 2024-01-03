@@ -75,18 +75,21 @@ class MyPicker {
             this.app.setActiveCamera("Pick Difficulty Menu")
         }
 
+            console.log(intersects)
         // Difficulty Menu
         if (buttonEasy) {
-            this.app.contents.myCar = "./object3D/deliveryFlat.glb";
+            this.app.contents.difficulty = 40
             this.app.setActiveCamera("Pick Car Menu")
         }
         else if (buttonMedium) {
-            this.app.contents.myCar = "./object3D/police.glb";
+            this.app.contents.difficulty = 50
             this.app.setActiveCamera("Pick Car Menu")
+
         }
         else if (buttonHard) {
-            this.app.contents.myCar = "./object3D/taxi.glb";
+            this.app.contents.difficulty = 60
             this.app.setActiveCamera("Pick Car Menu")
+
         }
 
         // Player Car
@@ -146,6 +149,9 @@ class MyPicker {
        // console.log(intersects[0])
         const inputBoxStartObject = intersects.find(obj => obj.object.name === "InputBoxStart");
         const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
+        const buttonEasy = intersects.find(obj => obj.object.name === "ButtonEasyMenu")
+        const buttonMedium = intersects.find(obj => obj.object.name === "ButtonMediumMenu")
+        const buttonHard = intersects.find(obj => obj.object.name === "ButtonHardMenu")
         const buttonCar1 = intersects.find(obj => obj.object.name === "button1");
         const buttonCar2 = intersects.find(obj => obj.object.name === "button2");
         const buttonCar3 = intersects.find(obj => obj.object.name === "button3");
@@ -157,7 +163,7 @@ class MyPicker {
             document.getElementById("nameInputReal").focus();
             //console.log("InputBoxStart is intersected!");
         }
-        if (startGameButtonObject || buttonCar1 || buttonCar2 || buttonCar3 || buttonCar4 || buttonCar5 || buttonCar6) {
+        if (startGameButtonObject || buttonCar1 || buttonCar2 || buttonCar3 || buttonCar4 || buttonCar5 || buttonCar6 || buttonEasy || buttonMedium || buttonHard) {
             document.body.style.cursor = "pointer"
         }
 

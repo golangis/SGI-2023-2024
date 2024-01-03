@@ -112,7 +112,10 @@ class MyMenuDifficulty {
         this.text_easy.rotateX(-Math.PI/12)
         
         this.text_easy.name = "ButtonEasyMenu"
-        this.text_easy.traverse((c) => c.layers.enable(21))
+        this.text_easy.traverse((c) => {
+            c.layers.enable(21)
+            c.name = "ButtonEasyMenu"
+        })
         this.text_easy.position.set(-4.7, 5, 0)
 
         // Medium Button
@@ -121,7 +124,10 @@ class MyMenuDifficulty {
         this.text_medium.rotateX(-Math.PI/8)
 
         this.text_medium.name = "ButtonMediumMenu"
-        this.text_medium.traverse((c) => c.layers.enable(21))
+        this.text_medium.traverse((c) => {
+            c.layers.enable(21)
+            c.name = "ButtonMediumMenu"
+        })
         this.text_medium.position.set(-5.5, 0, 0)
 
         // Hard Button
@@ -130,7 +136,10 @@ class MyMenuDifficulty {
         this.text_hard.rotateX(-Math.PI/7)
 
         this.text_hard.name = "ButtonHardMenu"
-        this.text_hard.traverse((c) => c.layers.enable(21))
+        this.text_hard.traverse((c) => {
+            c.layers.enable(21)
+            c.name = "ButtonHardMenu"
+        })
         this.text_hard.position.set(-4.7, -5, 0)
 
         this.shineParams = {
