@@ -64,7 +64,7 @@ class MyPicker {
         const buttonCar6 = intersects.find(obj => obj.object.name === "button33");
 
         if (startGameButtonObject) {
-            this.app.setActiveCamera("Pick Car Menu")
+            this.app.setActiveCamera("Pick Difficulty Menu")
         }
         // Player Car
         if (buttonCar1) {

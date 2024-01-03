@@ -11,6 +11,7 @@ import { MyObstacle } from "./MyObstacle.js";
 import { MyCountdownTimer } from "./MyCountdownTimer.js";
 import { MyMenuPickCar } from "./MyMenuPickCar.js";
 import { MyMenuPickOponent } from "./MyMenuPickOponent.js";
+import { MyMenuDifficulty } from "./MyMenuDifficulty.js";
 import { MyMainMenu } from "./MyMainMenu.js";
 import { MyShader } from './MyShader.js';
 import { MySprite } from './MySprite.js';
@@ -317,13 +318,17 @@ class MyContents {
 		this.menuPickerOp = new MyMenuPickOponent(this.app)
 		const menuPickCarOp = this.menuPickerOp.buildPickMenu();
 
+		this.menuDifficulty = new MyMenuDifficulty(this.app)
+		const menuPickDifficulty = this.menuDifficulty.buildDifficultyMenu();
+
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
 		light_menu_car.position.set(0, 509, 40);
 
 		this.app.scene.add(light_menu_car);
 		this.app.scene.add(menuPickCar);
-		this.app.scene.add(menuPickCarOp)
+		this.app.scene.add(menuPickCarOp);
+		this.app.scene.add(menuPickDifficulty);
 		this.app.scene.add(mainMenu);
 		sceneBuilder.addGlobals();
 		sceneBuilder.addCameras();
