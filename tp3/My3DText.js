@@ -9,7 +9,7 @@ class My3DText {
     constructor(app, text_arg, material) {
         this.app = app;
         this.text_arg = text_arg;
-        this.material = material ?? new THREE.MeshPhongMaterial({
+        this.material = material.clone() ?? new THREE.MeshPhongMaterial({
             specular: "#FFFFFF",
             emissive: "#101010",
             shininess: 30,
