@@ -17,12 +17,8 @@ class MyMainMenu {
     }
 
     buildMainMenu() {
-        let textGenerator = new My3DText(this.app, "damn son");
-        let car1 = textGenerator.buildText();
-        car1.position.set(0, 0, 0);
-
-        this.menu.add(car1);
-        this.menu.position.set(0, 0 , 0);
+      
+        let textButtonPlay = new My3DText(this.app, "Play");
 
         return this.menu;
     }

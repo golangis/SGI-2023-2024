@@ -11,20 +11,20 @@ class MyPowerUp {
 		this.app = app;
 	}
 
-	buildCube(x, y, z) {
-		const cube = new THREE.Mesh(
-			new THREE.BoxGeometry(1, 1, 1),
+	buildCylinder(x, y, z) {
+		const cylinder = new THREE.Mesh(
+			new THREE.CylinderGeometry(1, 1, 0.2, 20, 20),
 			new THREE.MeshBasicMaterial({
 				map: new THREE.TextureLoader().load("./textures/powerup.png"),
 			})
 		);
 
-		cube.rotation.set(Math.PI / 30, Math.PI / 40, 0);
-		cube.position.set(x, y, z);
+		cylinder.rotation.set(0, Math.PI/20, Math.PI/2);
+		cylinder.position.set(x, y, z);
 
-		this.app.scene.add(cube);
-		cube.AABB = new THREE.Box3().setFromObject(cube);
-		return cube;
+		this.app.scene.add(cylinder);
+		cylinder.AABB = new THREE.Box3().setFromObject(cylinder);
+		return cylinder;
 	}
 }
 

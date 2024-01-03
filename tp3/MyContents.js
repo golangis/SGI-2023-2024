@@ -8,8 +8,13 @@ import { MyCar } from "./MyCar.js";
 import { MyPowerUp } from "./MyPowerUp.js";
 import { MyTimer } from "./MyTimer.js";
 import { MyObstacle } from "./MyObstacle.js";
+import { MyCountdownTimer } from "./MyCountdownTimer.js";
 import { MyMenuPickCar } from "./MyMenuPickCar.js";
 import { MyMainMenu } from "./MyMainMenu.js";
+import { MyShader } from './MyShader.js';
+import { MySprite } from './MySprite.js';
+
+
 
 /**
  *  This class contains the contents of out application
@@ -49,6 +54,13 @@ class MyContents {
 			this.axis = new MyAxis(this);
 			this.app.scene.add(this.axis);
 		}
+		this.shaders = [
+			new MyShader(this.app, "Scaled normal color shading", "uses vertex normal vector as color. Vertex position is discplaced by a user-defined scale factor ",
+				"shaders/scaled-normal.vert", "shaders/normal.frag", {
+				normScale: { type: 'f', value: 0.1 },
+				displacement: { type: 'f', value: 0.0 },
+				normalizationFactor: { type: 'f', value: 1 },
+			})]
 	}
 
 
@@ -241,7 +253,42 @@ class MyContents {
 			"-------------------------------------------------------------"
 		);
 
+		// const helloText = "FO";
+		// const helloSprites = helloText.split('').map((char) => new MySprite(char));
+
+		
+		// let index = 0;
+		// const intervalId = setInterval(() => {
+		//   if (index < helloSprites.length) {
+		// 	this.app.scene.add(helloSprites[index]);
+		// 	index++;
+		//   } else {
+		// 	clearInterval(intervalId); // Stop the interval once all sprites are added
+		//   }
+		// }, 100); // Adjust the interval time as needed
+		
 		this.gameTimer = new MyTimer();
+		this.penaltyTimer = new MyCountdownTimer(5, () => {
+			this.firecrackerPenalty = false;
+			this.speedPenalty = false;
+			this.penaltyActive = false;
+			this.playerCar.penalty = this.penaltyActive;
+			console.log("penalty over");
+		});
+
+		this.powerupTimer = new MyCountdownTimer(5, () => {
+			this.playerCar.superSpeed = false;
+			this.slowPowerup = false;
+			console.log("powerup over");
+		});
+
+		this.obstacleTimer = new MyCountdownTimer(5, () => {
+			this.firecrackerPenalty = false;
+			this.speedPenalty = false;
+			this.penaltyActive = false;
+			this.playerCar.penalty = this.penaltyActive;
+			console.log("obstacle over");
+		});
 
 		const sceneBuilder = new MySceneBuilder(data, this.app);
 
@@ -268,10 +315,12 @@ class MyContents {
 		this.obstacleObj = new MyObstacle(this.app);
 		this.obstacleObj.buildObstacleLot();
 
+		// TODO change this value for autonomous car difficulty (60, 50, 40) (easy, medium, hard)
 		this.startGame(
 			data,
 			"./object3D/sedan.glb",
-			"./object3D/suvLuxury.glb"
+			"./object3D/suvLuxury.glb",
+			50
 		);
 
 		this.powerUps = [];
@@ -280,14 +329,14 @@ class MyContents {
 		const pw = new MyPowerUp(this.app);
 
 		this.powerUps.push(
-			pw.buildCube(40, 1, 5.5),
-			pw.buildCube(10, 1, -29.5),
-			pw.buildCube(-63, 1, 19),
-			pw.buildCube(-30, 1, 13)
+			pw.buildCylinder(40, 1, 5.5),
+			pw.buildCylinder(10, 1, -29.5),
+			pw.buildCylinder(-63, 1, 19),
+			pw.buildCylinder(-30, 1, 13)
 		);
 	}
 
-	startGame(data, playerCarFilepath, opponentCarFilepath) {
+	startGame(data, playerCarFilepath, opponentCarFilepath, difficulty) {
 		const routeObj = new MyRoute(this.app, data);
 		this.trackObj = new MyTrack(this.app, routeObj.curve, 5);
 
@@ -309,10 +358,17 @@ class MyContents {
 			this.trackObj.calculateAutonomousTrack(4)
 		);
 
-		// TODO change this value for autonomous car difficulty (60, 50, 40) (easy, medium, hard)
-		const keyFrames = this.opponentCar.getKeyframes(40);
+		const keyFrames = this.opponentCar.getKeyframes(difficulty);
 		this.autonomousCarMixer =
 			this.opponentCar.animateAutonomousCar(keyFrames);
+
+		// TODO when car ends, check if game ongoing, kill it if so
+		this.autonomousCarMixer.addEventListener("finished", () => {
+			this.opponentCar.finalTime = this.gameTimer.checkTheTime();
+			if (this.playerCar.finalTime) {
+				this.gameTimer.pause();
+			}
+		});
 
 		// TODO when game begin countdown ends, call these functions
 		this.trackObj.changeFirstMarkers();
@@ -327,7 +383,7 @@ class MyContents {
 			);
 
 			if (result) {
-				console.log("Collision!");
+				console.log("collision!");
 				return result;
 			}
 		}
@@ -368,20 +424,16 @@ class MyContents {
 		const pw = Math.floor(Math.random() * 2);
 		if (pw == 0) {
 			//make player faster
-			console.log("fast player powerup initiate");
-			this.playerCar.superSpeed = true;
-			setTimeout(() => {
-				this.playerCar.superSpeed = false;
-				console.log("fast player powerup over");
-			}, 5000);
+			if (this.powerupTimer.start()) {
+				console.log("fast player powerup initiate");
+				this.playerCar.superSpeed = true;
+			}
 		} else {
 			//make opponent slower
-			console.log("slow opponnent powerup initiate");
-			this.slowPowerup = true;
-			setTimeout(() => {
-				this.slowPowerup = false;
-				console.log("slow opponnent powerup over");
-			}, 5000);
+			if (this.powerupTimer.start()) {
+				console.log("slow opponnent powerup initiate");
+				this.slowPowerup = true;
+			}
 		}
 
 		// TODO maybe countdown for before game restart?
@@ -400,7 +452,7 @@ class MyContents {
 						}, 3000);
 					}
 
-					console.log("powerup!");
+					console.log("powerup");
 
 					this.executePowerupSequence();
 				}
@@ -412,39 +464,28 @@ class MyContents {
 		if (this.playerCar.AABB) {
 			this.obstacles.forEach((obstacle) => {
 				if (this.playerCar.AABB.intersectsBox(obstacle.AABB)) {
-					console.log("obstacle!", obstacle.obstacleType);
+					console.log("obstacle", obstacle.obstacleType);
 
 					switch (obstacle.obstacleType) {
 						case "firecracker":
-							setTimeout(() => {
-								this.firecrackerPenalty = false;
-								console.log("firecracker finish");
-							}, 5000);
-
-							console.log("firecracker active");
-							this.firecrackerPenalty = true;
+							if (this.obstacleTimer.start()) {
+								console.log("firecracker active");
+								this.firecrackerPenalty = true;
+							}
 							break;
 						case "speed":
-							setTimeout(() => {
-								this.speedPenalty = false;
-								console.log("opponnent speed finish");
-							}, 5000);
-
-							console.log("opponnent speed active");
-							this.speedPenalty = true;
+							if (this.obstacleTimer.start()) {
+								console.log("opponnent speed active");
+								this.speedPenalty = true;
+							}
 							break;
 
 						case "slow":
-							setTimeout(() => {
-								this.penaltyActive = false;
+							if (this.obstacleTimer.start()) {
+								this.penaltyActive = true;
 								this.playerCar.penalty = this.penaltyActive;
-
-								console.log("player slow speed finish");
-							}, 5000);
-
-							console.log("player slow speed active");
-							this.penaltyActive = true;
-							this.playerCar.penalty = this.penaltyActive;
+								console.log("player slow speed active");
+							}
 							break;
 					}
 
@@ -457,6 +498,14 @@ class MyContents {
 					}
 				}
 			});
+		}
+	}
+
+	checkIfGameOver() {
+		if (this.playerCar.finalTime && this.opponentCar.finalTime) {
+			console.log("game ended with times: ", this.playerCar.finalTime, this.opponentCar.finalTime);
+			this.pauseGame();
+			// TODO implementar game ending sequence
 		}
 	}
 
@@ -474,11 +523,15 @@ class MyContents {
 	pauseGame() {
 		this.gameTimer.pause();
 		this.autonomousCarMixer.paused = true;
+		this.penaltyTimer.pause();
+		this.powerupTimer.pause();
 	}
 
 	resumeGame() {
 		this.gameTimer.resume();
 		this.autonomousCarMixer.paused = false;
+		this.penaltyTimer.resume();
+		this.powerupTimer.resume();
 	}
 
 	deductPenalties() {
@@ -490,16 +543,12 @@ class MyContents {
 
 			this.penalty = this.collision || this.outOfBounds;
 			if (!this.penaltyActive && this.penalty) {
-				setTimeout(() => {
-					this.penaltyActive = false;
+				if (this.penaltyTimer.start()) {
+					this.penaltyActive = true;
 					this.playerCar.penalty = this.penaltyActive;
 
-					console.log("penalty finish");
-				}, 5000);
-
-				this.penaltyActive = true;
-				this.playerCar.penalty = this.penaltyActive;
-				console.log("penalty initiated");
+					console.log("penalty initiated");
+				}
 			}
 		}
 
@@ -520,7 +569,7 @@ class MyContents {
 
 			this.deductPenalties();
 
-			this.trackObj.checkThatMarkerWasPassed(this.playerCar.carMesh);
+			this.trackObj.checkThatMarkerWasPassed(this.playerCar);
 
 			this.checkPowerupsCollision();
 			this.checkObstaclesCollision();
@@ -534,8 +583,16 @@ class MyContents {
 					this.autonomousCarMixer.update(delta);
 				}
 			}
+
+			if (this.playerCar.numberOfLaps === 3 && !this.playerCar.finalTime) {
+				this.playerCar.finalTime = this.gameTimer.checkTheTime();
+			}
+
+			this.checkIfGameOver();
 		}
 	}
+
+
 }
 
 /**

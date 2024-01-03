@@ -25,6 +25,9 @@ class MyTrack {
 		this.innerMarkers = [];
 		this.outerMarkers = [];
 
+		this.laps = 0;
+		this.gameOver = false;
+
 		this.nextMarkerIndex = 0;
 	}
 
@@ -255,7 +258,9 @@ class MyTrack {
 		});
 	}
 
-	checkThatMarkerWasPassed(carMesh) {
+	checkThatMarkerWasPassed(carObj) {
+		const carMesh = carObj.carMesh;
+
 		const yellow = new THREE.MeshBasicMaterial({ color: 0xe0b002 });
 		const green = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
@@ -264,8 +269,6 @@ class MyTrack {
 				this.markerRays[this.nextMarkerIndex].intersectObject(carMesh)
 					.length > 0
 			) {
-				console.log("checkpoint!");
-
 				this.changeColorOfMarker(
 					this.outerMarkers[this.nextMarkerIndex],
 					green
@@ -277,10 +280,13 @@ class MyTrack {
 				);
 
 				if (this.nextMarkerIndex === this.outerMarkers.length - 1) {
-					// TODO upon 3 resets end game
-					this.resetMarkers();
-					console.log("reset");
-					this.nextMarkerIndex = 0;
+					if (carObj.numberOfLaps !== 3) {
+						this.resetMarkers();
+						this.nextMarkerIndex = 0;
+						carObj.numberOfLaps++;
+					} else {
+						return;
+					}
 				} else {
 					this.nextMarkerIndex++;
 				}
@@ -385,6 +391,17 @@ class MyTrack {
 		trackMesh.position.sub(center);
 		this.offset = center;
 		this.app.scene.add(trackMesh);
+
+		const finishLine = new THREE.Mesh(
+			new THREE.PlaneGeometry(this.trackWidth, 1.5),
+			new THREE.MeshBasicMaterial({
+				map: new THREE.TextureLoader().load("./textures/finish.jpg"),
+			})
+		);
+
+		finishLine.rotation.set(-Math.PI / 2, 0, Math.PI / 2 - Math.PI / 7.2);
+		finishLine.position.set(-4, 0.005, 1.9);
+		this.app.scene.add(finishLine);
 
 		return trackMesh;
 	}
