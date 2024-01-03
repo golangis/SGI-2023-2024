@@ -54,18 +54,41 @@ class MyPicker {
 
         //console.log(intersects[0])
         const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
+
+        //Choose Difficulty
+        const buttonEasy = intersects.find(obj => obj.object.name === "ButtonEasyMenu")
+        const buttonMedium = intersects.find(obj => obj.object.name === "ButtonMediumMenu")
+        const buttonHard = intersects.find(obj => obj.object.name === "ButtonHardMenu")
+
         // Player car
         const buttonCar1 = intersects.find(obj => obj.object.name === "button1");
         const buttonCar2 = intersects.find(obj => obj.object.name === "button2");
         const buttonCar3 = intersects.find(obj => obj.object.name === "button3");
+
         // Oponent Car
         const buttonCar4 = intersects.find(obj => obj.object.name === "button11");
         const buttonCar5 = intersects.find(obj => obj.object.name === "button22");
         const buttonCar6 = intersects.find(obj => obj.object.name === "button33");
 
+        // Start Button
         if (startGameButtonObject) {
             this.app.setActiveCamera("Pick Difficulty Menu")
         }
+
+        // Difficulty Menu
+        if (buttonEasy) {
+            this.app.contents.myCar = "./object3D/deliveryFlat.glb";
+            this.app.setActiveCamera("Pick Car Menu")
+        }
+        else if (buttonMedium) {
+            this.app.contents.myCar = "./object3D/police.glb";
+            this.app.setActiveCamera("Pick Car Menu")
+        }
+        else if (buttonHard) {
+            this.app.contents.myCar = "./object3D/taxi.glb";
+            this.app.setActiveCamera("Pick Car Menu")
+        }
+
         // Player Car
         if (buttonCar1) {
             this.app.contents.myCar = "./object3D/deliveryFlat.glb";
