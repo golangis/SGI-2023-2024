@@ -5,7 +5,7 @@ import { My3DText } from "./My3DText.js";
 /**
  * This class customizes the gui interface for the menu of picking the car to use on the game
  */
-class MyMenuPickCar {
+class MyMenuPickOponent {
     constructor(app) {
         this.width = 42;
         this.height = 18;
@@ -109,7 +109,7 @@ class MyMenuPickCar {
             shininess: 30,
             color: "#909090"
         });
-        let textGenerator = new My3DText(this.app, "Pick Your Car", this.textMaterial);
+        let textGenerator = new My3DText(this.app, "Pick Rival Car", this.textMaterial);
         let text_desc = textGenerator.buildText();
         text_desc.rotateX(Math.PI / 15)
         text_desc.position.set(-4, 7, 8)
@@ -129,26 +129,26 @@ class MyMenuPickCar {
         this.carStandMesh1 = new THREE.Mesh(carStand, this.backgroundMaterial);
         this.carStandMesh1.position.set(0, -7.5, 10)
 
-        this.carButton1 = new THREE.Mesh(carButton, this.redMaterial)
-        this.carButton1.position.set(0, -2, 14)
-        this.carButton1.name = "button1"
-        this.carButton1.layers.enable(21)
+        this.carButton11 = new THREE.Mesh(carButton, this.redMaterial)
+        this.carButton11.position.set(0, -2, 14)
+        this.carButton11.name = "button11"
+        this.carButton11.layers.enable(21)
 
         this.carStandMesh2 = new THREE.Mesh(carStand, this.backgroundMaterial);
         this.carStandMesh2.position.set(-7, -7.5, 5)
 
-        this.carButton2 = new THREE.Mesh(carButton, this.blueMaterial)
-        this.carButton2.position.set(7, -2, 7.7)
-        this.carButton2.name = "button2"
-        this.carButton2.layers.enable(21)
+        this.carButton22 = new THREE.Mesh(carButton, this.blueMaterial)
+        this.carButton22.position.set(7, -2, 7.7)
+        this.carButton22.name = "button22"
+        this.carButton22.layers.enable(21)
 
         this.carStandMesh3 = new THREE.Mesh(carStand, this.backgroundMaterial);
         this.carStandMesh3.position.set(7, -7.5, 5)
 
-        this.carButton3 = new THREE.Mesh(carButton, this.yellowMaterial)
-        this.carButton3.position.set(-7, -2, 7.7)
-        this.carButton3.name = "button3"
-        this.carButton3.layers.enable(21)
+        this.carButton33 = new THREE.Mesh(carButton, this.yellowMaterial)
+        this.carButton33.position.set(-7, -2, 7.7)
+        this.carButton33.name = "button33"
+        this.carButton33.layers.enable(21)
 
 
         const backgroundGeometry = new THREE.BoxGeometry(
@@ -159,14 +159,14 @@ class MyMenuPickCar {
 
 
         this.menu.add(this.carStandMesh1);
-        this.menu.add(this.carButton1)
+        this.menu.add(this.carButton11)
         this.menu.add(this.carStandMesh2);
-        this.menu.add(this.carButton2)
+        this.menu.add(this.carButton22)
         this.menu.add(this.carStandMesh3);
-        this.menu.add(this.carButton3)
+        this.menu.add(this.carButton33)
 
 
-        this.menu.position.set(0, this.height / 2 + 500, 0);
+        this.menu.position.set(0, this.height / 2 + 1000, 0);
 
         // Cars 
         let car1 = this.loadCars("./object3D/deliveryFlat.glb");
@@ -214,11 +214,11 @@ class MyMenuPickCar {
     }
 
 
-    updateMenuPicker() {
+    updateMenuPickerOponent() {
         this.shineParams.time += 0.03;
 
         const shineIntensity = Math.abs(Math.sin(this.shineParams.time)) * 0.3 + 0.5; // Adjust the intensity as needed
         this.textMaterial.emissive.setRGB((Math.cos(shineIntensity) * 0.7) ** 2, 0.1, Math.sin(shineIntensity));
     };
 }
-export { MyMenuPickCar };
+export { MyMenuPickOponent };

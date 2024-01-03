@@ -11,7 +11,7 @@ class MyPicker {
         this.app = app;
         this.raycaster = new THREE.Raycaster()
         this.raycaster.near = 1
-        this.raycaster.far = 200
+        // this.raycaster.far = 200
         this.raycaster.layers.set(21)
 
         this.pointer = new THREE.Vector2()
@@ -36,32 +36,79 @@ class MyPicker {
         );
     }
 
-    onClick(event) {
-
+    getIntersections(event) {
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
         this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
 
+       // console.log(intersects)
 
 
-        console.log(intersects[0])
+        return intersects;
+    }
+
+    onClick(event) {
+        const intersects = this.getIntersections(event)
+
+        //console.log(intersects[0])
         const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
-
-        const findAncestorsCar1 = intersects.find(obj => { 
-            let found = false;
-            obj.object.traverseAncestors((ancestor) => { if (ancestor.name == "car1n") found = true; }) 
-            return found;
-        });
+        // Player car
+        const buttonCar1 = intersects.find(obj => obj.object.name === "button1");
+        const buttonCar2 = intersects.find(obj => obj.object.name === "button2");
+        const buttonCar3 = intersects.find(obj => obj.object.name === "button3");
+        // Oponent Car
+        const buttonCar4 = intersects.find(obj => obj.object.name === "button11");
+        const buttonCar5 = intersects.find(obj => obj.object.name === "button22");
+        const buttonCar6 = intersects.find(obj => obj.object.name === "button33");
 
         if (startGameButtonObject) {
             this.app.setActiveCamera("Pick Car Menu")
         }
-
-        if (findAncestorsCar1){
-            
+        // Player Car
+        if (buttonCar1) {
+            this.app.contents.myCar = "./object3D/deliveryFlat.glb";
+            this.app.setActiveCamera("Pick Car Op Menu")
         }
+        else if (buttonCar2) {
+            this.app.contents.myCar = "./object3D/taxi.glb";
+            this.app.setActiveCamera("Pick Car Op Menu")
+        }
+        else if (buttonCar3) {
+            this.app.contents.myCar = "./object3D/police.glb";
+            this.app.setActiveCamera("Pick Car Op Menu")
+        }
+
+        //Oponent Car
+        if (buttonCar4) {
+            this.app.contents.opponentCar = "./object3D/deliveryFlat.glb";
+            this.app.contents.startGame(
+                this.app.contents.data,
+                this.app.contents.myCar,
+                this.app.contents.opponentCar,
+                50
+            );
+        }
+        else if (buttonCar5) {
+            this.app.contents.opponentCar = "./object3D/taxi.glb";
+            this.app.contents.startGame(
+                this.app.contents.data,
+                this.app.contents.myCar,
+                this.app.contents.opponentCar,
+                50
+            );
+        }
+        else if (buttonCar6) {
+            this.app.contents.opponentCar = "./object3D/police.glb";
+            this.app.contents.startGame(
+                this.app.contents.data,
+                this.app.contents.myCar,
+                this.app.contents.opponentCar,
+                50
+            );
+        }
+
 
         this.pickingHelper(intersects)
         this.transverseRaycastProperties(intersects)
@@ -71,22 +118,23 @@ class MyPicker {
     onPointerMove(event) {
         document.body.style.cursor = "auto"
 
-        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        const intersects = this.getIntersections(event);
 
-        this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
-
-        var intersects = this.raycaster.intersectObjects(this.app.scene.children);
-
-        console.log(intersects[0])
+       // console.log(intersects[0])
         const inputBoxStartObject = intersects.find(obj => obj.object.name === "InputBoxStart");
         const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
+        const buttonCar1 = intersects.find(obj => obj.object.name === "button1");
+        const buttonCar2 = intersects.find(obj => obj.object.name === "button2");
+        const buttonCar3 = intersects.find(obj => obj.object.name === "button3");
+        const buttonCar4 = intersects.find(obj => obj.object.name === "button11");
+        const buttonCar5 = intersects.find(obj => obj.object.name === "button22");
+        const buttonCar6 = intersects.find(obj => obj.object.name === "button33");
 
         if (inputBoxStartObject) {
             document.getElementById("nameInputReal").focus();
-            console.log("InputBoxStart is intersected!");
+            //console.log("InputBoxStart is intersected!");
         }
-        if (startGameButtonObject) {
+        if (startGameButtonObject || buttonCar1 || buttonCar2 || buttonCar3 || buttonCar4 || buttonCar5 || buttonCar6) {
             document.body.style.cursor = "pointer"
         }
 
@@ -103,6 +151,7 @@ class MyPicker {
             this.lastPickedObj.currentHex = this.lastPickedObj.material.color.getHex();
             this.lastPickedObj.material.color.setHex(this.pickingColor);
         }
+
     }
 
     restoreColorOfFirstPickedObj() {
@@ -115,7 +164,7 @@ class MyPicker {
     transverseRaycastProperties(intersects) {
         for (var i = 0; i < intersects.length; i++) {
 
-            console.log(intersects[i]);
+            //console.log(intersects[i]);
         }
     }
 
@@ -125,7 +174,7 @@ class MyPicker {
             const obj = intersects[0].object
             if (this.notPickableObjIds.includes(obj.name)) {
                 this.restoreColorOfFirstPickedObj()
-                console.log("Object cannot be picked !")
+                //console.log("Object cannot be picked !")
             }
             else
                 this.changeColorOfFirstPickedObj(obj)

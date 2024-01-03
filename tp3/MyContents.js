@@ -10,6 +10,7 @@ import { MyTimer } from "./MyTimer.js";
 import { MyObstacle } from "./MyObstacle.js";
 import { MyCountdownTimer } from "./MyCountdownTimer.js";
 import { MyMenuPickCar } from "./MyMenuPickCar.js";
+import { MyMenuPickOponent } from "./MyMenuPickOponent.js";
 import { MyMainMenu } from "./MyMainMenu.js";
 import { MyShader } from './MyShader.js';
 import { MySprite } from './MySprite.js';
@@ -47,6 +48,7 @@ class MyContents {
 
 		this.slowPowerup = false;
 		this.picker = new MyPicker(this.app);
+		this.difficulty = null;
 
 	}
 
@@ -68,6 +70,9 @@ class MyContents {
 				displacement: { type: 'f', value: 0.0 },
 				normalizationFactor: { type: 'f', value: 1 },
 			})]
+			console.log("chouriço")
+			console.log(this.myCar)
+			console.log(this.opponentCar)
 	}
 
 
@@ -156,6 +161,8 @@ class MyContents {
 	}
 
 	onAfterSceneLoadedAndBeforeRender(data) {
+		this.data = data;
+
 		// refer to descriptors in class MySceneData.js
 		// to see the data structure for each item
 
@@ -307,6 +314,8 @@ class MyContents {
 		const menuPickCar = this.menuPicker.buildPickMenu();
 		const mainMenu = new MyMainMenu(this.app).buildMainMenu();
 
+		this.menuPickerOp = new MyMenuPickOponent(this.app)
+		const menuPickCarOp = this.menuPickerOp.buildPickMenu();
 
 		this.app.scene.add(light1);
 		this.app.scene.add(light2);
@@ -314,6 +323,7 @@ class MyContents {
 
 		this.app.scene.add(light_menu_car);
 		this.app.scene.add(menuPickCar);
+		this.app.scene.add(menuPickCarOp)
 		this.app.scene.add(mainMenu);
 		sceneBuilder.addGlobals();
 		sceneBuilder.addCameras();
@@ -321,14 +331,6 @@ class MyContents {
 
 		this.obstacleObj = new MyObstacle(this.app);
 		this.obstacleObj.buildObstacleLot();
-
-		// TODO change this value for autonomous car difficulty (60, 50, 40) (easy, medium, hard)
-		this.startGame(
-			data,
-			"./object3D/sedan.glb",
-			"./object3D/suvLuxury.glb",
-			50
-		);
 
 		this.powerUps = [];
 		this.obstacles = [];
@@ -364,7 +366,7 @@ class MyContents {
 			false,
 			this.trackObj.calculateAutonomousTrack(4)
 		);
-
+		this.app.setActiveCamera("Car")
 		const keyFrames = this.opponentCar.getKeyframes(difficulty);
 		this.autonomousCarMixer =
 			this.opponentCar.animateAutonomousCar(keyFrames);
@@ -381,6 +383,8 @@ class MyContents {
 		this.trackObj.changeFirstMarkers();
 		this.opponentCar.action.play();
 		this.gameTimer.start();
+
+
 	}
 
 	checkForCollisionBetweenCars() {

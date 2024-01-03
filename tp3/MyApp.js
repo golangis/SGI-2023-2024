@@ -96,8 +96,20 @@ class MyApp {
 
 		this.cameras['Pick Car Menu'] = menuPickCamera
 
+
+		//-------------------------------- CAMERA MENU PICK CAR ----------------------------------
+
+		const menuPickOpCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
+		menuPickOpCamera.position.set(0, 1015, 30);
+		menuPickOpCamera.lookAt(new THREE.Vector3(0, 1009, 0))
+
+
+		this.cameras['Pick Car Op Menu'] = menuPickOpCamera
+
+
+
 		//------------------------------ MENU START ---------------------------------------------
-		
+
 		const menuStartCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 3000);
 		menuStartCamera.position.set(200, 310, 30);
 		menuStartCamera.camTarget = new THREE.Object3D();
@@ -198,7 +210,7 @@ class MyApp {
 			this.onResize();
 
 			// are the controls yet?
-			if (this.activeCameraName == "Pick Car Menu" || this.activeCameraName == "Start Menu"  ){
+			if (this.activeCameraName == "Pick Car Menu" || this.activeCameraName == "Start Menu" || this.activeCameraName == "Pick Car Op Menu") {
 				// no controls in here
 			}
 			else if (this.controls === null) {
@@ -209,7 +221,7 @@ class MyApp {
 				);
 				this.controls.enableZoom = true;
 				this.controls.update();
-			} 
+			}
 			else {
 				this.controls.object = this.activeCamera;
 				if (this.activeCamera.camTarget) {
