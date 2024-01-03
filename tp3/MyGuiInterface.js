@@ -34,6 +34,12 @@ class MyGuiInterface {
 			.name("Active camera");
 		cameraFolder.open();
 
+		this.axisActive = true;
+
+		const wireframeFolder = this.datgui.addFolder("Axis");
+		wireframeFolder.add(this, 'axisActive').name('Display Axis').onChange((value) => this.contents.displayAxis(value));
+		wireframeFolder.open();
+
 	}
 		
 

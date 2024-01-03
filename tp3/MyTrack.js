@@ -11,8 +11,16 @@ class MyTrack {
 	constructor(app, route, trackWidth, trackMaterial) {
 		this.app = app;
 		this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x808080 });
-		this.trackMaterial =
-			trackMaterial || new THREE.MeshBasicMaterial({ color: 0x737373 });
+
+		const tex = new THREE.TextureLoader().load("./textures/asphalt.jpeg");
+		tex.wrapS = THREE.RepeatWrapping;
+		tex.wrapT = THREE.RepeatWrapping;
+		const mat = new THREE.MeshBasicMaterial({
+			map: tex,
+		});
+
+		this.trackMaterial = mat || trackMaterial;
+		
 		this.numberOfSamples = 200;
 
 		this.trackCurve = route;
@@ -345,6 +353,10 @@ class MyTrack {
 
 		let addedPoints = 0;
 
+		this.uvs = [];
+		let lastPoint = new THREE.Vector3(0, 0, 0);
+		let dist = 0;
+
 		for (let i = 0, nextIndex = i + 1; i < pts.length; i++, nextIndex++) {
 			if (i === pts.length - 1) {
 				nextIndex = 0;
@@ -361,6 +373,21 @@ class MyTrack {
 			vertices.push(...pointIn);
 			vertices.push(...pointOut);
 
+			/*if (i == 0) {
+				lastPoint = pointIn;
+			}
+
+			dist += lastPoint.distanceTo(pointIn);
+			const dist2 = nextInPoint.distanceTo(pointIn);
+
+			this.uvs.push(0, dist+dist2);
+			this.uvs.push(this.trackWidth, dist+dist2);
+
+			this.uvs.push(0, dist);
+			this.uvs.push(this.trackWidth, dist);*/
+
+			lastPoint = nextInPoint;
+
 			indices.push(addedPoints, addedPoints + 2, addedPoints + 3); // NextInPoint, InPoint, OutPoint
 			indices.push(addedPoints + 3, addedPoints + 1, addedPoints); // OutPoint, NextOutPoint, NextInPoint
 
@@ -374,6 +401,12 @@ class MyTrack {
 			"position",
 			new THREE.BufferAttribute(new Float32Array(vertices), 3)
 		);
+		/*console.log(this.uvs);
+		console.log(vertices);
+		trackGeometry.setAttribute(
+			"uv",
+			new THREE.BufferAttribute(new Float32Array(this.uvs), 2)
+		);*/
 
 		return trackGeometry;
 	}

@@ -45,7 +45,18 @@ class MyContents {
 		if (this.axis === null) {
 			// create and attach the axis to the scene
 			this.axis = new MyAxis(this);
+			this.axisActive = true;
 			this.app.scene.add(this.axis);
+		}
+	}
+
+	displayAxis() {
+		if (this.axisActive) {
+			this.app.scene.remove(this.axis);
+			this.axisActive = false;
+		} else {
+			this.app.scene.add(this.axis);
+			this.axisActive = true;
 		}
 	}
 
@@ -325,7 +336,7 @@ class MyContents {
 			this.opponentCar.animateAutonomousCar(keyFrames);
 
 		this.app.changeCamera("Car");
-		
+
 		// TODO when car ends, check if game ongoing, kill it if so
 		this.autonomousCarMixer.addEventListener("finished", () => {
 			this.opponentCar.finalTime = this.gameTimer.checkTheTime();
@@ -465,9 +476,13 @@ class MyContents {
 		}
 	}
 
-	checkIfGameOver(){
+	checkIfGameOver() {
 		if (this.playerCar.finalTime && this.opponentCar.finalTime) {
-			console.log("game ended with times: ", this.playerCar.finalTime, this.opponentCar.finalTime);
+			console.log(
+				"game ended with times: ",
+				this.playerCar.finalTime,
+				this.opponentCar.finalTime
+			);
 			this.pauseGame();
 			// TODO implementar game ending sequence
 		}
@@ -547,7 +562,10 @@ class MyContents {
 				}
 			}
 
-			if (this.playerCar.numberOfLaps === 3 && !this.playerCar.finalTime) {
+			if (
+				this.playerCar.numberOfLaps === 3 &&
+				!this.playerCar.finalTime
+			) {
 				this.playerCar.finalTime = this.gameTimer.checkTheTime();
 			}
 
@@ -557,8 +575,6 @@ class MyContents {
 			this.billboard.update();
 		}
 	}
-
-	
 }
 
 /**
