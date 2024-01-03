@@ -16,7 +16,7 @@ class MyPicker {
 
         this.pointer = new THREE.Vector2()
         this.intersectedObj = null
-        this.pickingColor = "0x00ff00"
+        this.pickingColor = "0x9933ff"
 
         this.availableLayers = ['none', 1, 2, 3]
         this.selectedLayer = this.availableLayers[0]    // change this in interface
@@ -79,9 +79,13 @@ class MyPicker {
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
 
         console.log(intersects[0])
+        const inputBoxStartObject = intersects.find(obj => obj.object.name === "InputBoxStart");
         const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
 
-
+        if (inputBoxStartObject) {
+            document.getElementById("nameInputReal").focus();
+            console.log("InputBoxStart is intersected!");
+        }
         if (startGameButtonObject) {
             document.body.style.cursor = "pointer"
         }

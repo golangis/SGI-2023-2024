@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { My3DText } from "./My3DText.js";
-import { MyPicker } from "./MyPicker.js";
 
 /**
  * This class customizes the gui interface for the menu of picking the car to use on the game
@@ -30,10 +29,6 @@ class MyMenuPickCar {
     }
 
     buildPickMenu() {
-        // Picker 
-        this.picker = new MyPicker(this.app);
-        
-
         // Background
 
         // Lights

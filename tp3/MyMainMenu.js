@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { My3DText } from "./My3DText.js";
-import { MyPicker } from "./MyPicker.js";
 /**
  * This class customizes the gui interface for the main menu 
  */
@@ -17,10 +16,10 @@ class MyMainMenu {
 
         const el = document.getElementById("nameInputReal")
         el
-        .addEventListener("input", (event) => {
-            console.log("arroz")
-            this.writeNamePlayer();
-        });
+            .addEventListener("input", (event) => {
+                console.log("arroz")
+                this.writeNamePlayer();
+            });
 
 
     }
@@ -35,17 +34,13 @@ class MyMainMenu {
 
         let textNameGame = new My3DText(this.app, nameTextWritten, textNameMaterial);
         let text_name = textNameGame.buildText();
-        text_name.scale.set(0.4,0.4,0.4)
-        text_name.rotateX(-Math.PI/10)
-        text_name.position.set(-3,0.5,3)
+        text_name.scale.set(0.4, 0.4, 0.4)
+        text_name.rotateX(-Math.PI / 10)
+        text_name.position.set(-3, 0.5, 3)
         this.inputBoxMesh.clear()
         this.inputBoxMesh.add(text_name)
     }
     buildMainMenu() {
-
-        // Picker
-        this.picker = new MyPicker(this.app);
-
         // Text
         this.textMaterial = new THREE.MeshPhongMaterial({
             specular: "#000FFF",
@@ -65,7 +60,7 @@ class MyMainMenu {
         text_desc.rotateX(-Math.PI / 7)
         text_desc.rotateX(-Math.PI / 10)
         text_desc.position.set(-0.2, -2, 0)
-        text_desc.traverse((c) =>  {
+        text_desc.traverse((c) => {
             c.layers.enable(21)
             c.name = "StartGameButton"
         })

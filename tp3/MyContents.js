@@ -13,6 +13,7 @@ import { MyMenuPickCar } from "./MyMenuPickCar.js";
 import { MyMainMenu } from "./MyMainMenu.js";
 import { MyShader } from './MyShader.js';
 import { MySprite } from './MySprite.js';
+import { MyPicker } from "./MyPicker.js";
 
 
 
@@ -28,6 +29,9 @@ class MyContents {
 		this.app = app;
 		this.axis = null;
 
+		this.myCar = null;
+		this.opponentCar = null;
+
 		this.reader = new MyFileReader(app, this, this.onSceneLoaded);
 		this.reader.open("./game.xml");
 
@@ -42,6 +46,8 @@ class MyContents {
 		this.speedPenalty = false;
 
 		this.slowPowerup = false;
+		this.picker = new MyPicker(this.app);
+
 	}
 
 
