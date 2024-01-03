@@ -106,36 +106,42 @@ class MyMenuDifficulty {
         text_name.scale.set(2, 2, 2)
         text_name.position.set(-11.5, 12, 0)
 
-
+        // Easy Button
         let textEasy = new My3DText(this.app, "Easy Mode", this.greenMaterial);
-        let text_easy = textEasy.buildText();
-        text_easy.rotateX(-Math.PI/12)
+        this.text_easy = textEasy.buildText();
+        this.text_easy.rotateX(-Math.PI/12)
+        
+        this.text_easy.name = "ButtonEasyMenu"
+        this.text_easy.traverse((c) => c.layers.enable(21))
+        this.text_easy.position.set(-4.7, 5, 0)
 
-
-        text_easy.position.set(-4.7, 5, 0)
-
+        // Medium Button
         let textMedium = new My3DText(this.app, "Medium Mode", this.yellowMaterial);
-        let text_medium = textMedium.buildText();
-        text_medium.rotateX(-Math.PI/8)
+        this.text_medium = textMedium.buildText();
+        this.text_medium.rotateX(-Math.PI/8)
 
-        text_medium.position.set(-5.5, 0, 0)
+        this.text_medium.name = "ButtonMediumMenu"
+        this.text_medium.traverse((c) => c.layers.enable(21))
+        this.text_medium.position.set(-5.5, 0, 0)
 
-
+        // Hard Button
         let textHard = new My3DText(this.app, "Hard Mode", this.redMaterial);
-        let text_hard = textHard.buildText();
-        text_hard.rotateX(-Math.PI/7)
-        text_hard.position.set(-4.7, -5, 0)
+        this.text_hard = textHard.buildText();
+        this.text_hard.rotateX(-Math.PI/7)
+
+        this.text_hard.name = "ButtonHardMenu"
+        this.text_hard.traverse((c) => c.layers.enable(21))
+        this.text_hard.position.set(-4.7, -5, 0)
 
         this.shineParams = {
             time: 0
         };
 
-
         this.menu.add(text_name);
 
-        this.menu.add(text_easy);
-        this.menu.add(text_medium);
-        this.menu.add(text_hard);
+        this.menu.add(this.text_easy);
+        this.menu.add(this.text_medium);
+        this.menu.add(this.text_hard);
 
         this.menu.scale.set(0.7, 0.7, 0.7)
         this.menu.position.set(500, 297, 0)
