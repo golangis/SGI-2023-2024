@@ -1,4 +1,4 @@
-const frag = 
+const vert = 
 ` #include <packing>
 varying vec2 vUv;
 

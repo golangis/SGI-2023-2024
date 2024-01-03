@@ -28,6 +28,9 @@ class MyApp {
 		this.gui = null;
 		this.axis = null;
 		this.contents == null;
+
+		this.clock = new THREE.Clock();
+		this.clock.start();
 	}
 	/**
 	 * initializes the application
@@ -63,6 +66,13 @@ class MyApp {
 
 		// A clock to get DeltaTime
 		this.clock = new THREE.Clock(true);
+
+		this.target = new THREE.RenderTarget(
+			window.innerWidth * window.devicePixelRatio,
+			window.innerHeight * window.devicePixelRatio
+		);
+
+		this.target.depthTexture = new THREE.DepthTexture();
 	}
 
 	/**
@@ -181,12 +191,12 @@ class MyApp {
 				this.controls.enableZoom = true;
 				this.controls.update();
 			}
-			
+
 			this.controls.object = this.activeCamera;
 			if (this.activeCamera.camTarget) {
 				this.controls.target = this.activeCamera.camTarget.position;
 			} else {
-				this.controls.target = (new THREE.Vector3(0, 0, 0));
+				this.controls.target = new THREE.Vector3(0, 0, 0);
 			}
 		}
 	}
@@ -237,10 +247,18 @@ class MyApp {
 		this.controls.update();
 
 		// render the scene
+		this.renderer.setRenderTarget(null);
 		this.renderer.render(this.scene, this.activeCamera);
 
 		// subsequent async calls to the render loop
 		requestAnimationFrame(this.render.bind(this));
+
+		if (this.clock.getElapsedTime() > 5) {
+			this.renderer.setRenderTarget(this.target);
+			this.renderer.render(this.scene, this.activeCamera);
+			// reset
+			this.clock.start();
+		}
 
 		this.lastCameraName = this.activeCameraName;
 		this.stats.end();

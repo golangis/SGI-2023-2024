@@ -272,8 +272,8 @@ class MyContents {
 		sceneBuilder.addCameras();
 		sceneBuilder.addSkybox();
 
-		const billboard = new MyBillboard(this.app);
-		//billboard.createBillboard();
+		this.billboard = new MyBillboard(this.app);
+		this.billboard.createBillboard();
 
 		this.obstacleObj = new MyObstacle(this.app);
 		this.obstacleObj.buildObstacleLot();
@@ -554,6 +554,7 @@ class MyContents {
 			this.checkIfGameOver();
 			this.powerupObj.update(delta);
 			this.obstacleObj.update(delta);
+			this.billboard.update();
 		}
 	}
 
