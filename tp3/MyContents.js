@@ -9,6 +9,7 @@ import { MyPowerUp } from "./MyPowerUp.js";
 import { MyTimer } from "./MyTimer.js";
 import { MyObstacle } from "./MyObstacle.js";
 import { MyCountdownTimer } from "./MyCountdownTimer.js";
+import { MyBillboard } from "./MyBillboard.js";
 /**
  *  This class contains the contents of out application
  */
@@ -271,6 +272,9 @@ class MyContents {
 		sceneBuilder.addCameras();
 		sceneBuilder.addSkybox();
 
+		const billboard = new MyBillboard(this.app);
+		//billboard.createBillboard();
+
 		this.obstacleObj = new MyObstacle(this.app);
 		this.obstacleObj.buildObstacleLot();
 
@@ -319,6 +323,8 @@ class MyContents {
 		const keyFrames = this.opponentCar.getKeyframes(difficulty);
 		this.autonomousCarMixer =
 			this.opponentCar.animateAutonomousCar(keyFrames);
+
+		this.app.changeCamera("Car");
 		
 		// TODO when car ends, check if game ongoing, kill it if so
 		this.autonomousCarMixer.addEventListener("finished", () => {

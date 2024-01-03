@@ -180,13 +180,13 @@ class MyApp {
 				);
 				this.controls.enableZoom = true;
 				this.controls.update();
+			}
+			
+			this.controls.object = this.activeCamera;
+			if (this.activeCamera.camTarget) {
+				this.controls.target = this.activeCamera.camTarget.position;
 			} else {
-				this.controls.object = this.activeCamera;
-				if (this.activeCamera.camTarget) {
-					this.controls.target = this.activeCamera.camTarget.position;
-				} else {
-					this.controls.target = (new THREE.Vector3(0, 0, 0));
-				}
+				this.controls.target = (new THREE.Vector3(0, 0, 0));
 			}
 		}
 	}
