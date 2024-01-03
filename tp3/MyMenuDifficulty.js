@@ -25,7 +25,7 @@ class MyMenuDifficulty {
             specular: "#FFFFFF",
             emissive: "#101010",
             shininess: 30,
-            color: "#03fca1"
+            color: "#1a9669"
         });
 
         this.yellowMaterial = new THREE.MeshPhongMaterial({
@@ -109,7 +109,7 @@ class MyMenuDifficulty {
         // Easy Button
         let textEasy = new My3DText(this.app, "Easy Mode", this.greenMaterial);
         this.text_easy = textEasy.buildText();
-        this.text_easy.rotateX(-Math.PI/12)
+        this.text_easy.rotateX(-Math.PI/14)
         
         this.text_easy.name = "ButtonEasyMenu"
         this.text_easy.traverse((c) => {

@@ -17,7 +17,6 @@ class MyMainMenu {
         const el = document.getElementById("nameInputReal")
         el
             .addEventListener("input", (event) => {
-                console.log("arroz")
                 this.writeNamePlayer();
             });
 
