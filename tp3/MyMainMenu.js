@@ -15,7 +15,6 @@ class MyMainMenu {
         });
         this.menu = new THREE.Group();
 
-        debugger
         const el = document.getElementById("nameInputReal")
         el
         .addEventListener("input", (event) => {
@@ -54,7 +53,7 @@ class MyMainMenu {
             color: "#909090"
         });
         // Text Game Name
-        let textNameGame = new My3DText(this.app, "Windows at Night", this.textMaterial);
+        let textNameGame = new My3DText(this.app, "Sigarra Lifestyle", this.textMaterial);
         let text_name = textNameGame.buildText();
         text_name.rotateX(-Math.PI / 7)
         text_name.scale.set(0.5, 0.5, 0.5)
@@ -66,7 +65,10 @@ class MyMainMenu {
         text_desc.rotateX(-Math.PI / 7)
         text_desc.rotateX(-Math.PI / 10)
         text_desc.position.set(-0.2, -2, 0)
-        text_desc.traverse((c) => c.layers.enable(21))
+        text_desc.traverse((c) =>  {
+            c.layers.enable(21)
+            c.name = "StartGameButton"
+        })
 
         // Text Game Name
         let playerNameText = new My3DText(this.app, "Player Name (optional)", this.textMaterial);

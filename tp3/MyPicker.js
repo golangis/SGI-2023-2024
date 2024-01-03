@@ -11,55 +11,79 @@ class MyPicker {
         this.app = app;
         this.raycaster = new THREE.Raycaster()
         this.raycaster.near = 1
-        this.raycaster.far = 40
+        this.raycaster.far = 200
         this.raycaster.layers.set(21)
 
         this.pointer = new THREE.Vector2()
         this.intersectedObj = null
         this.pickingColor = "0x00ff00"
 
-
-        // structure of layers: each layer will contain its objects
-        // this can be used to select objects that are pickeable     
         this.availableLayers = ['none', 1, 2, 3]
         this.selectedLayer = this.availableLayers[0]    // change this in interface
 
         // define the objects ids that are not to be pickeable
         // NOTICE: not a ThreeJS facility
         this.notPickableObjIds = []
-        // this.notPickableObjIds = ["col_0_0", "col_2_0", "col_1_1"]
-        // this.notPickableObjIds = ["myplane", "col_0_0", "col_2_0", "col_1_1"]
 
-        //register events
 
         document.addEventListener(
             "pointermove",
-            // "mousemove",
-            // "pointerdown",
             this.onPointerMove.bind(this)
         );
+        document.addEventListener(
+            "click",
+            this.onClick.bind(this)
+        );
+    }
+
+    onClick(event) {
+
+        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
+        var intersects = this.raycaster.intersectObjects(this.app.scene.children);
+
+
+
+        console.log(intersects[0])
+        const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
+
+        const findAncestorsCar1 = intersects.find(obj => { 
+            let found = false;
+            obj.object.traverseAncestors((ancestor) => { if (ancestor.name == "car1n") found = true; }) 
+            return found;
+        });
+
+        if (startGameButtonObject) {
+            this.app.setActiveCamera("Pick Car Menu")
+        }
+
+        if (findAncestorsCar1){
+            
+        }
+
+        this.pickingHelper(intersects)
+        this.transverseRaycastProperties(intersects)
     }
 
 
     onPointerMove(event) {
+        document.body.style.cursor = "auto"
 
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
         this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
 
-        //3. compute intersections
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
 
-
-
-        // Check if any object with the name "InputBoxStart" is intersected
         console.log(intersects[0])
-        const inputBoxStartObject = intersects.find(obj => obj.object.name === "InputBoxStart");
+        const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
 
-        if (inputBoxStartObject) {
-            document.getElementById("nameInputReal").focus();
-            console.log("InputBoxStart is intersected!");
+
+        if (startGameButtonObject) {
+            document.body.style.cursor = "pointer"
         }
 
         this.pickingHelper(intersects)
@@ -105,6 +129,7 @@ class MyPicker {
             this.restoreColorOfFirstPickedObj()
         }
     }
+
 
 
 }
