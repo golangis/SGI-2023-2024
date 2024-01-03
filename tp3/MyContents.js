@@ -285,13 +285,13 @@ class MyContents {
 		this.powerUps = [];
 		this.obstacles = [];
 
-		const pw = new MyPowerUp(this.app);
+		this.powerupObj = new MyPowerUp(this.app);
 
 		this.powerUps.push(
-			pw.buildCube(40, 1, 5.5),
-			pw.buildCube(10, 1, -29.5),
-			pw.buildCube(-63, 1, 19),
-			pw.buildCube(-30, 1, 13)
+			this.powerupObj.buildCube(40, 1, 5.5),
+			this.powerupObj.buildCube(10, 1, -29.5),
+			this.powerupObj.buildCube(-63, 1, 19),
+			this.powerupObj.buildCube(-30, 1, 13)
 		);
 	}
 
@@ -352,7 +352,7 @@ class MyContents {
 		// TODO fazer a parte em que o user de facto faz o picking
 
 		// obstacle type => "firecracker" ou "speed" ou "slow"
-		return "firecracker";
+		return "slow";
 	}
 
 	waitForPositionSelection(obstacleType) {
@@ -546,6 +546,8 @@ class MyContents {
 			}
 
 			this.checkIfGameOver();
+			this.powerupObj.update(delta);
+			this.obstacleObj.update(delta);
 		}
 	}
 
