@@ -23,6 +23,6 @@ Our scene illustrates an IKEA model bathroom. It includes all of the primitive t
 
 ----
 
-### [TP3 - ...](tp3)
-- (items briefly describing main strong points)
+### [TP3 - Racing Game](tp3)
+- Ready, set, go! Our group has decided to go with a retro theme for the racing game. It includes [powerups](./MyPowerUp.js), [obstacles](./MyObstacle.js) and a [billboard](./MyBillboard.js) that displays the car at all times.
 
