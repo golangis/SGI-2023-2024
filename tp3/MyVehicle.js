@@ -7,7 +7,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
  */
 
-class MyCar {
+class MyVehicle {
 	constructor(app, carFilepath, x, z, createCamera, routePoints) {
 		this.app = app;
 		this.carFilepath = carFilepath;
@@ -308,4 +308,4 @@ class MyCar {
 	}
 }
 
-export { MyCar };
+export { MyVehicle };
