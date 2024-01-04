@@ -7,12 +7,17 @@ import { MySprite } from "./MySprite.js";
 class MyMainMenu {
     constructor(app) {
         this.app = app;
-        this.backgroundMaterial = new THREE.MeshPhongMaterial({
-            specular: "#FFFFFF",
-            emissive: "#101010",
-            shininess: 30,
-            color: "#909090"
+        this.yellowMaterial = new THREE.MeshPhongMaterial({
+            specular: "#999999",
+            color: "#FFF000"
         });
+        
+        this.backgroundMaterial = new THREE.MeshPhongMaterial({
+            emissive: "#000000",
+            shininess: 0,
+            map: new THREE.TextureLoader().load('textures/win95.jpg')
+        })
+
         this.menu = new THREE.Group();
 
         const el = document.getElementById("nameInputReal")
@@ -41,9 +46,16 @@ class MyMainMenu {
         this.inputBoxMesh.add(text_name)
     }
     buildMainMenu() {
+
+
+        // Background
+        let background = new THREE.PlaneGeometry(200, 160);
+        this.backgroundMesh = new THREE.Mesh(background, this.backgroundMaterial);
+        this.backgroundMesh.position.set(0,0,-5)
+        
         // Text
         this.textMaterial = new THREE.MeshPhongMaterial({
-            specular: "#000FFF",
+            specular: "#FFFFFF",
             shininess: 30,
             color: "#909090"
         });
@@ -63,7 +75,7 @@ class MyMainMenu {
 
 
         // Text Button Start
-        let textButtonPlay = new My3DText(this.app, "Start", this.textMaterial);
+        let textButtonPlay = new My3DText(this.app, "Start", this.yellowMaterial);
         let text_desc = textButtonPlay.buildText();
         text_desc.rotateX(-Math.PI / 7)
         text_desc.rotateX(-Math.PI / 10)
@@ -88,6 +100,7 @@ class MyMainMenu {
         this.inputBoxMesh.name = "InputBoxStart"
         this.inputBoxMesh.traverse((c) => c.layers.enable(21))
 
+        this.menu.add(this.backgroundMesh);
         this.menu.add(myTextGroup);
         this.menu.add(text_author_name);
         this.menu.add(text_desc);
