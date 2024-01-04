@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { My3DText } from "./My3DText.js";
+import { MySprite } from "./MySprite.js";
 /**
  * This class customizes the gui interface for the main menu 
  */
@@ -46,12 +47,20 @@ class MyMainMenu {
             shininess: 30,
             color: "#909090"
         });
+
+        const myTextGroup = new MySprite("Escaping FEUP");
+        myTextGroup.rotateX(Math.PI/7)
+		myTextGroup.scale.set(0.03,0.03,0.03)
+        myTextGroup.position.set(-6.5,3,0)
+
         // Text Game Name
-        let textNameGame = new My3DText(this.app, "Sigarra Lifestyle", this.textMaterial);
-        let text_name = textNameGame.buildText();
-        text_name.rotateX(-Math.PI / 7)
-        text_name.scale.set(0.5, 0.5, 0.5)
-        text_name.position.set(-4, 3, 0)
+        let textAuthorsName = new My3DText(this.app, "Matilde Silva & Mariana Rocha", this.textMaterial);
+        let text_author_name = textAuthorsName.buildText();
+        text_author_name.rotateX(-Math.PI / 4)
+        text_author_name.scale.set(0.3, 0.3, 0.3)
+        text_author_name.position.set(-1.5,-8.5, 0)
+
+
 
         // Text Button Start
         let textButtonPlay = new My3DText(this.app, "Start", this.textMaterial);
@@ -79,9 +88,9 @@ class MyMainMenu {
         this.inputBoxMesh.name = "InputBoxStart"
         this.inputBoxMesh.traverse((c) => c.layers.enable(21))
 
-
+        this.menu.add(myTextGroup);
+        this.menu.add(text_author_name);
         this.menu.add(text_desc);
-        this.menu.add(text_name);
         this.menu.add(player_name)
         this.menu.add(this.inputBoxMesh)
 

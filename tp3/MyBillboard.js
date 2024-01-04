@@ -4,7 +4,7 @@ import frag from "./shaders/billboard-frag.js";
 
 /**
 
- *  This class contains the contents of out application
+ *  This class contains the contents of the billboOARD
 
  */
 

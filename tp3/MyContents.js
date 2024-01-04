@@ -281,20 +281,6 @@ class MyContents {
 			"-------------------------------------------------------------"
 		);
 
-		// const helloText = "FO";
-		// const helloSprites = helloText.split('').map((char) => new MySprite(char));
-
-
-		// let index = 0;
-		// const intervalId = setInterval(() => {
-		//   if (index < helloSprites.length) {
-		// 	this.app.scene.add(helloSprites[index]);
-		// 	index++;
-		//   } else {
-		// 	clearInterval(intervalId); // Stop the interval once all sprites are added
-		//   }
-		// }, 100); // Adjust the interval time as needed
-
 		this.gameTimer = new MyTimer();
 		this.penaltyTimer = new MyCountdownTimer(5, () => {
 			this.firecrackerPenalty = false;
@@ -404,7 +390,7 @@ class MyContents {
 		this.trackObj.changeFirstMarkers();
 		this.opponentCar.action.play();
 		this.gameTimer.start();
-		
+
 
 	}
 
@@ -468,7 +454,7 @@ class MyContents {
 			}
 		}
 
-	
+
 		// TODO maybe countdown for before game restart?
 		this.resumeGame();
 	}
@@ -542,8 +528,27 @@ class MyContents {
 				this.opponentCar.finalTime
 			);
 			this.pauseGame();
-			// TODO implementar game ending sequence
+			if (Math.random() < 0.05) {
+				this.fireworks.push(new MyFirework(this.app, this))
+				console.log("firework added")
+			}
+
+			// for each fireworks 
+			for (let i = 0; i < this.fireworks.length; i++) {
+				// is firework finished?
+				if (this.fireworks[i].done) {
+					// remove firework 
+					this.fireworks.splice(i, 1)
+					console.log("firework ")
+					continue
+				}
+				// otherwise upsdate  firework
+				this.fireworks[i].update()
+			}
+
+			return true;
 		}
+		return false;
 	}
 
 	checkIfCarOnTrack(carPosition) {
@@ -594,25 +599,6 @@ class MyContents {
 
 	update(delta) {
 		this.delta = delta;
-
-
-		if (Math.random() < 0.05) {
-		this.fireworks.push(new MyFirework(this.app, this))
-		console.log("firework added")
-		}
-
-		// for each fireworks 
-		for (let i = 0; i < this.fireworks.length; i++) {
-		// is firework finished?
-		if (this.fireworks[i].done) {
-		// remove firework 
-		this.fireworks.splice(i, 1)
-		console.log("firework ")
-		continue
-		}
-			// otherwise upsdate  firework
-		this.fireworks[i].update()
-		}
 
 		if (this.gameTimer.isRunning) {
 			if (this.drag) {
