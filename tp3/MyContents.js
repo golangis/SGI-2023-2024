@@ -4,7 +4,7 @@ import { MyFileReader } from "./parser/MyFileReader.js";
 import { MySceneBuilder } from "./MySceneBuilder.js";
 import { MyTrack } from "./MyTrack.js";
 import { MyRoute } from "./MyRoute.js";
-import { MyCar } from "./MyCar.js";
+import { MyVehicle } from "./MyVehicle.js";
 import { MyPowerUp } from "./MyPowerUp.js";
 import { MyTimer } from "./MyTimer.js";
 import { MyObstacle } from "./MyObstacle.js";
@@ -363,9 +363,8 @@ class MyContents {
 		this.trackObj.createMarkerRays();
 		this.trackObj.createTrackCamera();
 
-		this.playerCar = new MyCar(this.app, playerCarFilepath, 7, 4, true);
-
-		this.opponentCar = new MyCar(
+		this.playerCar = new MyVehicle(this.app, playerCarFilepath, 7, 4, true);
+		this.opponentCar = new MyVehicle(
 			this.app,
 			opponentCarFilepath,
 			7,
