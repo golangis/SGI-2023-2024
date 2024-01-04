@@ -17,7 +17,7 @@
 	- Slow speed for the opponent.
 [Powerup Icon](./textures/powerup.png)
 
-* Before the powerup takes effect, the user will be asked to choose an obstacle type and then place it somewhere on the track. The obstacle effects are:
+* Before the powerup takes effect, the user will be asked to choose an obstacle type and then place it somewhere on the track. The obstacle effects are: (NOT IMPLEMENTED YET)
 	- Red Car - Super speed for the opponnent;
 	[Red Car Icon](./textures/speed_obstacle.png)
 	- Internet Explorer - Slow speed for the player;
@@ -31,9 +31,23 @@
 
 * Check out some pictures of the gameplay:
 
-# METER FOTOS AQUI
+# Starting Menu
+![Alt text](image.png)
+## Pick Difficulty of the Race
+![Alt text](image-1.png)
+## Pick Player Car
+![Alt text](image-2.png)
+## Pick Opponent Car
+![Alt text](image-3.png)
+## Racing
+![Alt text](image-4.png)
+## Billboard
+![Alt text](image-5.png)
+## Track
+![Alt text](image-6.png)
 
 ----
 ## Issues/Problems
 
 - The cars' starting points are hard-coded, meaning they will always start in the same position, regardless of the provided route.
+- Problems implementing obstacle picking.
