@@ -17,7 +17,8 @@ import { MyShader } from './MyShader.js';
 import { MySprite } from './MySprite.js';
 import { MyPicker } from "./MyPicker.js";
 import { MyFirework } from "./MyFirework.js";
-
+import { My3DText } from "./My3DText.js";
+import { MyBillboard } from "./MyBillboard.js";
 
 /**
  *  This class contains the contents of out application
@@ -63,6 +64,7 @@ class MyContents {
 		if (this.axis === null) {
 			// create and attach the axis to the scene
 			this.axis = new MyAxis(this);
+			this.axisActive = true;
 			this.app.scene.add(this.axis);
 		}
 		this.shaders = [
@@ -77,6 +79,16 @@ class MyContents {
 		console.log(this.opponentCar)
 	}
 
+
+	displayAxis() {
+		if (this.axisActive) {
+			this.app.scene.remove(this.axis);
+			this.axisActive = false;
+		} else {
+			this.app.scene.add(this.axis);
+			this.axisActive = true;
+		}
+	}
 
 	/**
 	 * Called when the scene xml file load is complete
@@ -335,19 +347,22 @@ class MyContents {
 		sceneBuilder.addCameras();
 		sceneBuilder.addSkybox();
 
+		this.billboard = new MyBillboard(this.app);
+		this.billboard.createBillboard();
+
 		this.obstacleObj = new MyObstacle(this.app);
 		this.obstacleObj.buildObstacleLot();
 
 		this.powerUps = [];
 		this.obstacles = [];
 
-		const pw = new MyPowerUp(this.app);
+		this.powerupObj = new MyPowerUp(this.app);
 
 		this.powerUps.push(
-			pw.buildCylinder(40, 1, 5.5),
-			pw.buildCylinder(10, 1, -29.5),
-			pw.buildCylinder(-63, 1, 19),
-			pw.buildCylinder(-30, 1, 13)
+			this.powerupObj.buildCube(40, 1, 5.5),
+			this.powerupObj.buildCube(10, 1, -29.5),
+			this.powerupObj.buildCube(-63, 1, 19),
+			this.powerupObj.buildCube(-30, 1, 13)
 		);
 	}
 
@@ -389,7 +404,7 @@ class MyContents {
 		this.trackObj.changeFirstMarkers();
 		this.opponentCar.action.play();
 		this.gameTimer.start();
-
+		
 
 	}
 
@@ -411,7 +426,7 @@ class MyContents {
 		// TODO fazer a parte em que o user de facto faz o picking
 
 		// obstacle type => "firecracker" ou "speed" ou "slow"
-		return "firecracker";
+		return "slow";
 	}
 
 	waitForPositionSelection(obstacleType) {
@@ -453,6 +468,7 @@ class MyContents {
 			}
 		}
 
+	
 		// TODO maybe countdown for before game restart?
 		this.resumeGame();
 	}
@@ -520,7 +536,11 @@ class MyContents {
 
 	checkIfGameOver() {
 		if (this.playerCar.finalTime && this.opponentCar.finalTime) {
-			console.log("game ended with times: ", this.playerCar.finalTime, this.opponentCar.finalTime);
+			console.log(
+				"game ended with times: ",
+				this.playerCar.finalTime,
+				this.opponentCar.finalTime
+			);
 			this.pauseGame();
 			// TODO implementar game ending sequence
 		}
@@ -577,21 +597,21 @@ class MyContents {
 
 
 		if (Math.random() < 0.05) {
-			this.fireworks.push(new MyFirework(this.app, this))
-			console.log("firework added")
+		this.fireworks.push(new MyFirework(this.app, this))
+		console.log("firework added")
 		}
 
 		// for each fireworks 
 		for (let i = 0; i < this.fireworks.length; i++) {
-			// is firework finished?
-			if (this.fireworks[i].done) {
-				// remove firework 
-				this.fireworks.splice(i, 1)
-				console.log("firework ")
-				continue
-			}
+		// is firework finished?
+		if (this.fireworks[i].done) {
+		// remove firework 
+		this.fireworks.splice(i, 1)
+		console.log("firework ")
+		continue
+		}
 			// otherwise upsdate  firework
-			this.fireworks[i].update()
+		this.fireworks[i].update()
 		}
 
 		if (this.gameTimer.isRunning) {
@@ -620,15 +640,19 @@ class MyContents {
 				}
 			}
 
-			if (this.playerCar.numberOfLaps === 3 && !this.playerCar.finalTime) {
+			if (
+				this.playerCar.numberOfLaps === 3 &&
+				!this.playerCar.finalTime
+			) {
 				this.playerCar.finalTime = this.gameTimer.checkTheTime();
 			}
 
 			this.checkIfGameOver();
+			this.powerupObj.update(delta);
+			this.obstacleObj.update(delta);
+			this.billboard.update();
 		}
 	}
-
-
 }
 
 /**
