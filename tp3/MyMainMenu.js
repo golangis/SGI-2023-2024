@@ -90,7 +90,7 @@ class MyMainMenu {
         let player_name = playerNameText.buildText();
         player_name.rotateX(-Math.PI / 6)
         player_name.scale.set(0.2, 0.2, 0.2)
-        player_name.position.set(0, -6, 0)
+        player_name.position.set(0, -3, 0)
 
 
         let inputBox = new THREE.PlaneGeometry(10, 1);

@@ -1,6 +1,6 @@
 class MyCountdownTimer {
 	constructor(duration, callback) {
-		this.duration = duration;
+		this.duration = duration ?? 0;
 		this.totalTime = duration;
 		this.callback = callback;
 		this.running = false;

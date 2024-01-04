@@ -590,12 +590,19 @@ class MyContents {
 			const remainingTime = this.powerupTimer.duration; // Adjust according to your timer implementation
 			const gameState = this.autonomousCarMixer.paused ?  "Paused" : "Running";
 
-			document.getElementById("player-name").innerText = `Player Name: ${playerName}`;
+			document.getElementById("player-name").innerText = `Player Name:mar ${playerName}`;
 			document.getElementById("elapsed-time").innerText = `Total Time: ${elapsedTime}`;
 			document.getElementById("laps").innerText = `Number of laps completed: ${lapsCompleted}`;
 			document.getElementById("max-speed").innerText = `Max speed: ${maxSpeed} km/h`;
-			document.getElementById("remaining-time").innerText = `Power up remaining time: ${remainingTime}`;
 			document.getElementById("game-state").innerText = `Game State: ${gameState}`;
+
+			if (this.powerupTimer.running == true){
+				document.getElementById("remaining-time").innerText = `Power up remaining time: ${remainingTime}`;
+			}
+			else {
+				document.getElementById("remaining-time").innerText = `No powerup running`;
+
+			}
 		}
 		else {
 			document.getElementById("elapsed-time").innerText = "";
