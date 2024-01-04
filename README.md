@@ -1,4 +1,4 @@
-# SGI 2023/2024 - TP1
+# SGI 2023/2024
 
 ## Group: T01G05
 
@@ -17,11 +17,12 @@
 
 -----
 
-### [TP2 - ...](tp2)
-- (items briefly describing main strong points)
+### [TP2 - Scene Graphs and YASF](tp2)
+
+Our scene illustrates an IKEA model bathroom. It includes all of the primitive types, along with LODs that show the hardware store when at the right distance. 
 
 ----
 
-### [TP3 - ...](tp3)
-- (items briefly describing main strong points)
+### [TP3 - Racing Game](tp3)
+- Ready, set, go! Our group has decided to go with a retro theme for the racing game. It includes [powerups](./MyPowerUp.js), [obstacles](./MyObstacle.js) and a [billboard](./MyBillboard.js) that displays the car at all times.
 
