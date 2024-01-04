@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { My3DText } from "./My3DText.js";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MySprite } from "./MySprite.js";
 /**
  * This class customizes the gui interface for the main menu 
@@ -11,11 +12,11 @@ class MyMainMenu {
             specular: "#999999",
             color: "#FFF000"
         });
-        
-        this.backgroundMaterial = new THREE.MeshPhongMaterial({
+
+        this.blueMaterial = new THREE.MeshPhongMaterial({
             emissive: "#000000",
             shininess: 0,
-            map: new THREE.TextureLoader().load('textures/win95.jpg')
+            color: "#4b2159"
         })
 
         this.menu = new THREE.Group();
@@ -50,9 +51,9 @@ class MyMainMenu {
 
         // Background
         let background = new THREE.PlaneGeometry(200, 160);
-        this.backgroundMesh = new THREE.Mesh(background, this.backgroundMaterial);
-        this.backgroundMesh.position.set(0,0,-5)
-        
+        this.backgroundMesh = new THREE.Mesh(background, this.blueMaterial);
+        this.backgroundMesh.position.set(0, 0, -5)
+
         // Text
         this.textMaterial = new THREE.MeshPhongMaterial({
             specular: "#FFFFFF",
@@ -61,16 +62,16 @@ class MyMainMenu {
         });
 
         const myTextGroup = new MySprite("Escaping FEUP");
-        myTextGroup.rotateX(Math.PI/7)
-		myTextGroup.scale.set(0.03,0.03,0.03)
-        myTextGroup.position.set(-6.5,3,0)
+        myTextGroup.rotateX(Math.PI / 7)
+        myTextGroup.scale.set(0.03, 0.03, 0.03)
+        myTextGroup.position.set(-6.5, 3, 0)
 
         // Text Game Name
         let textAuthorsName = new My3DText(this.app, "Matilde Silva & Mariana Rocha", this.textMaterial);
         let text_author_name = textAuthorsName.buildText();
         text_author_name.rotateX(-Math.PI / 4)
         text_author_name.scale.set(0.3, 0.3, 0.3)
-        text_author_name.position.set(-1.5,-8.5, 0)
+        text_author_name.position.set(-1.5, -8.5, 0)
 
 
 
@@ -100,6 +101,14 @@ class MyMainMenu {
         this.inputBoxMesh.name = "InputBoxStart"
         this.inputBoxMesh.traverse((c) => c.layers.enable(21))
 
+        let car1 = this.loadCars("./object3D/taxi.glb");
+        car1.position.set(10, -3, 0)
+
+        let car2 = this.loadCars("./object3D/police.glb");
+        car2.position.set(-7, -3, 0)
+
+
+
         this.menu.add(this.backgroundMesh);
         this.menu.add(myTextGroup);
         this.menu.add(text_author_name);
@@ -111,6 +120,37 @@ class MyMainMenu {
         this.menu.position.set(200 - 3, 300, 0)
         return this.menu;
     }
+
+    loadCars(path_car) {
+        const path = path_car;
+        const loader = new GLTFLoader();
+        const mesh = new THREE.Object3D();
+        this.carMesh = new THREE.Object3D();
+
+        loader.load(
+            path,
+            function (object) {
+                mesh.add(object.scene);
+                //mesh.traverse((c) => c.layers.enable(21))
+                this.AABB = new THREE.Box3().setFromObject(this.carMesh);
+            }.bind(this),
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+            },
+            function (error) {
+                console.log("An error happened");
+            }
+        );
+
+        this.carMesh.add(mesh);
+        this.carMesh.rotateY(Math.PI);
+        this.carMesh.scale.set(2, 2, 2);
+        this.menu.add(this.carMesh);
+        this.menu.receiveShadow = true;
+
+        return this.carMesh
+    }
+
 }
 
 export { MyMainMenu };
