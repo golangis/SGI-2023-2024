@@ -1,6 +1,8 @@
 import { MyApp } from "./MyApp.js";
 import { MyGuiInterface } from "./MyGuiInterface.js";
 import { MyContents } from "./MyContents.js";
+import { MyTrack } from "./MyTrack.js"; // Assuming MyTrack.js is in the same directory
+
 
 // create the application object
 let app = new MyApp();
@@ -18,11 +20,15 @@ app.setContents(contents);
 let gui = new MyGuiInterface(app);
 // set the contents object in the gui interface object
 gui.setContents(contents);
+contents.laps
+
 
 // we call the gui interface init
 // after contents were created because
 // interface elements may control contents items
 gui.init();
+
+app.contents.laps
 
 // main animation loop - calls every 50-60 ms.
 app.render();

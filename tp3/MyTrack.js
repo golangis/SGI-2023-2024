@@ -308,6 +308,9 @@ class MyTrack {
 		}
 	}
 
+	get numberOfLaps() {
+        return this.laps;
+    }
 	calculateAutonomousTrack(scalar) {
 		const curve = this.trackCurve;
 

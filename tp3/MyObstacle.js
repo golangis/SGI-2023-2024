@@ -85,12 +85,12 @@ class MyObstacle {
 		speedCube.rotation.set(0, 0, 0);
 		speedCube.position.set(-20, 3, 250);
 
-		// TODO shaders para dar um bocado de flavour
 		this.app.scene.add(slowCube);
 		this.app.scene.add(firecrackerCube);
 		this.app.scene.add(speedCube);
 	}
 
+	
 	buildObstacle(type, position) {
 		const boxGeom = new THREE.BoxGeometry(1, 1, 1);
 		switch (type) {

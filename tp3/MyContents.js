@@ -52,7 +52,7 @@ class MyContents {
 		this.picker = new MyPicker(this.app);
 		this.difficulty = null;
 
-		this.fireworks = []
+				this.fireworks = []
 	}
 
 
@@ -409,6 +409,7 @@ class MyContents {
 	}
 
 	waitForObstacleType() {
+
 		// TODO fazer a parte em que o user de facto faz o picking
 
 		// obstacle type => "firecracker" ou "speed" ou "slow"
@@ -528,24 +529,6 @@ class MyContents {
 				this.opponentCar.finalTime
 			);
 			this.pauseGame();
-			if (Math.random() < 0.05) {
-				this.fireworks.push(new MyFirework(this.app, this))
-				console.log("firework added")
-			}
-
-			// for each fireworks 
-			for (let i = 0; i < this.fireworks.length; i++) {
-				// is firework finished?
-				if (this.fireworks[i].done) {
-					// remove firework 
-					this.fireworks.splice(i, 1)
-					console.log("firework ")
-					continue
-				}
-				// otherwise upsdate  firework
-				this.fireworks[i].update()
-			}
-
 			return true;
 		}
 		return false;
@@ -596,13 +579,57 @@ class MyContents {
 
 		this.first = false;
 	}
+	updateGameInfo() {
+		// Retrieve relevant game information
 
+		if (this.opponentCar !== null && this.opponentCar !== undefined) {
+			const playerName = document.getElementById("nameInputReal").value;
+			const elapsedTime = this.gameTimer.checkTheTime(); // Adjust according to your timer implementation
+			const lapsCompleted = this.playerCar.numberOfLaps;
+			const maxSpeed = this.playerCar.topSpeed;
+			const remainingTime = this.powerupTimer.duration; // Adjust according to your timer implementation
+			const gameState = this.autonomousCarMixer.paused ?  "Paused" : "Running";
+
+			document.getElementById("player-name").innerText = `Player Name: ${playerName}`;
+			document.getElementById("elapsed-time").innerText = `Total Time: ${elapsedTime}`;
+			document.getElementById("laps").innerText = `Number of laps completed: ${lapsCompleted}`;
+			document.getElementById("max-speed").innerText = `Max speed: ${maxSpeed} km/h`;
+			document.getElementById("remaining-time").innerText = `Power up remaining time: ${remainingTime}`;
+			document.getElementById("game-state").innerText = `Game State: ${gameState}`;
+		}
+		else {
+			document.getElementById("elapsed-time").innerText = "";
+			document.getElementById("laps").innerText = "";
+			document.getElementById("max-speed").innerText = "";
+			document.getElementById("remaining-time").innerText = "";
+			document.getElementById("game-state").innerText = "";
+		}
+	}
 	update(delta) {
 		this.delta = delta;
-
+		this.updateGameInfo();
 		if (this.gameTimer.isRunning) {
 			if (this.drag) {
 				this.playerCar.decelerate(0.05);
+			}
+			if (this.checkIfGameOver == false) {
+				if (Math.random() < 0.05) {
+					this.fireworks.push(new MyFirework(this.app, this))
+					console.log("firework added")
+				}
+
+				// for each fireworks 
+				for (let i = 0; i < this.fireworks.length; i++) {
+					// is firework finished?
+					if (this.fireworks[i].done) {
+						// remove firework 
+						this.fireworks.splice(i, 1)
+						console.log("firework ")
+						continue
+					}
+					// otherwise upsdate  firework
+					this.fireworks[i].update()
+				}
 			}
 
 			this.menuPicker.updateMenuPicker();

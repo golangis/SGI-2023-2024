@@ -43,7 +43,7 @@ class MyPicker {
         this.raycaster.setFromCamera(this.pointer, this.app.getActiveCamera());
         var intersects = this.raycaster.intersectObjects(this.app.scene.children);
 
-       // console.log(intersects)
+        // console.log(intersects)
 
 
         return intersects;
@@ -75,7 +75,7 @@ class MyPicker {
             this.app.setActiveCamera("Pick Difficulty Menu")
         }
 
-            console.log(intersects)
+        console.log(intersects)
         // Difficulty Menu
         if (buttonEasy) {
             this.app.contents.difficulty = 100
@@ -146,7 +146,7 @@ class MyPicker {
 
         const intersects = this.getIntersections(event);
 
-       // console.log(intersects[0])
+        // console.log(intersects[0])
         const inputBoxStartObject = intersects.find(obj => obj.object.name === "InputBoxStart");
         const startGameButtonObject = intersects.find(obj => obj.object.name === "StartGameButton");
         const buttonEasy = intersects.find(obj => obj.object.name === "ButtonEasyMenu")
@@ -162,6 +162,9 @@ class MyPicker {
         if (inputBoxStartObject) {
             document.getElementById("nameInputReal").focus();
             //console.log("InputBoxStart is intersected!");
+        }
+        else {
+            document.getElementById("nameInputReal").blur();
         }
         if (startGameButtonObject || buttonCar1 || buttonCar2 || buttonCar3 || buttonCar4 || buttonCar5 || buttonCar6 || buttonEasy || buttonMedium || buttonHard) {
             document.body.style.cursor = "pointer"
